@@ -1,4 +1,5 @@
 import { Footer } from '../components/Footer';
+import { Image } from '../components/Image';
 import { Newspaper, Calendar, Youtube, Store } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -19,7 +20,7 @@ const mediaItems: MediaItem[] = [
     date: "28.1.2025",
     source: "Sobotainfo.com",
     link: "https://sobotainfo.com/novica/scena/video-kmetija-marosa-tradicija-inovacije-iz-melincev/271187",
-    image: "https://editorial.netmedia.si/s3fs-public/styles/novica/public/slike/naslovne/2025/1/28/naslovna-2.png",
+    image: "/images/articles/sobotainfo-tradicija-inovacije.png",
     excerpt: "Družinska kmetija Maroša iz Melincev je postala sinonim za kakovostno ekološko pridelavo. S svojim pristopom do trajnostnega kmetovanja in inovativnimi metodami pridelave predstavljajo svetel zgled v regiji.",
     type: "article"
   },
@@ -28,7 +29,7 @@ const mediaItems: MediaItem[] = [
     date: "21.8.2024",
     source: "Finance.si",
     link: "https://agrobiznis.finance.si/agro-podjetnik/najprej-je-ekoloski-kmet-postal-sin-nogometas-potem-se-oce/a/9026397",
-    image: "https://beta.finance.si/pics/cache_ek/ekoloska-kmetija-Marosa-Marijana-in-Ales-med-zelisci-66c4906aa2be7.jpg.cut.s-66c49073905a2.jpg-widths/ekoloska-kmetija-Marosa-Marijana-in-Ales-med-zelisci-66c4906aa2be7.jpg.cut.s-66c49073905a2.jpg.840px.jpg",
+    image: "/images/articles/finance-nogomet-kmet.jpg",
     excerpt: "Zgodba o tem, kako sta oče in sin skupaj razvila uspešno ekološko kmetijo in kako se je njihova dejavnost razširila na pridelavo različnih ekoloških izdelkov.",
     type: "article"
   },
@@ -37,7 +38,7 @@ const mediaItems: MediaItem[] = [
     date: "19.11.2018",
     source: "Vestnik",
     link: "https://vestnik.svet24.si/clanek/aktualno/krmaril-je-med-nogometom-in-ekoloskim-kmetovanjem-721190",
-    image: "https://cdn.kme.si/public/images-cache/810xX/2019/06/08/4aee2bd1bd228c8c6593bed711f11b2d/5ce56d267d58b/4aee2bd1bd228c8c6593bed711f11b2d.jpeg",
+    image: "/images/articles/vestnik-nogomet-kmetovanje.jpg",
     excerpt: "Aleš Maroša je uspešno združil svojo športno kariero z razvojem ekološke kmetije in danes uspešno vodi družinsko podjetje.",
     type: "article"
   },
@@ -46,7 +47,7 @@ const mediaItems: MediaItem[] = [
     date: "7.8.2024",
     source: "Kmečki glas",
     link: "https://kristijanhrastar.kmeckiglas.com/ekoloska-kmetija-marosa-iz-melincev/",
-    image: "https://kristijanhrastar.kmeckiglas.com/wp-content/uploads/2024/08/marosa02skp.jpg",
+    image: "/images/articles/kmecki-glas-marosa.jpg",
     excerpt: "Podroben vpogled v delovanje in razvoj ekološke kmetije Maroša, ki je postala primer dobre prakse v regiji.",
     type: "article"
   },
@@ -55,7 +56,7 @@ const mediaItems: MediaItem[] = [
     date: "8.7.2022",
     source: "Sobotainfo.com",
     link: "https://sobotainfo.com/novica/lokalno/soboto-najvecje-stevilo-lokalnih-ponudnikov-do-sedaj/139586",
-    image: "https://editorial.netmedia.si/s3fs-public/styles/vsebina_fotogra/public/slike/novice/2022/6/23/photo_2022-06-23_12-28-57.jpg",
+    image: "/images/articles/sobotainfo-lokalni-ponudniki.jpg",
     excerpt: "Kmetija Maroša med pomembnimi lokalnimi ponudniki na tradicionalnem dogodku.",
     type: "article"
   },
@@ -171,7 +172,7 @@ export function AboutPage() {
                     <div className="md:flex">
                       {item.image && (
                         <div className="md:w-1/3">
-                          <img
+                          <Image
                             src={item.image}
                             alt={item.title}
                             className="w-full h-64 object-cover"
@@ -216,7 +217,7 @@ export function AboutPage() {
                 {videos.map((item, index) => (
                   <article key={index} className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
                     <div className="aspect-video relative">
-                      <img
+                      <Image
                         src={item.image}
                         alt={item.title}
                         className="w-full h-full object-cover"
