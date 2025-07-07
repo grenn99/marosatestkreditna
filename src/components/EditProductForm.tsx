@@ -25,12 +25,12 @@ export function EditProductForm({ product, onClose, onSuccess }: EditProductForm
       try {
         return JSON.parse(product.package_options);
       } catch {
-        return [{ uniq_id: '1', price: 0, weight: 0, unit: 'g', description: '' }];
+        return [{ uniq_id: '1', price: 0, weight: '', unit: 'g', description: '' }];
       }
     } else if (Array.isArray(product.package_options) && product.package_options.length > 0) {
       return product.package_options;
     }
-    return [{ uniq_id: '1', price: 0, weight: 0, unit: 'g', description: '' }];
+    return [{ uniq_id: '1', price: 0, weight: '', unit: 'g', description: '' }];
   });
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -85,7 +85,7 @@ export function EditProductForm({ product, onClose, onSuccess }: EditProductForm
       {
         uniq_id: `${Date.now()}`, // Generate a unique ID
         price: 0,
-        weight: 0,
+        weight: '',
         unit: 'g',
         description: ''
       }
@@ -106,7 +106,7 @@ export function EditProductForm({ product, onClose, onSuccess }: EditProductForm
     const updatedOptions = [...packageOptions];
     updatedOptions[index] = {
       ...updatedOptions[index],
-      [field]: field === 'price' || field === 'weight' ? parseFloat(value as string) || 0 : value
+      [field]: field === 'price' ? parseFloat(value as string) || 0 : value
     };
     setPackageOptions(updatedOptions);
   };
@@ -517,10 +517,10 @@ export function EditProductForm({ product, onClose, onSuccess }: EditProductForm
                     </label>
                     <div className="flex">
                       <input
-                        type="number"
+                        type="text"
                         id={`option-weight-${index}`}
-                        min="0"
                         value={option.weight}
+                        placeholder="e.g. 0,5l, 1kg, 200g"
                         onChange={(e) =>
                           handlePackageOptionChange(index, 'weight', e.target.value)
                         }

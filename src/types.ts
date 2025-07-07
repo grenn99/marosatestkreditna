@@ -1,10 +1,11 @@
 export interface PackageOption {
   uniq_id: string; // Use string based on SQL
   price: number;
-  weight: number; // Changed from string to number
-  unit: string; // Added unit property
+  weight: string; // Changed back to string to match database format like "0,5l", "1kg"
+  unit?: string; // Optional unit property for backwards compatibility
   description?: string; // Optional description field
-  // Removed volume_ml and weight_grams as they are not directly in the SQL JSON
+  stock?: number; // Optional stock field as seen in database
+  isActive?: boolean; // Optional isActive field
 }
 
 export interface Product {

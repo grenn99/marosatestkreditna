@@ -19,7 +19,7 @@ export function AddProductForm({ onClose, onSuccess }: AddProductFormProps) {
   const [newImageUrl, setNewImageUrl] = useState('');
   const [stockQuantity, setStockQuantity] = useState(0);
   const [packageOptions, setPackageOptions] = useState([
-    { uniq_id: '1', price: 0, weight: 0, unit: 'g', description: '' }
+    { uniq_id: '1', price: 0, weight: '', unit: 'g', description: '' }
   ]);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -77,7 +77,7 @@ export function AddProductForm({ onClose, onSuccess }: AddProductFormProps) {
       {
         uniq_id: `${Date.now()}`, // Generate a unique ID
         price: 0,
-        weight: 0,
+        weight: '',
         unit: 'g',
         description: ''
       }
@@ -114,7 +114,7 @@ export function AddProductForm({ onClose, onSuccess }: AddProductFormProps) {
     const updatedOptions = [...packageOptions];
     updatedOptions[index] = {
       ...updatedOptions[index],
-      [field]: field === 'price' || field === 'weight' ? parseFloat(value as string) || 0 : value
+      [field]: field === 'price' ? parseFloat(value as string) || 0 : value
     };
     setPackageOptions(updatedOptions);
   };
@@ -531,10 +531,10 @@ export function AddProductForm({ onClose, onSuccess }: AddProductFormProps) {
                     </label>
                     <div className="flex">
                       <input
-                        type="number"
+                        type="text"
                         id={`option-weight-${index}`}
-                        min="0"
                         value={option.weight}
+                        placeholder="e.g. 0,5l, 1kg, 200g"
                         onChange={(e) =>
                           handlePackageOptionChange(index, 'weight', e.target.value)
                         }
