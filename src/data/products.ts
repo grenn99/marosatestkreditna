@@ -93,7 +93,7 @@ export const products: Product[] = [
     id: 11,
     name: 'Aronija',
     description: 'Sveže stisnjen sok aronije',
-    image: 'https://www.treehugger.com/thmb/qnJ_r2HrlKFOS3dYCXCqUFubObA=/4857x3286/filters:no_upscale():max_bytes(150000):strip_icc()/__opt__aboutcom__coeus__resources__content_migration__mnn__images__2019__05__aronia_berries-4633d1c8cf1f489ebb5071b4425b7d38.jpg',
+    image: '/images/aronija/aronija.jpg',
     weight: "1l",
     price: "8,00 €"
   },
@@ -101,7 +101,7 @@ export const products: Product[] = [
     id: 12,
     name: 'Aronija',
     description: 'Sveže stisnjen sok aronije',
-    image: 'https://www.treehugger.com/thmb/qnJ_r2HrlKFOS3dYCXCqUFubObA=/4857x3286/filters:no_upscale():max_bytes(150000):strip_icc()/__opt__aboutcom__coeus__resources__content_migration__mnn__images__2019__05__aronia_berries-4633d1c8cf1f489ebb5071b4425b7d38.jpg',
+    image: '/images/aronija/aronija.jpg',
     weight: "0,5l",
     price: "5,00 €"
   },
