@@ -1,0 +1,35 @@
+<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Main brown circle -->
+  <circle cx="100" cy="100" r="85" fill="#8b634d"/>
+  
+  <!-- Decorative scalloped border -->
+  <path d="
+    M100,15
+    C100,15 120,20 140,35
+    C160,50 180,80 185,100
+    C190,120 185,150 170,170
+    C155,190 125,190 100,185
+    C75,190 45,190 30,170
+    C15,150 10,120 15,100
+    C20,80 40,50 60,35
+    C80,20 100,15 100,15
+    Z" fill="#8b634d" stroke="#8b634d" stroke-width="2"/>
+  
+  <!-- Text elements -->
+  <text x="100" y="85" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="white" text-anchor="middle">KMETIJA</text>
+  <text x="100" y="125" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="white" text-anchor="middle">MAROŠA</text>
+  <text x="100" y="110" font-family="Arial, sans-serif" font-size="60" font-weight="bold" fill="white" text-anchor="middle">M</text>
+  
+  <!-- Wheat symbols on both sides of the M -->
+  <g transform="translate(65, 105) scale(0.6)" fill="gold">
+    <path d="M0,0 L5,-15 L10,0 M5,-15 L5,-30" stroke="gold" stroke-width="2"/>
+    <path d="M-5,-5 L0,-20 L5,-5 M0,-20 L0,-35" stroke="gold" stroke-width="2"/>
+    <path d="M5,-5 L10,-20 L15,-5 M10,-20 L10,-35" stroke="gold" stroke-width="2"/>
+  </g>
+  
+  <g transform="translate(135, 105) scale(0.6) rotate(180)" fill="gold">
+    <path d="M0,0 L5,-15 L10,0 M5,-15 L5,-30" stroke="gold" stroke-width="2"/>
+    <path d="M-5,-5 L0,-20 L5,-5 M0,-20 L0,-35" stroke="gold" stroke-width="2"/>
+    <path d="M5,-5 L10,-20 L15,-5 M10,-20 L10,-35" stroke="gold" stroke-width="2"/>
+  </g>
+</svg>

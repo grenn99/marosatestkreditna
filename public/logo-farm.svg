@@ -1,0 +1,52 @@
+<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Main brown circle with a slightly lighter shade -->
+  <circle cx="100" cy="100" r="85" fill="#9a7259"/>
+  
+  <!-- Decorative border that looks like a stamp or seal -->
+  <path d="
+    M100,15
+    C100,15 115,16 130,22
+    C145,28 160,40 170,55
+    C180,70 185,85 185,100
+    C185,115 180,130 170,145
+    C160,160 145,172 130,178
+    C115,184 100,185 100,185
+    C100,185 85,184 70,178
+    C55,172 40,160 30,145
+    C20,130 15,115 15,100
+    C15,85 20,70 30,55
+    C40,40 55,28 70,22
+    C85,16 100,15 100,15
+    Z" fill="#8b634d" stroke="#6d4c3d" stroke-width="3"/>
+  
+  <!-- Inner circle for text -->
+  <circle cx="100" cy="100" r="70" fill="#8b634d"/>
+  
+  <!-- Curved text at top -->
+  <path id="topArc" d="M30,70 A70,70 0 0,1 170,70" fill="none"/>
+  <text>
+    <textPath href="#topArc" startOffset="50%" text-anchor="middle" font-family="Georgia, serif" font-size="18" font-weight="bold" fill="white">KMETIJA</textPath>
+  </text>
+  
+  <!-- Curved text at bottom -->
+  <path id="bottomArc" d="M170,130 A70,70 0 0,1 30,130" fill="none"/>
+  <text>
+    <textPath href="#bottomArc" startOffset="50%" text-anchor="middle" font-family="Georgia, serif" font-size="18" font-weight="bold" fill="white">MAROŠA</textPath>
+  </text>
+  
+  <!-- Central M -->
+  <text x="100" y="115" font-family="Georgia, serif" font-size="65" font-weight="bold" fill="white" text-anchor="middle">M</text>
+  
+  <!-- Wheat symbols on both sides of the M -->
+  <g transform="translate(65, 105) scale(0.6)" fill="gold">
+    <path d="M0,0 L5,-15 L10,0 M5,-15 L5,-30" stroke="gold" stroke-width="2"/>
+    <path d="M-5,-5 L0,-20 L5,-5 M0,-20 L0,-35" stroke="gold" stroke-width="2"/>
+    <path d="M5,-5 L10,-20 L15,-5 M10,-20 L10,-35" stroke="gold" stroke-width="2"/>
+  </g>
+  
+  <g transform="translate(135, 105) scale(0.6) rotate(180)" fill="gold">
+    <path d="M0,0 L5,-15 L10,0 M5,-15 L5,-30" stroke="gold" stroke-width="2"/>
+    <path d="M-5,-5 L0,-20 L5,-5 M0,-20 L0,-35" stroke="gold" stroke-width="2"/>
+    <path d="M5,-5 L10,-20 L15,-5 M10,-20 L10,-35" stroke="gold" stroke-width="2"/>
+  </g>
+</svg>

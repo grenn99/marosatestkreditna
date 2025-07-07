@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# Replace this with your actual Supabase anon key
+SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indpd2praG9sb2Via3p6am9jemp4IiwicmVmX2lkIjoiMjg4NTI2MTYiLCJyb2xlIjoiYW5vbiIsImlhdCI6MTcxNDQzMTk3OCwiZXhwIjoyMDI5OTk3OTc4fQ.WbLJdHlWQXGAzBUlBQYEwYJzUZVVJ9fYQFBDYnNHXFE"
+
+# Run the test script with the environment variable
+SUPABASE_ANON_KEY=$SUPABASE_ANON_KEY node src/scripts/test-email-function.js

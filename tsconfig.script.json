@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "target": "ES2020", // Target modern Node.js
+    "module": "NodeNext", // <--- CORRECTED: Use NodeNext for module
+    "moduleResolution": "NodeNext", // Use modern Node resolution
+    "outDir": "./dist-script", // Output directory for compiled files
+    "rootDir": "./src", // Source directory root
+    "esModuleInterop": true, // Enable interoperability
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "declaration": false, // No need for .d.ts files for this
+    "sourceMap": false // No need for source maps for this script
+  },
+  "include": [
+    "src/data/products.ts" // Only compile this file
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "dist-script" // Exclude the output dir itself
+  ]
+}

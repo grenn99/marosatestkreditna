@@ -1,0 +1,82 @@
+QUICK REFERENCE GUIDE
+======================
+
+ESSENTIAL COMMANDS & SCRIPTS
+---------------------------
+
+DEVELOPMENT
+-----------
+# Start development server
+npm run dev
+
+# Build for production
+npm run build
+
+# Run tests
+npm test
+
+# Run tests in watch mode
+npm run test:watch
+
+
+BACKUP
+------
+# Run database backup
+./backup-supabase.sh
+
+# Export critical tables
+./export_critical_tables.sh
+
+
+DEPLOYMENT
+----------
+# Deploy Edge Functions first (ALWAYS DO THIS BEFORE MAIN DEPLOYMENT)
+npm run deploy:edge-functions
+
+# Deploy to Netlify
+npm run deploy:netlify
+
+# Deploy to staging
+./deploy-to-staging.sh
+
+
+STAGING ENVIRONMENT
+------------------
+# Set up staging environment
+./setup-staging.sh
+
+# Update CSP for staging
+./update-csp-for-staging.sh
+
+
+GIT WORKFLOW
+-----------
+# Add files to staging
+git add .
+
+# Commit changes
+git commit -m "Commit message"
+
+# Create a new branch
+git checkout -b branch-name
+
+# Switch to a branch
+git checkout branch-name
+
+
+SECURITY
+--------
+# Verify environment variables
+npm run verify-env
+
+# Security check
+npm run security-check
+
+
+IMPORTANT NOTES
+--------------
+1. ALWAYS run Edge Functions deployment before main deployment
+2. Make regular backups before applying schema changes or RLS policies
+3. Test locally before deploying to production
+4. Commit changes regularly so you can roll back when needed
+5. Check the COMMANDS_AND_SCRIPTS_REFERENCE.md file for more detailed information

@@ -1,0 +1,101 @@
+// Follow this setup guide to integrate the Deno runtime into your application:
+// https://deno.land/manual/examples/supabase
+
+import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
+
+// Define admin emails - keep in sync with src/config/adminConfig.ts
+const ADMIN_EMAILS = ['nakupi@si.si'];
+
+// Note: Edge Functions can't import from the frontend codebase,
+// so we need to maintain this list separately. Make sure to update
+// both places when adding or removing admin users.
+
+serve(async (req) => {
+  // CORS headers
+  const headers = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+    'Content-Type': 'application/json',
+  };
+
+  // Handle CORS preflight requests
+  if (req.method === 'OPTIONS') {
+    return new Response('ok', { headers });
+  }
+
+  try {
+    // Create a Supabase client with the Auth context of the logged in user
+    const supabaseClient = createClient(
+      // Supabase API URL - env var exported by default.
+      Deno.env.get('SUPABASE_URL') ?? '',
+      // Supabase API ANON KEY - env var exported by default.
+      Deno.env.get('SUPABASE_ANON_KEY') ?? '',
+      // Create client with Auth context of the user that called the function.
+      // This way your row-level-security (RLS) policies are applied.
+      {
+        global: {
+          headers: { Authorization: req.headers.get('Authorization')! },
+        },
+      }
+    );
+
+    // Get the session of the user who called this function
+    const {
+      data: { session },
+    } = await supabaseClient.auth.getSession();
+
+    if (!session) {
+      return new Response(
+        JSON.stringify({ 
+          isAdmin: false, 
+          error: 'Not authenticated' 
+        }),
+        { headers, status: 401 }
+      );
+    }
+
+    // First check if the user's email is in the admin list
+    let isAdmin = ADMIN_EMAILS.includes(session.user.email);
+    
+    // If not, check user metadata
+    if (!isAdmin && session.user.user_metadata && session.user.user_metadata.is_admin === true) {
+      isAdmin = true;
+      console.log('User is admin based on metadata');
+    }
+    
+    // If still not, check the profiles table
+    if (!isAdmin) {
+      try {
+        const { data, error } = await supabaseClient
+          .from('profiles')
+          .select('is_admin')
+          .eq('id', session.user.id)
+          .single();
+        
+        if (!error && data && data.is_admin === true) {
+          isAdmin = true;
+          console.log('User is admin based on profiles table');
+        }
+      } catch (err) {
+        console.error('Error checking admin status in profiles table:', err);
+      }
+    }
+
+    return new Response(
+      JSON.stringify({ 
+        isAdmin,
+        user: {
+          id: session.user.id,
+          email: session.user.email
+        }
+      }),
+      { headers }
+    );
+  } catch (error) {
+    return new Response(
+      JSON.stringify({ isAdmin: false, error: error.message }),
+      { headers, status: 500 }
+    );
+  }
+})

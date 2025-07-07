@@ -1,0 +1,18 @@
+<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="100" cy="100" r="90" fill="#8b634d"/>
+  <path d="M50 100C50 72.3858 72.3858 50 100 50V50C127.614 50 150 72.3858 150 100V100C150 127.614 127.614 150 100 150V150C72.3858 150 50 127.614 50 100V100Z" fill="white"/>
+  <defs>
+    <clipPath id="circleClip">
+      <circle cx="100" cy="100" r="70"/>
+    </clipPath>
+  </defs>
+  <image 
+    href="https://i.ibb.co/pv6L4sv/logo.png"
+    x="50"
+    y="50"
+    width="200"
+    height="1750"
+    clip-path="url(#circleClip)"
+    preserveAspectRatio="xMidYMid meet"
+  />
+</svg>

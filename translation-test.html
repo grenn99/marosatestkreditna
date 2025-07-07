@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Translation Test</title>
+  <script src="https://unpkg.com/i18next@21.6.16/dist/umd/i18next.min.js"></script>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .language-buttons {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    button {
+      padding: 8px 16px;
+      background-color: #f0f0f0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button.active {
+      background-color: #4a90e2;
+      color: white;
+    }
+    .translation-item {
+      margin-bottom: 10px;
+      padding: 10px;
+      border: 1px solid #eee;
+      border-radius: 4px;
+    }
+    .key {
+      font-weight: bold;
+      color: #666;
+    }
+    .value {
+      margin-top: 5px;
+      font-size: 16px;
+    }
+    .missing {
+      color: red;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+  <h1>Translation Test</h1>
+  
+  <div class="language-buttons">
+    <button data-lang="sl">Slovenian</button>
+    <button data-lang="en">English</button>
+    <button data-lang="hr">Croatian</button>
+    <button data-lang="de">German</button>
+  </div>
+  
+  <div id="current-language">Current language: <span id="lang-display">-</span></div>
+  
+  <h2>Common Translations</h2>
+  <div id="common-translations"></div>
+  
+  <h2>Navigation Translations</h2>
+  <div id="nav-translations"></div>
+  
+  <h2>Product Translations</h2>
+  <div id="product-translations"></div>
+  
+  <script>
+    // Define translations
+    const resources = {
+      sl: {
+        translation: {
+          common: {
+            save: "Shrani",
+            cancel: "Prekliči",
+            edit: "Uredi",
+            delete: "Izbriši",
+            back: "Nazaj",
+            continue: "Nadaljuj",
+            submit: "Potrdi",
+            required: "Obvezno polje"
+          },
+          nav: {
+            about: "O nas",
+            products: "Izdelki",
+            location: "Kje smo",
+            recipes: "Recepti",
+            cart: "Košarica"
+          },
+          products: {
+            title: "Naši izdelki",
+            allProducts: "Vsi izdelki",
+            loading: "Nalaganje izdelkov...",
+            error: "Napaka pri nalaganju izdelkov.",
+            viewDetails: "Ogled podrobnosti",
+            addToCart: "Dodaj v košarico"
+          }
+        }
+      },
+      en: {
+        translation: {
+          common: {
+            save: "Save",
+            cancel: "Cancel",
+            edit: "Edit",
+            delete: "Delete",
+            back: "Back",
+            continue: "Continue",
+            submit: "Submit",
+            required: "Required field"
+          },
+          nav: {
+            about: "About Us",
+            products: "Products",
+            location: "Location",
+            recipes: "Recipes",
+            cart: "Cart"
+          },
+          products: {
+            title: "Our Products",
+            allProducts: "All Products",
+            loading: "Loading products...",
+            error: "Could not load products. Please try again later.",
+            viewDetails: "View Details",
+            addToCart: "Add to Cart"
+          }
+        }
+      },
+      hr: {
+        translation: {
+          common: {
+            save: "Spremi",
+            cancel: "Odustani",
+            edit: "Uredi",
+            delete: "Izbriši",
+            back: "Natrag",
+            continue: "Nastavi",
+            submit: "Potvrdi",
+            required: "Obavezno polje"
+          },
+          nav: {
+            about: "O nama",
+            products: "Proizvodi",
+            location: "Lokacija",
+            recipes: "Recepti",
+            cart: "Košarica"
+          },
+          products: {
+            title: "Naši proizvodi",
+            allProducts: "Svi proizvodi",
+            loading: "Učitavanje proizvoda...",
+            error: "Nije moguće učitati proizvode. Molimo pokušajte kasnije.",
+            viewDetails: "Pogledaj detalje",
+            addToCart: "Dodaj u košaricu"
+          }
+        }
+      },
+      de: {
+        translation: {
+          common: {
+            save: "Speichern",
+            cancel: "Abbrechen",
+            edit: "Bearbeiten",
+            delete: "Löschen",
+            back: "Zurück",
+            continue: "Weiter",
+            submit: "Absenden",
+            required: "Pflichtfeld"
+          },
+          nav: {
+            about: "Über uns",
+            products: "Produkte",
+            location: "Standort",
+            recipes: "Rezepte",
+            cart: "Warenkorb"
+          },
+          products: {
+            title: "Unsere Produkte",
+            allProducts: "Alle Produkte",
+            loading: "Produkte werden geladen...",
+            error: "Produkte konnten nicht geladen werden. Bitte versuchen Sie es später erneut.",
+            viewDetails: "Details anzeigen",
+            addToCart: "In den Warenkorb"
+          }
+        }
+      }
+    };
+    
+    // Initialize i18next
+    i18next.init({
+      lng: 'sl',
+      resources: resources,
+      fallbackLng: 'sl',
+      interpolation: {
+        escapeValue: false
+      }
+    });
+    
+    // Update UI with translations
+    function updateTranslations() {
+      const currentLang = i18next.language;
+      document.getElementById('lang-display').textContent = currentLang;
+      
+      // Update language buttons
+      document.querySelectorAll('.language-buttons button').forEach(button => {
+        if (button.dataset.lang === currentLang) {
+          button.classList.add('active');
+        } else {
+          button.classList.remove('active');
+        }
+      });
+      
+      // Update common translations
+      const commonKeys = ['save', 'cancel', 'edit', 'delete', 'back', 'continue', 'submit', 'required'];
+      const commonTranslationsEl = document.getElementById('common-translations');
+      commonTranslationsEl.innerHTML = '';
+      
+      commonKeys.forEach(key => {
+        const fullKey = `common.${key}`;
+        const translation = i18next.t(fullKey);
+        const isMissing = translation === fullKey;
+        
+        const itemEl = document.createElement('div');
+        itemEl.className = 'translation-item';
+        itemEl.innerHTML = `
+          <div class="key">${fullKey}</div>
+          <div class="value ${isMissing ? 'missing' : ''}">${isMissing ? 'Missing' : translation}</div>
+        `;
+        
+        commonTranslationsEl.appendChild(itemEl);
+      });
+      
+      // Update nav translations
+      const navKeys = ['about', 'products', 'location', 'recipes', 'cart'];
+      const navTranslationsEl = document.getElementById('nav-translations');
+      navTranslationsEl.innerHTML = '';
+      
+      navKeys.forEach(key => {
+        const fullKey = `nav.${key}`;
+        const translation = i18next.t(fullKey);
+        const isMissing = translation === fullKey;
+        
+        const itemEl = document.createElement('div');
+        itemEl.className = 'translation-item';
+        itemEl.innerHTML = `
+          <div class="key">${fullKey}</div>
+          <div class="value ${isMissing ? 'missing' : ''}">${isMissing ? 'Missing' : translation}</div>
+        `;
+        
+        navTranslationsEl.appendChild(itemEl);
+      });
+      
+      // Update product translations
+      const productKeys = ['title', 'allProducts', 'loading', 'error', 'viewDetails', 'addToCart'];
+      const productTranslationsEl = document.getElementById('product-translations');
+      productTranslationsEl.innerHTML = '';
+      
+      productKeys.forEach(key => {
+        const fullKey = `products.${key}`;
+        const translation = i18next.t(fullKey);
+        const isMissing = translation === fullKey;
+        
+        const itemEl = document.createElement('div');
+        itemEl.className = 'translation-item';
+        itemEl.innerHTML = `
+          <div class="key">${fullKey}</div>
+          <div class="value ${isMissing ? 'missing' : ''}">${isMissing ? 'Missing' : translation}</div>
+        `;
+        
+        productTranslationsEl.appendChild(itemEl);
+      });
+    }
+    
+    // Set up language switcher
+    document.querySelectorAll('.language-buttons button').forEach(button => {
+      button.addEventListener('click', () => {
+        const lang = button.dataset.lang;
+        i18next.changeLanguage(lang).then(() => {
+          updateTranslations();
+        });
+      });
+    });
+    
+    // Initial update
+    updateTranslations();
+  </script>
+</body>
+</html>

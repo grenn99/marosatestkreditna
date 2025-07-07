@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Upload Gift Package Image</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      line-height: 1.6;
+    }
+    h1 {
+      color: #8B4513;
+    }
+    .upload-container {
+      border: 2px dashed #ccc;
+      padding: 20px;
+      text-align: center;
+      margin: 20px 0;
+      border-radius: 4px;
+    }
+    .upload-container:hover {
+      border-color: #8B4513;
+    }
+    .file-input {
+      display: none;
+    }
+    .upload-button {
+      background-color: #8B4513;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    .upload-button:hover {
+      background-color: #A0522D;
+    }
+    .preview {
+      margin-top: 20px;
+      display: none;
+    }
+    .preview img {
+      max-width: 100%;
+      max-height: 300px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      padding: 5px;
+    }
+    .instructions {
+      background-color: #FFF8DC;
+      padding: 15px;
+      border-radius: 4px;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Upload Gift Package Image</h1>
+  
+  <div class="instructions">
+    <h2>Instructions</h2>
+    <p>This tool will help you prepare the image for the "Darilni paket" product:</p>
+    <ol>
+      <li>Select an image file (preferably a gift package or gift box image)</li>
+      <li>The image will be renamed to <code>gift_package.jpg</code></li>
+      <li>Download the image and place it in the <code>/public/images/darilni_paket/</code> folder on your server</li>
+      <li>Then run the fix-image.html script to update the database</li>
+    </ol>
+  </div>
+  
+  <div class="upload-container">
+    <input type="file" id="fileInput" class="file-input" accept="image/*">
+    <label for="fileInput" class="upload-button">Select Image File</label>
+    <p>or drag and drop an image here</p>
+  </div>
+  
+  <div class="preview" id="preview">
+    <h3>Image Preview</h3>
+    <img id="previewImage" src="" alt="Preview">
+    <div style="margin-top: 20px;">
+      <a id="downloadLink" class="upload-button" download="gift_package.jpg">Download as gift_package.jpg</a>
+    </div>
+  </div>
+  
+  <script>
+    const fileInput = document.getElementById('fileInput');
+    const previewContainer = document.getElementById('preview');
+    const previewImage = document.getElementById('previewImage');
+    const downloadLink = document.getElementById('downloadLink');
+    const uploadContainer = document.querySelector('.upload-container');
+    
+    // Handle file selection
+    fileInput.addEventListener('change', handleFileSelect);
+    
+    // Handle drag and drop
+    uploadContainer.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      uploadContainer.style.borderColor = '#8B4513';
+    });
+    
+    uploadContainer.addEventListener('dragleave', () => {
+      uploadContainer.style.borderColor = '#ccc';
+    });
+    
+    uploadContainer.addEventListener('drop', (e) => {
+      e.preventDefault();
+      uploadContainer.style.borderColor = '#ccc';
+      
+      if (e.dataTransfer.files.length) {
+        fileInput.files = e.dataTransfer.files;
+        handleFileSelect();
+      }
+    });
+    
+    function handleFileSelect() {
+      const file = fileInput.files[0];
+      
+      if (file && file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        
+        reader.onload = function(e) {
+          previewImage.src = e.target.result;
+          downloadLink.href = e.target.result;
+          previewContainer.style.display = 'block';
+        };
+        
+        reader.readAsDataURL(file);
+      }
+    }
+  </script>
+</body>
+</html>
