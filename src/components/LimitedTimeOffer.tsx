@@ -73,7 +73,7 @@ export function LimitedTimeOffer({
             {/* Generate banner text based on discount type and use translations */}
             {discount.discount_type === 'fixed'
               ? t('promotions.fixedDiscountBanner', 'Uporabite kodo {{code}} za €{{amount}} popusta pri nakupu nad €{{minOrder}}!', {
-                  code: discount.code,
+                  code: i18n.language === 'sl' ? 'BREZPOSTNINE' : 'FREESHIPPING',
                   amount: discount.discount_value.toFixed(2),
                   minOrder: discount.min_order_amount.toFixed(2)
                 })

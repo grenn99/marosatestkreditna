@@ -7,7 +7,7 @@ interface SimpleBannerProps {
 }
 
 export function SimpleBanner({ onDismiss }: SimpleBannerProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   return (
     <div className="bg-gradient-to-r from-amber-500 to-brown-600 text-white py-3 relative">
@@ -22,7 +22,7 @@ export function SimpleBanner({ onDismiss }: SimpleBannerProps) {
 
           <div className="font-medium">
             {t('promotions.fixedDiscountBanner', 'Uporabite kodo {{code}} za €{{amount}} popusta pri nakupu nad €{{minOrder}}!', {
-              code: 'FREESHIPPING',
+              code: i18n.language === 'sl' ? 'BREZPOSTNINE' : 'FREESHIPPING',
               amount: '3.90',
               minOrder: '20.00'
             })}
