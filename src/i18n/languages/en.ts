@@ -380,6 +380,26 @@ export const english = {
       watchVideo: 'Watch Video'
     }
   },
+  newsletter: {
+    title: 'Subscribe to Our Newsletter',
+    description: 'Stay updated with our latest products, special offers, and seasonal recipes.',
+    firstName: 'First Name',
+    optional: 'optional',
+    email: 'Email Address',
+    subscribe: 'Subscribe',
+    subscribing: 'Subscribing...',
+    success: 'Thank you for subscribing! Please check your email to confirm your subscription.',
+    error: 'An error occurred. Please try again later.',
+    emailRequired: 'Please enter your email address',
+    alreadySubscribed: 'This email is already subscribed to our newsletter',
+    privacy: 'By subscribing, you agree to our Privacy Policy. We respect your privacy and will never share your information.',
+    preferences: {
+      title: 'I would like to receive:',
+      productUpdates: 'Product updates and new arrivals',
+      promotions: 'Promotions and special offers',
+      recipes: 'Recipes and healthy eating tips'
+    }
+  },
   footer: {
     rights: 'All rights reserved.',
     contactUs: 'Contact Us',
@@ -387,9 +407,19 @@ export const english = {
     copyright: '© {{year}} Kmetija Maroša. All rights reserved.'
   },
   location: {
+    title: 'Where to Find Us',
     address: 'Melinci 24, 9000 Murska Sobota',
+    hoursTitle: 'Opening Hours',
+    weekdays: 'Monday - Friday: 8:00 - 18:00',
+    saturday: 'Saturday: Upon agreement',
+    sunday: 'Sunday: Closed',
+    contactTitle: 'Contact',
     phone: '+386 31 627 364',
-    email: 'kmetija.marosa@gmail.com'
+    email: 'kmetija.marosa@gmail.com',
+    visitUs: 'Visit Us',
+    ourLocation: 'Our Location',
+    getDirections: 'Get Directions',
+    navigate: 'Navigate'
   },
   auth: {
     loginTitle: 'Login',

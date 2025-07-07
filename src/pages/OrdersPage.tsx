@@ -172,14 +172,14 @@ export function OrdersPage() {
           };
         }));
 
-        // Fetch product images for all order items
+        // Fetch product images and translations for all order items
         const enhancedOrders = await Promise.all(processedOrders.map(async (order) => {
           const itemsWithImages = await Promise.all(order.items.map(async (item) => {
             try {
-              // Fetch product details to get the image URL
+              // Fetch product details to get the image URL and translations
               const { data: productData, error: productError } = await supabase
                 .from('products')
-                .select('image_url')
+                .select('image_url, name, name_en, name_de, name_hr')
                 .eq('id', item.product_id)
                 .single();
 
@@ -188,9 +188,27 @@ export function OrdersPage() {
                 return item;
               }
 
+              // Get translated product name based on current language
+              const getTranslatedName = () => {
+                if (!productData) return item.product_name;
+
+                switch (i18n.language) {
+                  case 'en':
+                    return productData.name_en || productData.name || item.product_name;
+                  case 'de':
+                    return productData.name_de || productData.name || item.product_name;
+                  case 'hr':
+                    return productData.name_hr || productData.name || item.product_name;
+                  case 'sl':
+                  default:
+                    return productData.name || item.product_name;
+                }
+              };
+
               return {
                 ...item,
-                image_url: productData?.image_url || undefined
+                image_url: productData?.image_url || undefined,
+                translated_product_name: getTranslatedName()
               };
             } catch (err) {
               console.error(`Error processing product ${item.product_id}:`, err);
@@ -382,7 +400,7 @@ export function OrdersPage() {
                                       <>
                                         <img
                                           src={item.image_url}
-                                          alt={item.product_name}
+                                          alt={item.translated_product_name || item.product_name}
                                           className="h-12 w-12 object-cover rounded-md border border-gray-200"
                                           onError={(e) => {
                                             (e.target as HTMLImageElement).src = '/images/placeholder-product.svg';
@@ -407,7 +425,7 @@ export function OrdersPage() {
                                   {/* Product Name and Package */}
                                   <div>
                                     <div className={`font-medium ${item.is_gift ? "text-amber-700" : ""}`}>
-                                      {item.product_name}
+                                      {item.translated_product_name || item.product_name}
                                     </div>
                                     {item.package_description && (
                                       <div className={`text-xs mt-1 ${item.is_gift ? "text-amber-600" : "text-gray-500"} whitespace-pre-line`}>

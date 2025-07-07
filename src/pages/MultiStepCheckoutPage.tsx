@@ -444,10 +444,10 @@ export const MultiStepCheckoutPage: React.FC = () => {
 
       // Include shipping and subtotal information in the notes field
       const shippingInfo = hasShippingFee
-        ? `[Shipping: €${shippingCost.toFixed(2)}]`
-        : '[Free Shipping]';
+        ? `[${t('orders.shipping', 'Poštnina')}: €${shippingCost.toFixed(2)}]`
+        : `[${t('checkout.freeShipping', 'Brezplačna dostava')}]`;
 
-      const subtotalInfo = `[Subtotal: €${subtotal.toFixed(2)}]`;
+      const subtotalInfo = `[${t('orders.subtotal', 'Vmesna vsota')}: €${subtotal.toFixed(2)}]`;
       const orderNotes = `${formData.notes || ''} ${subtotalInfo} ${shippingInfo}`.trim();
 
       // Add all columns that exist in the database

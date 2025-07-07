@@ -350,6 +350,26 @@ export const german = {
       watchVideo: 'Video ansehen'
     }
   },
+  newsletter: {
+    title: 'Abonnieren Sie unseren Newsletter',
+    description: 'Bleiben Sie über unsere neuesten Produkte, Sonderangebote und saisonale Rezepte auf dem Laufenden.',
+    firstName: 'Vorname',
+    optional: 'optional',
+    email: 'E-Mail-Adresse',
+    subscribe: 'Abonnieren',
+    subscribing: 'Abonnieren...',
+    success: 'Vielen Dank für Ihr Abonnement! Bitte überprüfen Sie Ihre E-Mail, um Ihr Abonnement zu bestätigen.',
+    error: 'Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.',
+    emailRequired: 'Bitte geben Sie Ihre E-Mail-Adresse ein',
+    alreadySubscribed: 'Diese E-Mail-Adresse ist bereits für unseren Newsletter angemeldet',
+    privacy: 'Mit dem Abonnement stimmen Sie unserer Datenschutzrichtlinie zu. Wir respektieren Ihre Privatsphäre und werden Ihre Daten niemals weitergeben.',
+    preferences: {
+      title: 'Ich möchte erhalten:',
+      productUpdates: 'Produktupdates und neue Ankünfte',
+      promotions: 'Aktionen und Sonderangebote',
+      recipes: 'Rezepte und Tipps für gesunde Ernährung'
+    }
+  },
   footer: {
     rights: 'Alle Rechte vorbehalten.',
     contactUs: 'Kontaktieren Sie uns',
@@ -357,9 +377,19 @@ export const german = {
     copyright: '© {{year}} Bauernhof Maroša. Alle Rechte vorbehalten.'
   },
   location: {
+    title: 'Wo Sie uns finden',
     address: 'Melinci 24, 9000 Murska Sobota',
+    hoursTitle: 'Öffnungszeiten',
+    weekdays: 'Montag - Freitag: 8:00 - 18:00',
+    saturday: 'Samstag: Nach Vereinbarung',
+    sunday: 'Sonntag: Geschlossen',
+    contactTitle: 'Kontakt',
     phone: '+386 31 627 364',
-    email: 'kmetija.marosa@gmail.com'
+    email: 'kmetija.marosa@gmail.com',
+    visitUs: 'Besuchen Sie uns',
+    ourLocation: 'Unser Standort',
+    getDirections: 'Wegbeschreibung',
+    navigate: 'Navigieren'
   },
   auth: {
     loginTitle: 'Anmelden',

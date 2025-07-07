@@ -1114,10 +1114,10 @@ export const CheckoutPage: React.FC = () => {
       console.log('Creating order with profile_id:', profileId, 'user_id:', currentUserId, 'is_guest:', isGuest);
       // Include both shipping and subtotal information in the notes field
       const shippingInfo = hasShippingFee
-        ? `[Shipping: €${shippingCost.toFixed(2)}]`
-        : '[Free Shipping]';
+        ? `[${t('orders.shipping', 'Poštnina')}: €${shippingCost.toFixed(2)}]`
+        : `[${t('checkout.freeShipping', 'Brezplačna dostava')}]`;
 
-      const subtotalInfo = `[Subtotal: €${subtotal.toFixed(2)}]`;
+      const subtotalInfo = `[${t('orders.subtotal', 'Vmesna vsota')}: €${subtotal.toFixed(2)}]`;
 
       // Include all gift-related information in the notes
       let giftInfo = '';

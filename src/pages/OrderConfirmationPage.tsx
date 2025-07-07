@@ -141,9 +141,17 @@ export const OrderConfirmationPage: React.FC = () => {
           <div className="text-green-700">
             <p>{t('orders.status', 'Status')}: {t(`orders.statuses.${order.status}`, order.status)}</p>
             <p>{t('orders.paymentMethod', 'Payment Method')}: {t(`orders.paymentMethods.${order.payment_method}`, order.payment_method)}</p>
-            {order.notes && (
-              <p>{t('orders.notes', 'Notes')}: {order.notes.replace(/\[Subtotal: €[0-9.]+\]|\[Shipping: €[0-9.]+\]|\[Free Shipping\]/g, '')}</p>
-            )}
+            {(() => {
+              // Clean customer notes by removing system-generated brackets
+              const cleanNotes = order.notes?.replace(
+                /\[(Subtotal|Vmesna vsota): €[0-9.]+\]|\[(Shipping|Poštnina): €[0-9.]+\]|\[(Free Shipping|Brezplačna dostava)\]|\[Gift Option ID: [^\]]+\]|\[Gift Message: [^\]]+\]|\[GIFT_ADDRESS_JSON: [^\]]+\]|\[Stripe Payment ID: [^\]]+\]/g,
+                ''
+              ).trim();
+
+              return cleanNotes && (
+                <p>{t('orders.notes', 'Your Notes')}: {cleanNotes}</p>
+              );
+            })()}
           </div>
         </div>
 

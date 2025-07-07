@@ -675,17 +675,17 @@ export const OrderSuccessPage: React.FC = () => {
                   {/* Shipping cost row - extract from notes if available */}
                   {(() => {
                     // Try to extract shipping cost from notes
-                    const shippingMatch = order.notes?.match(/\[Shipping: €([0-9.]+)\]/);
-                    const freeShippingMatch = order.notes?.match(/\[Free Shipping\]/);
+                    const shippingMatch = order.notes?.match(/\[(Shipping|Poštnina): €([0-9.]+)\]/);
+                    const freeShippingMatch = order.notes?.match(/\[(Free Shipping|Brezplačna dostava)\]/);
 
-                    if (shippingMatch && shippingMatch[1]) {
+                    if (shippingMatch && shippingMatch[2]) {
                       return (
                         <tr className="bg-gray-50">
                           <td colSpan={3} className="px-4 py-2 text-right text-sm font-medium text-gray-500">
                             {t('cart.shipping', 'Poštnina')}:
                           </td>
                           <td className="px-4 py-2 text-right text-sm text-gray-900">
-                            {shippingMatch[1]} €
+                            {shippingMatch[2]} €
                           </td>
                         </tr>
                       );
@@ -721,16 +721,24 @@ export const OrderSuccessPage: React.FC = () => {
           )}
 
           {/* Notes */}
-          {order.notes && (
-            <div className="mt-8">
-              <h2 className="text-lg font-semibold text-gray-800 mb-2">
-                {t('orders.notes', 'Notes')}
-              </h2>
-              <p className="text-gray-600 bg-gray-50 p-4 rounded-md">
-                {order.notes.replace(/\[Subtotal: €[0-9.]+\]|\[Shipping: €[0-9.]+\]|\[Free Shipping\]/g, '')}
-              </p>
-            </div>
-          )}
+          {(() => {
+            // Clean customer notes by removing system-generated brackets
+            const cleanNotes = order.notes?.replace(
+              /\[(Subtotal|Vmesna vsota): €[0-9.]+\]|\[(Shipping|Poštnina): €[0-9.]+\]|\[(Free Shipping|Brezplačna dostava)\]|\[Gift Option ID: [^\]]+\]|\[Gift Message: [^\]]+\]|\[GIFT_ADDRESS_JSON: [^\]]+\]|\[Stripe Payment ID: [^\]]+\]/g,
+              ''
+            ).trim();
+
+            return cleanNotes && (
+              <div className="mt-8">
+                <h2 className="text-lg font-semibold text-gray-800 mb-2">
+                  {t('orders.notes', 'Your Notes')}
+                </h2>
+                <p className="text-gray-600 bg-gray-50 p-4 rounded-md">
+                  {cleanNotes}
+                </p>
+              </div>
+            );
+          })()}
 
           {/* Shipping Information */}
           <div className="mt-8 bg-blue-50 p-4 rounded-lg border border-blue-100">

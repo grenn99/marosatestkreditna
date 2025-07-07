@@ -194,9 +194,51 @@ export function AdminOrdersPage() {
           console.error('Error processing shipping address:', err);
         }
 
+        // Fetch product translations for all items
+        const itemsWithTranslations = await Promise.all(parsedItems.map(async (item) => {
+          try {
+            // Fetch product details to get translations
+            const { data: productData, error: productError } = await supabase
+              .from('products')
+              .select('name, name_en, name_de, name_hr')
+              .eq('id', item.product_id)
+              .single();
+
+            if (productError) {
+              console.error(`Error fetching product ${item.product_id}:`, productError);
+              return item;
+            }
+
+            // Get translated product name based on current language
+            const getTranslatedName = () => {
+              if (!productData) return item.product_name;
+
+              switch (i18n.language) {
+                case 'en':
+                  return productData.name_en || productData.name || item.product_name;
+                case 'de':
+                  return productData.name_de || productData.name || item.product_name;
+                case 'hr':
+                  return productData.name_hr || productData.name || item.product_name;
+                case 'sl':
+                default:
+                  return productData.name || item.product_name;
+              }
+            };
+
+            return {
+              ...item,
+              translated_product_name: getTranslatedName()
+            };
+          } catch (err) {
+            console.error(`Error processing product ${item.product_id}:`, err);
+            return item;
+          }
+        }));
+
         return {
           ...order,
-          items: parsedItems,
+          items: itemsWithTranslations,
           shipping_address: parsedShippingAddress
         };
       }));
@@ -617,16 +659,24 @@ export function AdminOrdersPage() {
                           </div>
                         </div>
 
-                        {order.notes && (
-                          <>
-                            <h3 className="font-medium mb-2 mt-4">{t('orders.notes', 'Order Notes')}</h3>
-                            <div className="bg-white p-3 rounded-md shadow-sm">
-                              <div className="text-sm text-gray-600">
-                                {order.notes}
+                        {(() => {
+                          // Clean customer notes by removing system-generated brackets
+                          const cleanNotes = order.notes?.replace(
+                            /\[(Subtotal|Vmesna vsota): €[0-9.]+\]|\[(Shipping|Poštnina): €[0-9.]+\]|\[(Free Shipping|Brezplačna dostava)\]|\[Gift Option ID: [^\]]+\]|\[Gift Message: [^\]]+\]|\[GIFT_ADDRESS_JSON: [^\]]+\]|\[Stripe Payment ID: [^\]]+\]/g,
+                            ''
+                          ).trim();
+
+                          return cleanNotes && (
+                            <>
+                              <h3 className="font-medium mb-2 mt-4">{t('orders.notes', 'Customer Notes')}</h3>
+                              <div className="bg-white p-3 rounded-md shadow-sm">
+                                <div className="text-sm text-gray-600">
+                                  {cleanNotes}
+                                </div>
                               </div>
-                            </div>
-                          </>
-                        )}
+                            </>
+                          );
+                        })()}
                       </div>
 
                       <div>
@@ -665,7 +715,7 @@ export function AdminOrdersPage() {
                                         )}
                                         <div>
                                           <div className={`font-medium ${item.is_gift ? "text-amber-700" : ""}`}>
-                                            {item.product_name}
+                                            {item.translated_product_name || item.product_name}
                                           </div>
                                           {item.package_description && (
                                             <div className={`text-xs mt-1 ${item.is_gift ? "text-amber-600" : "text-gray-500"} whitespace-pre-line`}>

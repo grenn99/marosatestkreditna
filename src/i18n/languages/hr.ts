@@ -350,6 +350,26 @@ export const croatian = {
       watchVideo: 'Pogledaj video'
     }
   },
+  newsletter: {
+    title: 'Pretplatite se na naš newsletter',
+    description: 'Budite u toku s našim najnovijim proizvodima, posebnim ponudama i sezonskim receptima.',
+    firstName: 'Ime',
+    optional: 'neobavezno',
+    email: 'E-mail adresa',
+    subscribe: 'Pretplati se',
+    subscribing: 'Pretplaćujem...',
+    success: 'Hvala na pretplati! Molimo provjerite svoju e-poštu da potvrdite pretplatu.',
+    error: 'Dogodila se greška. Molimo pokušajte ponovo.',
+    emailRequired: 'Molimo unesite svoju e-mail adresu',
+    alreadySubscribed: 'Ova e-mail adresa je već pretplaćena na naš newsletter',
+    privacy: 'Pretplatom se slažete s našom Politikom privatnosti. Poštujemo vašu privatnost i nikada nećemo dijeliti vaše podatke.',
+    preferences: {
+      title: 'Želio bih primati:',
+      productUpdates: 'Ažuriranja proizvoda i nove dolazne',
+      promotions: 'Promocije i posebne ponude',
+      recipes: 'Recepte i savjete za zdravu prehranu'
+    }
+  },
   footer: {
     rights: 'Sva prava pridržana.',
     contactUs: 'Kontaktirajte nas',
@@ -357,9 +377,19 @@ export const croatian = {
     copyright: '© {{year}} Farma Maroša. Sva prava pridržana.'
   },
   location: {
+    title: 'Gdje nas pronaći',
     address: 'Melinci 24, 9000 Murska Sobota',
+    hoursTitle: 'Radno vrijeme',
+    weekdays: 'Ponedjeljak - Petak: 8:00 - 18:00',
+    saturday: 'Subota: Po dogovoru',
+    sunday: 'Nedjelja: Zatvoreno',
+    contactTitle: 'Kontakt',
     phone: '+386 31 627 364',
-    email: 'kmetija.marosa@gmail.com'
+    email: 'kmetija.marosa@gmail.com',
+    visitUs: 'Posjetite nas',
+    ourLocation: 'Naša lokacija',
+    getDirections: 'Upute za dolazak',
+    navigate: 'Navigiraj'
   },
   auth: {
     loginTitle: 'Prijava',
