@@ -67,8 +67,8 @@ export async function fetchActiveBannerDiscounts(): Promise<TimeLimitedDiscount[
 
         return [{
           id: '0b1b22f4-e423-41bd-8f91-ac1e6399ebcd',
-          code: 'FREESHIPPING',
-          description: 'Free shipping',
+          code: 'BREZPOSTNINE',
+          description: 'Brezplačna poštnina',
           discount_type: 'fixed',
           discount_value: 3.90,
           min_order_amount: 20.00,
@@ -123,8 +123,8 @@ export async function fetchActiveBannerDiscounts(): Promise<TimeLimitedDiscount[
 
       return [{
         id: '0b1b22f4-e423-41bd-8f91-ac1e6399ebcd',
-        code: 'FREESHIPPING',
-        description: 'Free shipping',
+        code: 'BREZPOSTNINE',
+        description: 'Brezplačna poštnina',
         discount_type: 'fixed',
         discount_value: 3.90,
         min_order_amount: 20.00,
@@ -156,8 +156,8 @@ export async function getActiveBannerDiscount(): Promise<TimeLimitedDiscount | n
   // TEMPORARY FIX: Always return a hardcoded banner discount
   return {
     id: '0b1b22f4-e423-41bd-8f91-ac1e6399ebcd',
-    code: 'FREESHIPPING',
-    description: 'Free shipping',
+    code: 'BREZPOSTNINE',
+    description: 'Brezplačna poštnina',
     discount_type: 'fixed',
     discount_value: 3.90,
     min_order_amount: 20.00,
