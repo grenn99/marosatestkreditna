@@ -72,6 +72,12 @@ export async function validateDiscountCode(code: string, orderTotal: number): Pr
     const validFrom = new Date(data.valid_from);
     const validUntil = data.valid_until ? new Date(data.valid_until) : null;
 
+    console.log('Discount code validation for:', code);
+    console.log('Current time:', now.toISOString());
+    console.log('Valid from:', validFrom.toISOString());
+    console.log('Valid until:', validUntil?.toISOString());
+    console.log('Is expired?', validFrom > now || (validUntil && validUntil < now));
+
     if (validFrom > now || (validUntil && validUntil < now)) {
       return { valid: false, message: 'Expired discount code' };
     }

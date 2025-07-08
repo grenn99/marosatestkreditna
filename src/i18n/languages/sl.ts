@@ -499,6 +499,17 @@ export const slovenian = {
     emailRequired: 'Prosimo, vnesite svoj e-poštni naslov',
     alreadySubscribed: 'Ta e-poštni naslov je že naročen na naše e-novice',
     privacy: 'Z naročilom se strinjate z našo Politiko zasebnosti. Spoštujemo vašo zasebnost in nikoli ne bomo delili vaših podatkov.',
+    confirmation: {
+      title: 'Naročnina na e-novice',
+      loading: 'Potrjevanje vaše naročnine...',
+      success: 'Naročnina potrjena!',
+      successMessage: 'Hvala za potrditev naročnine na naše e-novice.',
+      error: 'Napaka pri potrditvi',
+      errorMessage: 'Pri potrjevanju vaše naročnine je prišlo do težave.',
+      noToken: 'Ni potrditvenega žetona',
+      subscribedEmail: 'Naročen e-poštni naslov: {{email}}',
+      checkEmail: 'Prosimo, preverite svojo e-pošto za potrditev naročnine. Po potrditvi boste prejeli 10% kodo za popust za vaše prvo naročilo.'
+    },
     preferences: {
       title: 'Rad bi prejel:',
       productUpdates: 'Novosti o izdelkih in nove prispetke',

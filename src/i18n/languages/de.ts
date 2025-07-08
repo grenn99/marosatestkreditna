@@ -363,6 +363,17 @@ export const german = {
     emailRequired: 'Bitte geben Sie Ihre E-Mail-Adresse ein',
     alreadySubscribed: 'Diese E-Mail-Adresse ist bereits für unseren Newsletter angemeldet',
     privacy: 'Mit dem Abonnement stimmen Sie unserer Datenschutzrichtlinie zu. Wir respektieren Ihre Privatsphäre und werden Ihre Daten niemals weitergeben.',
+    confirmation: {
+      title: 'Newsletter-Abonnement',
+      loading: 'Bestätigung Ihres Abonnements...',
+      success: 'Abonnement bestätigt!',
+      successMessage: 'Vielen Dank für die Bestätigung Ihres Newsletter-Abonnements.',
+      error: 'Bestätigungsfehler',
+      errorMessage: 'Bei der Bestätigung Ihres Abonnements ist ein Problem aufgetreten.',
+      noToken: 'Kein Bestätigungstoken bereitgestellt',
+      subscribedEmail: 'Abonnierte E-Mail: {{email}}',
+      checkEmail: 'Bitte überprüfen Sie Ihre E-Mail, um Ihr Abonnement zu bestätigen. Nach der Bestätigung erhalten Sie einen 10% Rabattcode für Ihre erste Bestellung.'
+    },
     preferences: {
       title: 'Ich möchte erhalten:',
       productUpdates: 'Produktupdates und neue Ankünfte',

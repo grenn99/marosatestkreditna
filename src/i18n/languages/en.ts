@@ -393,6 +393,17 @@ export const english = {
     emailRequired: 'Please enter your email address',
     alreadySubscribed: 'This email is already subscribed to our newsletter',
     privacy: 'By subscribing, you agree to our Privacy Policy. We respect your privacy and will never share your information.',
+    confirmation: {
+      title: 'Newsletter Subscription',
+      loading: 'Confirming your subscription...',
+      success: 'Subscription Confirmed!',
+      successMessage: 'Thank you for confirming your subscription to our newsletter.',
+      error: 'Confirmation Error',
+      errorMessage: 'There was a problem confirming your subscription.',
+      noToken: 'No confirmation token provided',
+      subscribedEmail: 'Subscribed email: {{email}}',
+      checkEmail: 'Please check your email to confirm your subscription. After confirmation, you will receive a 10% discount code for your first order.'
+    },
     preferences: {
       title: 'I would like to receive:',
       productUpdates: 'Product updates and new arrivals',

@@ -314,27 +314,31 @@ export async function confirmSubscription(token: string): Promise<{
       // Continue anyway to try to send the welcome email
     }
 
-    // Create a welcome discount code if this is from the welcome popup
+    // Use the existing DOBRODOSLI10 discount code for all new subscribers
     let discountCode = null;
-    if (subscriber.source === 'welcome_popup' && !subscriber.discount_used) {
+    if (!subscriber.discount_used) {
       try {
-        discountCode = await createWelcomeDiscount(subscriber.email);
+        console.log('Assigning welcome discount for:', subscriber.email);
+        // Use the existing DOBRODOSLI10 discount code
+        discountCode = 'DOBRODOSLI10';
+        console.log('Using discount code:', discountCode);
 
         // Update the subscriber with the discount code
-        if (discountCode) {
-          await supabase
-            .from('newsletter_subscribers')
-            .update({
-              discount_used: discountCode
-            })
-            .eq('id', subscriber.id);
-        }
+        await supabase
+          .from('newsletter_subscribers')
+          .update({
+            discount_used: discountCode
+          })
+          .eq('id', subscriber.id);
+        console.log('Updated subscriber with discount code:', discountCode);
       } catch (error) {
-        console.error('Error creating welcome discount:', error);
+        console.error('Error updating subscriber with discount:', error);
         // Continue anyway, just without a discount code
       }
-    } else if (subscriber.discount_used) {
+    } else {
+      // Use existing discount code if already created
       discountCode = subscriber.discount_used;
+      console.log('Using existing discount code:', discountCode);
     }
 
     // Check if a welcome email was sent recently (within the last 5 minutes)
@@ -417,6 +421,7 @@ async function sendWelcomeEmail(data: {
     const unsubscribeUrl = `${BASE_URL}/unsubscribe?token=${unsubscribeToken}&lang=${language}`;
 
     // Generate email content
+    console.log('Generating welcome email with discount code:', discountCode);
     const htmlContent = generateWelcomeEmailHtml({
       firstName,
       discountCode: discountCode || undefined,
@@ -430,6 +435,8 @@ async function sendWelcomeEmail(data: {
       unsubscribeUrl,
       language
     });
+
+    console.log('Generated email content includes discount:', htmlContent.includes('WELCOME10'));
 
     // Determine subject based on language
     const subject = (() => {

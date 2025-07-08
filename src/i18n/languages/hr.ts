@@ -363,6 +363,17 @@ export const croatian = {
     emailRequired: 'Molimo unesite svoju e-mail adresu',
     alreadySubscribed: 'Ova e-mail adresa je već pretplaćena na naš newsletter',
     privacy: 'Pretplatom se slažete s našom Politikom privatnosti. Poštujemo vašu privatnost i nikada nećemo dijeliti vaše podatke.',
+    confirmation: {
+      title: 'Pretplata na newsletter',
+      loading: 'Potvrđujem vašu pretplatu...',
+      success: 'Pretplata potvrđena!',
+      successMessage: 'Hvala što ste potvrdili pretplatu na naš newsletter.',
+      error: 'Greška pri potvrdi',
+      errorMessage: 'Došlo je do problema pri potvrđivanju vaše pretplate.',
+      noToken: 'Nema tokena za potvrdu',
+      subscribedEmail: 'Pretplaćena e-mail adresa: {{email}}',
+      checkEmail: 'Molimo provjerite svoju e-poštu da potvrdite pretplatu. Nakon potvrde, primit ćete 10% kod za popust za vašu prvu narudžbu.'
+    },
     preferences: {
       title: 'Želio bih primati:',
       productUpdates: 'Ažuriranja proizvoda i nove dolazne',
