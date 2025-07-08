@@ -383,6 +383,7 @@ export const german = {
   },
   footer: {
     rights: 'Alle Rechte vorbehalten.',
+    quickLinks: 'Schnelllinks',
     contactUs: 'Kontaktieren Sie uns',
     followUs: 'Folgen Sie uns',
     copyright: '© {{year}} Bauernhof Maroša. Alle Rechte vorbehalten.'

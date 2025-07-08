@@ -383,6 +383,7 @@ export const croatian = {
   },
   footer: {
     rights: 'Sva prava pridržana.',
+    quickLinks: 'Brze veze',
     contactUs: 'Kontaktirajte nas',
     followUs: 'Pratite nas',
     copyright: '© {{year}} Farma Maroša. Sva prava pridržana.'

@@ -70,7 +70,7 @@ export const slovenian = {
       orders: 'Upravljanje naročil',
       products: 'Upravljanje izdelkov',
       settings: 'Skrbniške nastavitve',
-      bannerDiscounts: 'Popusti za pasice',
+      bannerDiscounts: 'Popustne pasice',
       translations: 'Prevodi'
     },
     orderManagement: {
@@ -177,6 +177,17 @@ export const slovenian = {
       deleteSuccess: 'Popust uspešno izbrisan',
       saveSuccess: 'Popust uspešno shranjen',
       updateSuccess: 'Popust uspešno posodobljen (simulirano)',
+      createSuccess: 'Popust uspešno ustvarjen (simulirano)',
+      fetchError: 'Napaka pri nalaganju popustov',
+      saveError: 'Napaka pri shranjevanju popusta',
+      deleteError: 'Napaka pri brisanju popusta',
+      statusUpdateSuccess: 'Status popusta uspešno posodobljen (simulirano)',
+      statusUpdateError: 'Napaka pri posodabljanju statusa popusta',
+      isActive: 'Aktiven',
+      bannerSettings: 'Nastavitve pasice',
+      category: 'Kategorija (neobvezno)',
+      title: 'Popustne kode',
+      addNew: 'Dodaj nov popust',
       error: 'Napaka pri upravljanju popusta'
     },
     products: {
@@ -519,6 +530,7 @@ export const slovenian = {
   },
   footer: {
     rights: 'Vse pravice pridržane.',
+    quickLinks: 'Hitre povezave',
     contactUs: 'Kontaktirajte nas',
     followUs: 'Sledite nam',
     copyright: '© {{year}} Kmetija Maroša. Vse pravice pridržane.'

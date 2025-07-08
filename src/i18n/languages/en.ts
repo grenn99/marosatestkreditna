@@ -413,6 +413,7 @@ export const english = {
   },
   footer: {
     rights: 'All rights reserved.',
+    quickLinks: 'Quick Links',
     contactUs: 'Contact Us',
     followUs: 'Follow Us',
     copyright: '© {{year}} Kmetija Maroša. All rights reserved.'
