@@ -13,6 +13,9 @@ interface CartContextProps {
   addGiftToCart: (giftItem: GiftItem) => void;
   removeGiftFromCart: (giftId: string) => void;
   clearCart: () => void;
+  // Simple notification state
+  showNotification: boolean;
+  hideNotification: () => void;
 }
 
 // Create the context
@@ -23,6 +26,9 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [cart, setCart] = useState<CartItem[]>([]);
   const [gifts, setGifts] = useState<GiftItem[]>([]);
   const [isInitialized, setIsInitialized] = useState(false);
+
+  // Simple notification state
+  const [showNotification, setShowNotification] = useState(false);
 
   // Load cart from localStorage on mount
   useEffect(() => {
@@ -162,6 +168,9 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
       }
     });
 
+    // Simple notification trigger
+    setShowNotification(true);
+
     return { success: true };
   };
 
@@ -259,6 +268,11 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     console.log("Cart cleared.");
   };
 
+  // Function to hide notification
+  const hideNotification = () => {
+    setShowNotification(false);
+  };
+
   // Context value provided to consumers
   const value: CartContextProps = {
     cart,
@@ -269,6 +283,8 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     addGiftToCart,
     removeGiftFromCart,
     clearCart,
+    showNotification,
+    hideNotification,
   };
 
   return (

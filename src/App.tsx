@@ -56,6 +56,9 @@ import { PopupDebugPage } from './pages/PopupDebugPage';
 import TranslationStatus from './components/dev/TranslationStatus';
 import TranslationDebug from './components/dev/TranslationDebug';
 import TranslationManager from './components/admin/TranslationManager';
+import { TestToastNotification } from './pages/TestToastNotification';
+import { TestStickyNotification } from './pages/TestStickyNotification';
+import { CartNotificationWrapper } from './components/CartNotificationWrapper';
 
 function HomePage() {
   return (
@@ -209,6 +212,8 @@ function App() {
               <Route path="/test-email" element={<EmailTestPage />} />
               <Route path="/test-direct-email" element={<DirectEmailTestPage />} />
               <Route path="/popup-debug" element={<PopupDebugPage />} />
+              <Route path="/test-toast" element={<TestToastNotification />} />
+              <Route path="/test-sticky" element={<TestStickyNotification />} />
             </Routes>
             <Footer />
             {/* Error Monitor - only visible in development mode */}
@@ -251,6 +256,9 @@ function App() {
               </div>
             )}
           </StripeProvider>
+
+          {/* Cart Notification - Responsive (Toast on desktop, Sticky on mobile) */}
+          <CartNotificationWrapper />
         </CartProvider>
       </ToastProvider>
     </div>

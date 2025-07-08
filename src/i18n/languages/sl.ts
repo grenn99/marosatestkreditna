@@ -307,6 +307,12 @@ export const slovenian = {
     giftProduct: 'izdelek',
     giftProducts: 'izdelkov',
     removeGiftAriaLabel: 'Odstrani {{giftName}} iz košarice',
+    // Notification translations
+    itemAdded: 'Dodano v košarico',
+    addedToCart: 'dodano v košarico',
+    viewCart: 'Poglej košarico',
+    item: 'izdelek',
+    items: 'izdelkov'
   },
   checkout: {
     title: 'Blagajna',
