@@ -19,6 +19,11 @@ export function LoginPage() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [fullName, setFullName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [address, setAddress] = useState('');
+  const [city, setCity] = useState('');
+  const [postalCode, setPostalCode] = useState('');
+  const [country, setCountry] = useState('Slovenija');
   const [isLogin, setIsLogin] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -225,11 +230,12 @@ export function LoginPage() {
           options: {
             data: {
               full_name: fullName,
+              telephone_nr: phone,
               default_shipping_address: JSON.stringify({
-                address: '',
-                city: '',
-                postalCode: '',
-                country: 'Slovenija'
+                address: address,
+                city: city,
+                postalCode: postalCode,
+                country: country
               })
             }
           }
@@ -261,6 +267,11 @@ export function LoginPage() {
           // Clear registration fields
           setConfirmPassword('');
           setFullName('');
+          setPhone('');
+          setAddress('');
+          setCity('');
+          setPostalCode('');
+          setCountry('Slovenija');
           // Show success message
           alert(t('auth.signupSuccess', 'Registracija uspešna! Preverite svoj e-poštni naslov za potrditev računa.'));
         }
@@ -477,6 +488,87 @@ export function LoginPage() {
                   required
                 />
                 {errors.fullName && <p className="mt-1 text-sm text-red-600">{errors.fullName}</p>}
+              </div>
+
+              <div className="mb-4">
+                <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
+                  {t('profile.phoneNumber', 'Telefonska številka')}
+                </label>
+                <input
+                  type="tel"
+                  id="phone"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                  disabled={loading}
+                  placeholder="+386 XX XXX XXX"
+                />
+              </div>
+
+              <div className="mb-4">
+                <label htmlFor="address" className="block text-sm font-medium text-gray-700 mb-1">
+                  {t('profile.address', 'Naslov')}
+                </label>
+                <input
+                  type="text"
+                  id="address"
+                  value={address}
+                  onChange={(e) => setAddress(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                  disabled={loading}
+                  placeholder="Slovenska cesta 1"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4 mb-4">
+                <div>
+                  <label htmlFor="city" className="block text-sm font-medium text-gray-700 mb-1">
+                    {t('profile.city', 'Mesto')}
+                  </label>
+                  <input
+                    type="text"
+                    id="city"
+                    value={city}
+                    onChange={(e) => setCity(e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                    disabled={loading}
+                    placeholder="Ljubljana"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="postalCode" className="block text-sm font-medium text-gray-700 mb-1">
+                    {t('profile.postalCode', 'Poštna številka')}
+                  </label>
+                  <input
+                    type="text"
+                    id="postalCode"
+                    value={postalCode}
+                    onChange={(e) => setPostalCode(e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                    disabled={loading}
+                    placeholder="1000"
+                  />
+                </div>
+              </div>
+
+              <div className="mb-4">
+                <label htmlFor="country" className="block text-sm font-medium text-gray-700 mb-1">
+                  {t('profile.country', 'Država')}
+                </label>
+                <select
+                  id="country"
+                  value={country}
+                  onChange={(e) => setCountry(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                  disabled={loading}
+                >
+                  <option value="Slovenija">{t('countries.slovenia', 'Slovenija')}</option>
+                  <option value="Hrvaška">{t('countries.croatia', 'Hrvaška')}</option>
+                  <option value="Avstrija">{t('countries.austria', 'Avstrija')}</option>
+                  <option value="Italija">{t('countries.italy', 'Italija')}</option>
+                  <option value="Madžarska">{t('countries.hungary', 'Madžarska')}</option>
+                  <option value="Nemčija">{t('countries.germany', 'Nemčija')}</option>
+                </select>
               </div>
             </>
           )}

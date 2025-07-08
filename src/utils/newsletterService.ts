@@ -361,7 +361,7 @@ export async function confirmSubscription(token: string): Promise<{
 
     return {
       success: true,
-      message: 'Your subscription has been confirmed',
+      message: '', // Let frontend handle translation
       subscriber: {
         email: subscriber.email,
         firstName: subscriber.name,

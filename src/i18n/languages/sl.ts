@@ -70,7 +70,7 @@ export const slovenian = {
       orders: 'Upravljanje naročil',
       products: 'Upravljanje izdelkov',
       settings: 'Skrbniške nastavitve',
-      bannerDiscounts: 'Popustne pasice',
+      bannerDiscounts: 'Upravljanje popustov',
       translations: 'Prevodi'
     },
     orderManagement: {
