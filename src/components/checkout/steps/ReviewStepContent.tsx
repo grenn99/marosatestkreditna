@@ -35,15 +35,18 @@ export const ReviewStepContent: React.FC<ReviewStepContentProps> = ({
   // Calculate total with discount
   const calculateTotal = () => {
     let total = subtotal + shippingCost;
-    
+
     if (appliedDiscount) {
-      if (appliedDiscount.type === 'percentage') {
-        total -= (subtotal * (appliedDiscount.value / 100));
-      } else if (appliedDiscount.type === 'fixed') {
-        total -= appliedDiscount.value;
+      // Use the calculated discount from the validation
+      if (appliedDiscount.calculatedDiscount) {
+        total -= appliedDiscount.calculatedDiscount;
+      } else if (appliedDiscount.discount_type === 'percentage') {
+        total -= (subtotal * (appliedDiscount.discount_value / 100));
+      } else if (appliedDiscount.discount_type === 'fixed') {
+        total -= appliedDiscount.discount_value;
       }
     }
-    
+
     return Math.max(0, total);
   };
 
@@ -151,11 +154,13 @@ export const ReviewStepContent: React.FC<ReviewStepContentProps> = ({
           </div>
           {appliedDiscount && (
             <div className="flex justify-between py-1 text-green-600">
-              <span>{t('checkout.discount', 'Popust')}</span>
+              <span>{t('checkout.discount', 'Popust')} ({appliedDiscount.code})</span>
               <span>
-                {appliedDiscount.type === 'percentage' 
-                  ? `-${appliedDiscount.value}%` 
-                  : `-${new Intl.NumberFormat(i18n.language, { style: 'currency', currency: 'EUR' }).format(appliedDiscount.value)}`}
+                {appliedDiscount.calculatedDiscount
+                  ? `-${new Intl.NumberFormat(i18n.language, { style: 'currency', currency: 'EUR' }).format(appliedDiscount.calculatedDiscount)}`
+                  : appliedDiscount.discount_type === 'percentage'
+                    ? `-${appliedDiscount.discount_value}%`
+                    : `-${new Intl.NumberFormat(i18n.language, { style: 'currency', currency: 'EUR' }).format(appliedDiscount.discount_value)}`}
               </span>
             </div>
           )}

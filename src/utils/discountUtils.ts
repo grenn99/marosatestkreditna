@@ -52,6 +52,7 @@ export async function validateDiscountCode(code: string, orderTotal: number): Pr
   message?: string;
   discountAmount?: number;
   discountPercent?: number;
+  discountData?: any;
 }> {
   try {
     // Fetch the discount code from the database
@@ -60,9 +61,9 @@ export async function validateDiscountCode(code: string, orderTotal: number): Pr
       .select('*')
       .eq('code', code.trim().toUpperCase())
       .eq('is_active', true)
-      .single();
+      .maybeSingle(); // Use maybeSingle instead of single to avoid errors when no match
 
-    if (error) {
+    if (error || !data) {
       return { valid: false, message: 'Invalid discount code' };
     }
 
@@ -99,7 +100,8 @@ export async function validateDiscountCode(code: string, orderTotal: number): Pr
     return {
       valid: true,
       discountAmount,
-      discountPercent: data.discount_type === 'percentage' ? data.discount_value : 0
+      discountPercent: data.discount_type === 'percentage' ? data.discount_value : 0,
+      discountData: data
     };
   } catch (err) {
     console.error('Error validating discount code:', err);

@@ -21,9 +21,10 @@ interface DiscountCode {
 interface DiscountCodeInputProps {
   orderTotal: number;
   onApply: (discountCode: DiscountCode | null) => void;
+  onDiscountChange?: (discountAmount: number) => void;
 }
 
-export function DiscountCodeInput({ orderTotal, onApply }: DiscountCodeInputProps) {
+export function DiscountCodeInput({ orderTotal, onApply, onDiscountChange }: DiscountCodeInputProps) {
   const { t, i18n } = useTranslation();
   const [code, setCode] = useState('');
   const [loading, setLoading] = useState(false);
@@ -61,23 +62,19 @@ export function DiscountCodeInput({ orderTotal, onApply }: DiscountCodeInputProp
         return;
       }
 
-      // Create discount data object for the component
+      // Use the discount data from the validation result
       const discountData: DiscountCode = {
-        id: 0, // This will be set by the validation function if needed
-        code: code.trim().toUpperCase(),
-        discount_type: result.discountPercent ? 'percentage' : 'fixed',
-        discount_value: result.discountPercent || result.discountAmount || 0,
-        min_order_amount: null, // This info is not returned by validateDiscountCode
-        max_uses: null,
-        current_uses: 0,
-        valid_from: new Date().toISOString(),
-        valid_until: null,
-        is_active: true,
+        ...result.discountData,
         calculatedDiscount: result.discountAmount
       };
 
       setAppliedCode(discountData);
       onApply(discountData);
+
+      // Call onDiscountChange with the calculated discount amount
+      if (onDiscountChange) {
+        onDiscountChange(result.discountAmount);
+      }
     } catch (err) {
       console.error('Error applying discount code:', err);
       setError(t('checkout.discount.error'));
@@ -90,6 +87,11 @@ export function DiscountCodeInput({ orderTotal, onApply }: DiscountCodeInputProp
     setAppliedCode(null);
     setCode('');
     onApply(null);
+
+    // Reset discount amount to 0
+    if (onDiscountChange) {
+      onDiscountChange(0);
+    }
   };
 
   return (

@@ -343,7 +343,8 @@ export const slovenian = {
       information: 'Informacije',
       shipping: 'Dostava',
       payment: 'Plačilo',
-      review: 'Pregled'
+      review: 'Pregled',
+      confirmation: 'Potrditev'
     },
     creditCardDetails: 'Podatki o kreditni kartici',
     paymentAuthorized: 'Plačilo uspešno avtorizirano',

@@ -672,6 +672,18 @@ export const OrderSuccessPage: React.FC = () => {
                     </td>
                   </tr>
 
+                  {/* Discount row - show if discount was applied */}
+                  {order.discount_amount && order.discount_amount > 0 && (
+                    <tr className="bg-green-50">
+                      <td colSpan={3} className="px-4 py-2 text-right text-sm font-medium text-green-600">
+                        {t('checkout.discount', 'Popust')}:
+                      </td>
+                      <td className="px-4 py-2 text-right text-sm text-green-600 font-medium">
+                        -€{order.discount_amount.toFixed(2)}
+                      </td>
+                    </tr>
+                  )}
+
                   {/* Shipping cost row - extract from notes if available */}
                   {(() => {
                     // Try to extract shipping cost from notes

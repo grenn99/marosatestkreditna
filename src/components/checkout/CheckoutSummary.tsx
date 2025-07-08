@@ -66,6 +66,15 @@ export const CheckoutSummary: React.FC<CheckoutSummaryProps> = ({
   // Calculate total with shipping, discount, gift option, and gift product
   const total = subtotalAfterDiscount + shippingCost + giftOptionCost + giftProductCost;
 
+  // Debug: Log CheckoutSummary values
+  console.log('=== CHECKOUT SUMMARY COMPONENT ===');
+  console.log('Received discountAmount prop:', discountAmount);
+  console.log('Received discountCode prop:', discountCode);
+  console.log('Subtotal:', subtotal);
+  console.log('Subtotal after discount:', subtotalAfterDiscount);
+  console.log('Final total:', total);
+  console.log('===================================');
+
   if (loading) {
     return (
       <div className="bg-white p-4 rounded-lg shadow-md animate-pulse">
@@ -127,12 +136,15 @@ export const CheckoutSummary: React.FC<CheckoutSummaryProps> = ({
       </div>
 
       {/* Discount */}
-      {discountAmount > 0 && discountCode && (
-        <div className="flex justify-between py-2 text-green-600">
-          <span>{t('checkout.discount', 'Popust')} ({discountCode})</span>
-          <span className="font-medium">-€{discountAmount.toFixed(2)}</span>
-        </div>
-      )}
+      {(() => {
+        console.log('Discount condition check:', { discountAmount, discountCode, condition: discountAmount > 0 && discountCode });
+        return discountAmount > 0 && discountCode ? (
+          <div className="flex justify-between py-2 text-green-600">
+            <span>{t('checkout.discount', 'Popust')} ({discountCode})</span>
+            <span className="font-medium">-€{discountAmount.toFixed(2)}</span>
+          </div>
+        ) : null;
+      })()}
 
       {/* Gift Option */}
       {giftOptionCost > 0 && giftOptionName && (

@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { initSessionTimeout, cleanupSessionTimeout } from './utils/sessionTimeout';
+import './utils/testDiscountAccess'; // Auto-run discount access test
 import { useFirstTimeVisitor } from './hooks/useFirstTimeVisitor';
 import { useTimeLimitedOffer } from './hooks/useTimeLimitedOffer';
 import { Header } from './components/Header';

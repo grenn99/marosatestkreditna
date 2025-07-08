@@ -536,12 +536,18 @@ export const CheckoutPage: React.FC = () => {
   const calculateDiscountAmount = () => {
     if (!appliedDiscount) return 0;
 
-    if (appliedDiscount.discount_percent > 0) {
-      return (subtotal * appliedDiscount.discount_percent) / 100;
+    // Use the calculated discount from the validation
+    if (appliedDiscount.calculatedDiscount) {
+      return appliedDiscount.calculatedDiscount;
     }
 
-    if (appliedDiscount.discount_amount) {
-      return appliedDiscount.discount_amount;
+    // Fallback calculation using new schema fields
+    if (appliedDiscount.discount_type === 'percentage') {
+      return (subtotal * appliedDiscount.discount_value) / 100;
+    }
+
+    if (appliedDiscount.discount_type === 'fixed') {
+      return appliedDiscount.discount_value;
     }
 
     return 0;
@@ -549,6 +555,14 @@ export const CheckoutPage: React.FC = () => {
 
   const discountAmount = calculateDiscountAmount();
   const subtotalAfterDiscount = Math.max(0, subtotal - discountAmount);
+
+  // Debug: Log discount state
+  console.log('=== CHECKOUT SUMMARY DEBUG ===');
+  console.log('Applied discount state:', appliedDiscount);
+  console.log('Calculated discount amount:', discountAmount);
+  console.log('Subtotal:', subtotal);
+  console.log('Subtotal after discount:', subtotalAfterDiscount);
+  console.log('===============================');
 
   // Calculate gift option cost (packaging)
   const giftOptionCost = giftOptionId ? 3.50 : 0; // Default cost, will be replaced with actual cost from DB
@@ -1181,6 +1195,16 @@ export const CheckoutPage: React.FC = () => {
         // Store the encrypted data in session storage for potential future use
         sessionStorage.setItem('lastGiftRecipientAddress', encryptedGiftAddressJson);
       }
+
+      // Debug: Log discount calculation values
+      console.log('=== DISCOUNT DEBUG ===');
+      console.log('Applied discount:', appliedDiscount);
+      console.log('Subtotal:', subtotal);
+      console.log('Discount amount:', discountAmount);
+      console.log('Subtotal after discount:', subtotalAfterDiscount);
+      console.log('Shipping cost:', shippingCost);
+      console.log('Final total:', total);
+      console.log('======================');
 
       // Add all columns that exist in the database
       const orderData = {
