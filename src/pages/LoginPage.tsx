@@ -127,20 +127,9 @@ export function LoginPage() {
   };
 
   const handleEmailBlur = async () => {
-    if (!email || !/\S+@\S+\.\S+/.test(email)) return;
-
-    try {
-      setCheckingEmail(true);
-      const exists = await checkEmailExists(email);
-
-      // Automatically switch mode based on email existence
-      // For now, we'll just keep the current mode since our checkEmailExists is simplified
-      setIsLogin(true);
-    } catch (err) {
-      console.error('Error checking email:', err);
-    } finally {
-      setCheckingEmail(false);
-    }
+    // Don't check email on blur during registration to avoid confusing UX
+    // Users should be able to register even if email exists (they might have forgotten)
+    return;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
