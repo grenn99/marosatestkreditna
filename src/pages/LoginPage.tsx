@@ -212,8 +212,10 @@ export function LoginPage() {
             email: email
           });
 
-          // Redirect to home page after successful login
-          navigate(`/?lang=${i18n.language}`);
+          // Redirect to the intended page or home page after successful login
+          const params = new URLSearchParams(location.search);
+          const redirectTo = params.get('redirectTo') || '/';
+          navigate(redirectTo + (redirectTo.includes('?') ? '&' : '?') + `lang=${i18n.language}`);
         }
       } else {
         // Register

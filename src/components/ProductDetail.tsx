@@ -702,8 +702,8 @@ export function ProductDetail() {
             </section>
           )}
 
-          {/* Product Bundles Section */}
-          <ProductBundles productId={product.id} category={product.category} />
+          {/* Product Bundles Section - TEMPORARILY DISABLED */}
+          {/* <ProductBundles productId={product.id} category={product.category} /> */}
 
           {/* Recipes Section */}
           <section className="mb-12">

@@ -154,7 +154,7 @@ export const ReviewStepContent: React.FC<ReviewStepContentProps> = ({
           </div>
           {appliedDiscount && (
             <div className="flex justify-between py-1 text-green-600">
-              <span>{t('checkout.discount', 'Popust')} ({appliedDiscount.code})</span>
+              <span>{t('checkout.discountLabel', 'Popust')} ({appliedDiscount.code})</span>
               <span>
                 {appliedDiscount.calculatedDiscount
                   ? `-${new Intl.NumberFormat(i18n.language, { style: 'currency', currency: 'EUR' }).format(appliedDiscount.calculatedDiscount)}`

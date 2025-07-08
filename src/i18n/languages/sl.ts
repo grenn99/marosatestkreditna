@@ -318,7 +318,7 @@ export const slovenian = {
     title: 'Blagajna',
     loading: 'Nalaganje blagajne...',
     subtotal: 'Vmesna vsota',
-    discount: 'Popust',
+    discountLabel: 'Popust',
     shipping: 'Poštnina',
     total: 'Skupaj',
     freeShipping: 'Brezplačno',

@@ -140,7 +140,7 @@ export const CheckoutSummary: React.FC<CheckoutSummaryProps> = ({
         console.log('Discount condition check:', { discountAmount, discountCode, condition: discountAmount > 0 && discountCode });
         return discountAmount > 0 && discountCode ? (
           <div className="flex justify-between py-2 text-green-600">
-            <span>{t('checkout.discount', 'Popust')} ({discountCode})</span>
+            <span>{t('checkout.discountLabel', 'Popust')} ({discountCode})</span>
             <span className="font-medium">-€{discountAmount.toFixed(2)}</span>
           </div>
         ) : null;
