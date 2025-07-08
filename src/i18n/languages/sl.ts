@@ -410,6 +410,21 @@ export const slovenian = {
       postalCodePlaceholder: '1000',
       notesPlaceholder: 'Dodatne informacije za dostavo...'
     },
+    discount: {
+      title: 'Koda za popust',
+      placeholder: 'Vnesite kodo za popust',
+      apply: 'Uporabi',
+      applying: 'Preverjanje...',
+      emptyCode: 'Prosimo, vnesite kodo za popust',
+      invalidCode: 'Neveljavna ali potekla koda za popust',
+      expiredCode: 'Ta koda za popust je potekla',
+      maxUsesReached: 'Ta koda za popust je dosegla največje število uporab',
+      minOrderAmount: 'Ta popust zahteva minimalno naročilo v vrednosti {{amount}} €',
+      error: 'Pri uporabi kode za popust je prišlo do napake',
+      percentOff: '{{percent}}% popusta',
+      amountOff: '{{amount}} € popusta',
+      remove: 'Odstrani kodo za popust'
+    }
   },
   promotions: {
     freeShipping: 'Brezplačna dostava za naročila nad {{amount}}€',

@@ -1,15 +1,21 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Ticket, Check, X, AlertCircle } from 'lucide-react';
-import { supabase } from '../lib/supabaseClient';
+import { validateDiscountCode } from '../utils/discountUtils';
 import { DiscountCodeDisplay } from './DiscountCodeDisplay';
 
 interface DiscountCode {
   id: number;
   code: string;
-  discount_percent: number;
-  discount_amount: number | null;
+  discount_type: 'percentage' | 'fixed';
+  discount_value: number;
   min_order_amount: number | null;
+  max_uses: number | null;
+  current_uses: number;
+  valid_from: string;
+  valid_until: string | null;
+  is_active: boolean;
+  calculatedDiscount?: number;
 }
 
 interface DiscountCodeInputProps {
@@ -34,47 +40,44 @@ export function DiscountCodeInput({ orderTotal, onApply }: DiscountCodeInputProp
       setLoading(true);
       setError(null);
 
-      const { data, error: fetchError } = await supabase
-        .from('discount_codes')
-        .select('*')
-        .eq('code', code.trim().toUpperCase())
-        .eq('is_active', true)
-        .single();
+      // Use the validation function from discountUtils
+      const result = await validateDiscountCode(code.trim().toUpperCase(), orderTotal);
 
-      if (fetchError) {
-        setError(t('checkout.discount.invalidCode'));
+      if (!result.valid) {
+        // Map the generic error messages to translated ones
+        if (result.message?.includes('Invalid')) {
+          setError(t('checkout.discount.invalidCode'));
+        } else if (result.message?.includes('Expired')) {
+          setError(t('checkout.discount.expiredCode'));
+        } else if (result.message?.includes('Maximum uses')) {
+          setError(t('checkout.discount.maxUsesReached'));
+        } else if (result.message?.includes('Minimum order')) {
+          setError(t('checkout.discount.minOrderAmount', {
+            amount: result.message.match(/[\d.]+/)?.[0] || '0'
+          }));
+        } else {
+          setError(t('checkout.discount.error'));
+        }
         return;
       }
 
-      // Check if code is valid
-      const now = new Date();
-      const validFrom = new Date(data.valid_from);
-      const validTo = data.valid_to ? new Date(data.valid_to) : null;
+      // Create discount data object for the component
+      const discountData: DiscountCode = {
+        id: 0, // This will be set by the validation function if needed
+        code: code.trim().toUpperCase(),
+        discount_type: result.discountPercent ? 'percentage' : 'fixed',
+        discount_value: result.discountPercent || result.discountAmount || 0,
+        min_order_amount: null, // This info is not returned by validateDiscountCode
+        max_uses: null,
+        current_uses: 0,
+        valid_from: new Date().toISOString(),
+        valid_until: null,
+        is_active: true,
+        calculatedDiscount: result.discountAmount
+      };
 
-      if (validFrom > now || (validTo && validTo < now)) {
-        setError(t('checkout.discount.expiredCode'));
-        return;
-      }
-
-      // Check if code has reached max uses
-      if (data.max_uses && data.current_uses >= data.max_uses) {
-        setError(t('checkout.discount.maxUsesReached'));
-        return;
-      }
-
-      // Check minimum order amount
-      if (data.min_order_amount && orderTotal < data.min_order_amount) {
-        setError(
-          t('checkout.discount.minOrderAmount', {
-            amount: data.min_order_amount.toFixed(2),
-          })
-        );
-        return;
-      }
-
-      // Apply the discount
-      setAppliedCode(data);
-      onApply(data);
+      setAppliedCode(discountData);
+      onApply(discountData);
     } catch (err) {
       console.error('Error applying discount code:', err);
       setError(t('checkout.discount.error'));
@@ -106,13 +109,11 @@ export function DiscountCodeInput({ orderTotal, onApply }: DiscountCodeInputProp
               <div>
                 <p className="text-green-700 font-medium">{appliedCode.code}</p>
                 <p className="text-green-600 text-sm">
-                  {appliedCode.discount_percent > 0
-                    ? t('checkout.discount.percentOff', { percent: appliedCode.discount_percent })
-                    : appliedCode.discount_amount
-                    ? t('checkout.discount.amountOff', {
-                        amount: appliedCode.discount_amount.toFixed(2),
-                      })
-                    : ''}
+                  {appliedCode.discount_type === 'percentage'
+                    ? t('checkout.discount.percentOff', { percent: appliedCode.discount_value })
+                    : t('checkout.discount.amountOff', {
+                        amount: appliedCode.discount_value.toFixed(2),
+                      })}
                 </p>
               </div>
             </div>

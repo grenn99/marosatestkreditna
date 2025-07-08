@@ -16,13 +16,13 @@ export async function createWelcomeDiscount(email: string): Promise<string | nul
       .insert([
         {
           code: discountCode,
-          discount_percent: 10,
-          discount_amount: null,
+          discount_type: 'percentage',
+          discount_value: 10,
           min_order_amount: null,
           max_uses: 1,
           current_uses: 0,
           valid_from: new Date().toISOString(),
-          valid_to: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(), // Valid for 30 days
+          valid_until: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(), // Valid for 30 days
           is_active: true,
           description: 'Welcome discount for new subscribers',
           user_email: email
@@ -69,9 +69,9 @@ export async function validateDiscountCode(code: string, orderTotal: number): Pr
     // Check if code is valid
     const now = new Date();
     const validFrom = new Date(data.valid_from);
-    const validTo = data.valid_to ? new Date(data.valid_to) : null;
+    const validUntil = data.valid_until ? new Date(data.valid_until) : null;
 
-    if (validFrom > now || (validTo && validTo < now)) {
+    if (validFrom > now || (validUntil && validUntil < now)) {
       return { valid: false, message: 'Expired discount code' };
     }
 
@@ -90,16 +90,16 @@ export async function validateDiscountCode(code: string, orderTotal: number): Pr
 
     // Calculate discount amount
     let discountAmount = 0;
-    if (data.discount_percent) {
-      discountAmount = (orderTotal * data.discount_percent) / 100;
-    } else if (data.discount_amount) {
-      discountAmount = data.discount_amount;
+    if (data.discount_type === 'percentage') {
+      discountAmount = (orderTotal * data.discount_value) / 100;
+    } else if (data.discount_type === 'fixed') {
+      discountAmount = data.discount_value;
     }
 
-    return { 
-      valid: true, 
-      discountAmount, 
-      discountPercent: data.discount_percent 
+    return {
+      valid: true,
+      discountAmount,
+      discountPercent: data.discount_type === 'percentage' ? data.discount_value : 0
     };
   } catch (err) {
     console.error('Error validating discount code:', err);
