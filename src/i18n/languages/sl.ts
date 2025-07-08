@@ -571,7 +571,13 @@ export const slovenian = {
     passwordVisibilityWarning: 'Geslo je trenutno vidno. Prepričajte se, da vas nihče ne opazuje.',
     logout: 'Odjava',
     showPassword: 'Prikaži geslo',
-    hidePassword: 'Skrij geslo'
+    hidePassword: 'Skrij geslo',
+    emailConfirmation: 'Potrditev e-pošte',
+    confirmingEmail: 'Potrjujemo vašo e-pošto...',
+    emailConfirmed: 'E-pošta potrjena!',
+    confirmationError: 'Napaka pri potrditvi',
+    redirectingToLogin: 'Preusmerjamo na prijavno stran...',
+    goToLogin: 'Pojdi na prijavo'
   },
   password: {
     veryWeak: 'Zelo šibko geslo',

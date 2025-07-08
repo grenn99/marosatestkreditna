@@ -249,10 +249,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const signUp = async (credentials: SignUpWithPasswordCredentials): Promise<SignUpResponse> => {
     setLoading(true);
     try {
-      // First create the auth user without any metadata
+      // First create the auth user with email confirmation
       const { data, error } = await supabase.auth.signUp({
         email: (credentials as { email: string }).email,
-        password: (credentials as { password: string }).password
+        password: (credentials as { password: string }).password,
+        options: {
+          emailRedirectTo: `${window.location.origin}/auth/callback`
+        }
       });
 
       if (error) {

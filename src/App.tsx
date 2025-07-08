@@ -33,6 +33,7 @@ import { AdminProductsPage } from './pages/AdminProductsPage';
 import { AdminSettingsPage } from './pages/AdminSettingsPage';
 import { AdminDebugPage } from './pages/AdminDebugPage';
 import { LoginPage } from './pages/LoginPage';
+import { AuthCallbackPage } from './pages/AuthCallbackPage';
 import { BannerDiscountManager } from './pages/admin/BannerDiscountManager';
 import { OrderConfirmationPage } from './pages/OrderConfirmationPage';
 import { OrderSuccessPage } from './pages/OrderSuccessPage';
@@ -205,6 +206,7 @@ function App() {
                 <AdminDebugPage />
               } />
               <Route path="/login" element={<LoginPage />} />
+              <Route path="/auth/callback" element={<AuthCallbackPage />} />
               <Route path="/image-test" element={<ImageTest />} />
               <Route path="/confirm-subscription" element={<ConfirmSubscriptionPage />} />
               <Route path="/unsubscribe" element={<UnsubscribePage />} />

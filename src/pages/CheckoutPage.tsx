@@ -5,6 +5,7 @@ import { useAuth } from '../context/AuthContext';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { isValidPhoneNumber, isValidPostalCode, isValidPassword } from '../utils/validation';
+import { getPhonePlaceholder as getPhonePlaceholderUtil, formatPhoneNumber } from '../utils/formatters';
 import PasswordStrengthMeter from '../components/PasswordStrengthMeter';
 import { encryptObject } from '../utils/encryption';
 import { Product, PackageOption, GiftItem } from '../types';
@@ -75,17 +76,7 @@ function generateUUID() {
 
 // Helper function for dynamic phone placeholder
 const getPhonePlaceholder = (country: string, translateFunc: (key: string, fallback: string) => string): string => {
-    switch (country) {
-      case 'Slovenija':
-        return '040 443 232';
-      case 'Hrvaška':
-        return '+385 9X XXX XXXX'; // Example Croatia format
-      case 'Avstrija':
-        return '+43 6XX XXX XXXX'; // Example Austria format
-      default:
-        // Use t function passed in for translation
-        return translateFunc('checkout.form.phonePlaceholderGeneric', 'Phone Number');
-    }
+    return getPhonePlaceholderUtil(country);
 };
 
 export const CheckoutPage: React.FC = () => {
@@ -464,7 +455,13 @@ export const CheckoutPage: React.FC = () => {
       return;
     }
 
-    setFormData(prev => ({ ...prev, [name]: value }));
+    // Format phone number based on country
+    if (name === 'phone') {
+      const formatted = formatPhoneNumber(value, formData.country);
+      setFormData(prev => ({ ...prev, [name]: formatted }));
+    } else {
+      setFormData(prev => ({ ...prev, [name]: value }));
+    }
 
     // Show postal code suggestions
     if (name === 'postalCode') {

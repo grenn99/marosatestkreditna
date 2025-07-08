@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../context/AuthContext';
 import { supabase } from '../lib/supabaseClient';
+import { getPhonePlaceholder, formatPhoneNumber } from '../utils/formatters';
 
 interface Profile {
   id: string;
@@ -124,14 +125,15 @@ export function ProfilePage() {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    
+
     // Handle profile fields
     if (name === 'full_name' || name === 'email') {
       setProfile(prev => prev ? { ...prev, [name]: value } : null);
-    } 
-    // Handle telephone_nr field
+    }
+    // Handle telephone_nr field with formatting
     else if (name === 'phone') {
-      setProfile(prev => prev ? { ...prev, telephone_nr: value } : null);
+      const formatted = formatPhoneNumber(value, shippingAddress.country);
+      setProfile(prev => prev ? { ...prev, telephone_nr: formatted } : null);
     }
     // Handle shipping address fields
     else if (['address', 'city', 'postal_code', 'country'].includes(name)) {
@@ -261,6 +263,7 @@ export function ProfilePage() {
                 onChange={handleChange}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md"
                 disabled={saving}
+                placeholder={getPhonePlaceholder(shippingAddress.country)}
               />
             </div>
             

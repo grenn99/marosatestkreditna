@@ -8,6 +8,7 @@ import { generateCsrfToken, validateCsrfToken } from '../utils/csrfProtection';
 import { checkRateLimit, incrementRateLimit, formatTimeRemaining } from '../utils/rateLimiting';
 import { handleAuthError, ErrorCategory, ErrorSeverity } from '../utils/errorHandling';
 import { logSecurityEvent, SecurityEventType } from '../utils/securityMonitoring';
+import { getPhonePlaceholder, formatPhoneNumber } from '../utils/formatters';
 
 export function LoginPage() {
   const { t, i18n } = useTranslation();
@@ -487,10 +488,13 @@ export function LoginPage() {
                   type="tel"
                   id="phone"
                   value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
+                  onChange={(e) => {
+                    const formatted = formatPhoneNumber(e.target.value, country);
+                    setPhone(formatted);
+                  }}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md"
                   disabled={loading}
-                  placeholder="+386 XX XXX XXX"
+                  placeholder={getPhonePlaceholder(country)}
                 />
               </div>
 
