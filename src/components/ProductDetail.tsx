@@ -544,7 +544,7 @@ export function ProductDetail() {
                     src={product.image_url || ''}
                     alt={translatedName}
                     fallbackSrc="/images/placeholder-product.svg"
-                    className="w-full rounded-lg shadow-lg cursor-pointer hover:opacity-90 transition-opacity object-cover aspect-square"
+                    className="w-full rounded-lg shadow-lg cursor-pointer hover:opacity-90 transition-opacity object-contain aspect-square bg-white"
                     onClick={() => product.image_url && handleImageView(getImageUrl(product.image_url))}
                     width={500}
                     height={500}
