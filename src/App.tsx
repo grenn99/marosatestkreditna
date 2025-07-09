@@ -156,8 +156,8 @@ function App() {
         <CartProvider>
           <StripeProvider>
             <ScrollToTop />
-            {/* DIRECT BANNER: Always show the simple banner */}
-            <SimpleBanner onDismiss={handleDismiss} />
+            {/* DIRECT BANNER: Show the simple banner only if not dismissed */}
+            {!dismissed && <SimpleBanner onDismiss={handleDismiss} />}
             <Navigation />
             <Routes>
               <Route path="/" element={<HomePage />} />
