@@ -420,7 +420,7 @@ export const english = {
   },
   location: {
     title: 'Where to Find Us',
-    address: 'Melinci 24, 9000 Murska Sobota',
+    address: 'Melinci 80, 9231 Beltinci, Slovenia',
     hoursTitle: 'Opening Hours',
     weekdays: 'Monday - Friday: 8:00 - 18:00',
     saturday: 'Saturday: Upon agreement',

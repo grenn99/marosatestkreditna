@@ -390,7 +390,7 @@ export const croatian = {
   },
   location: {
     title: 'Gdje nas pronaći',
-    address: 'Melinci 24, 9000 Murska Sobota',
+    address: 'Melinci 80, 9231 Beltinci, Slovenia',
     hoursTitle: 'Radno vrijeme',
     weekdays: 'Ponedjeljak - Petak: 8:00 - 18:00',
     saturday: 'Subota: Po dogovoru',

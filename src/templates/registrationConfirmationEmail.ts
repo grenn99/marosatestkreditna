@@ -141,7 +141,7 @@ export function generateRegistrationConfirmationEmailHtml(data: RegistrationConf
     
     <div class="footer">
         <p>© ${new Date().getFullYear()} Kmetija Maroša. All rights reserved.</p>
-        <p>Melinci 24, 9000 Murska Sobota, Slovenia</p>
+        <p>Melinci 80, 9231 Beltinci, Slovenia</p>
     </div>
 </body>
 </html>
