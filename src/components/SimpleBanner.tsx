@@ -10,17 +10,17 @@ export function SimpleBanner({ onDismiss }: SimpleBannerProps) {
   const { t, i18n } = useTranslation();
 
   return (
-    <div className="bg-gradient-to-r from-amber-500 to-brown-600 text-white py-3 relative">
-      <div className="container mx-auto px-4">
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6 text-center">
-          <div className="flex items-center gap-2">
-            <Clock className="w-5 h-5" />
-            <span className="font-bold">
+    <div className="bg-gradient-to-r from-amber-500 to-brown-600 text-white py-2 sm:py-3 relative">
+      <div className="container mx-auto px-2 sm:px-4">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-6 text-center">
+          <div className="flex items-center gap-1 sm:gap-2">
+            <Clock className="w-4 h-4 sm:w-5 sm:h-5" />
+            <span className="font-bold text-sm sm:text-base">
               {t('promotions.limitedTimeOffer', 'Limited time offer')}
             </span>
           </div>
 
-          <div className="font-medium">
+          <div className="font-medium text-xs sm:text-sm md:text-base">
             {t('promotions.fixedDiscountBanner', 'Uporabite kodo {{code}} za €{{amount}} popusta pri nakupu nad €{{minOrder}}!', {
               code: i18n.language === 'sl' ? 'BREZPOSTNINE' : 'FREESHIPPING',
               amount: '3.90',
@@ -28,10 +28,10 @@ export function SimpleBanner({ onDismiss }: SimpleBannerProps) {
             })}
           </div>
 
-          <div className="flex items-center gap-1">
-            <span>{t('discount.endsIn', 'Expires in')}:</span>
+          <div className="hidden sm:flex items-center gap-1">
+            <span className="text-sm">{t('discount.endsIn', 'Expires in')}:</span>
             <div className="flex items-center gap-1">
-              <span className="font-mono">
+              <span className="font-mono text-sm">
                 30 {t('discount.days', 'days')}
               </span>
             </div>
@@ -39,7 +39,7 @@ export function SimpleBanner({ onDismiss }: SimpleBannerProps) {
 
           <a
             href="/"
-            className="bg-white text-brown-700 px-4 py-1 rounded-full text-sm font-medium hover:bg-amber-50 transition-colors"
+            className="bg-white text-brown-700 px-3 py-1 sm:px-4 sm:py-1 rounded-full text-xs sm:text-sm font-medium hover:bg-amber-50 transition-colors"
           >
             {t('promotions.shopNow', 'Shop Now')}
           </a>

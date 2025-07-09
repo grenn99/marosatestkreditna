@@ -83,7 +83,7 @@ export function FirstTimeVisitorDiscount({ onClose }: FirstTimeVisitorDiscountPr
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-      <div className="bg-white rounded-lg shadow-xl max-w-md w-full relative overflow-hidden">
+      <div className="bg-white rounded-lg shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto relative">
         {/* Close button */}
         <button
           onClick={onClose}
@@ -97,36 +97,36 @@ export function FirstTimeVisitorDiscount({ onClose }: FirstTimeVisitorDiscountPr
         <div className="bg-gradient-to-r from-amber-500 to-brown-600 h-8"></div>
 
         {/* Content */}
-        <div className="p-6">
+        <div className="p-4 sm:p-6">
           {success ? (
-            <div className="text-center py-8">
-              <div className="mx-auto bg-green-100 rounded-full p-3 w-16 h-16 flex items-center justify-center mb-4">
-                <Mail className="w-8 h-8 text-green-600" />
+            <div className="text-center py-6 sm:py-8">
+              <div className="mx-auto bg-green-100 rounded-full p-3 w-12 h-12 sm:w-16 sm:h-16 flex items-center justify-center mb-4">
+                <Mail className="w-6 h-6 sm:w-8 sm:h-8 text-green-600" />
               </div>
-              <h3 className="text-2xl font-bold text-brown-800 mb-2">
+              <h3 className="text-xl sm:text-2xl font-bold text-brown-800 mb-2">
                 {t('discount.thankYou', 'Thank You!')}
               </h3>
-              <p className="text-gray-600 mb-6">
+              <p className="text-sm sm:text-base text-gray-600 mb-4 sm:mb-6">
                 {t('newsletter.confirmation.checkEmail', 'Please check your email to confirm your subscription. After confirmation, you will receive a 10% discount code for your first order.')}
               </p>
 
               <button
                 onClick={onClose}
-                className="mt-2 text-brown-600 hover:text-brown-800 font-medium"
+                className="mt-2 text-brown-600 hover:text-brown-800 font-medium text-sm sm:text-base"
               >
                 {t('discount.continueShopping', 'Continue Shopping')}
               </button>
             </div>
           ) : (
             <>
-              <div className="text-center mb-6">
-                <div className="mx-auto bg-amber-100 rounded-full p-3 w-16 h-16 flex items-center justify-center mb-4">
-                  <Gift className="w-8 h-8 text-amber-600" />
+              <div className="text-center mb-4 sm:mb-6">
+                <div className="mx-auto bg-amber-100 rounded-full p-3 w-12 h-12 sm:w-16 sm:h-16 flex items-center justify-center mb-3 sm:mb-4">
+                  <Gift className="w-6 h-6 sm:w-8 sm:h-8 text-amber-600" />
                 </div>
-                <h3 className="text-2xl font-bold text-brown-800 mb-2">
+                <h3 className="text-xl sm:text-2xl font-bold text-brown-800 mb-2">
                   {t('discount.welcomeOffer', 'Welcome to Kmetija Maroša!')}
                 </h3>
-                <p className="text-gray-600">
+                <p className="text-sm sm:text-base text-gray-600">
                   {t('discount.welcomeMessage', 'Get 10% off your first order when you subscribe to our newsletter.')}
                 </p>
               </div>
@@ -168,13 +168,13 @@ export function FirstTimeVisitorDiscount({ onClose }: FirstTimeVisitorDiscountPr
 
                 <button
                   type="submit"
-                  className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-brown-600 hover:bg-brown-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brown-500"
+                  className="w-full flex justify-center py-2 sm:py-3 px-4 border border-transparent rounded-md shadow-sm text-sm sm:text-base font-medium text-white bg-brown-600 hover:bg-brown-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brown-500"
                   disabled={loading}
                 >
                   {loading ? t('newsletter.subscribing', 'Subscribing...') : t('discount.getDiscount', 'Get My 10% Discount')}
                 </button>
 
-                <p className="text-xs text-gray-500 text-center">
+                <p className="text-xs text-gray-500 text-center mt-3">
                   {t('newsletter.privacy', 'By subscribing, you agree to our Privacy Policy. We respect your privacy and will never share your information.')}
                 </p>
               </form>

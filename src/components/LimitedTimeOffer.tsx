@@ -59,17 +59,17 @@ export function LimitedTimeOffer({
   }
 
   return (
-    <div className="bg-gradient-to-r from-amber-500 to-brown-600 text-white py-3 relative">
-      <div className="container mx-auto px-4">
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6 text-center">
-          <div className="flex items-center gap-2">
-            <Clock className="w-5 h-5" />
-            <span className="font-bold">
+    <div className="bg-gradient-to-r from-amber-500 to-brown-600 text-white py-2 sm:py-3 relative">
+      <div className="container mx-auto px-2 sm:px-4">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-6 text-center">
+          <div className="flex items-center gap-1 sm:gap-2">
+            <Clock className="w-4 h-4 sm:w-5 sm:h-5" />
+            <span className="font-bold text-sm sm:text-base">
               {t('promotions.limitedTimeOffer', 'Časovno omejena ponudba')}
             </span>
           </div>
 
-          <div className="font-medium">
+          <div className="font-medium text-xs sm:text-sm md:text-base">
             {/* Generate banner text based on discount type and use translations */}
             {discount.discount_type === 'fixed'
               ? t('promotions.fixedDiscountBanner', 'Uporabite kodo {{code}} za €{{amount}} popusta pri nakupu nad €{{minOrder}}!', {
@@ -93,15 +93,15 @@ export function LimitedTimeOffer({
             }
           </div>
 
-          <div className="flex items-center gap-1">
-            <span>{t('discount.endsIn', 'Poteče čez')}:</span>
+          <div className="hidden sm:flex items-center gap-1">
+            <span className="text-sm">{t('discount.endsIn', 'Poteče čez')}:</span>
             <div className="flex items-center gap-1">
               {timeLeft.days > 0 && (
-                <span className="font-mono">
+                <span className="font-mono text-sm">
                   {timeLeft.days}{t('discount.days', 'dni')}
                 </span>
               )}
-              <span className="font-mono">
+              <span className="font-mono text-sm">
                 {String(timeLeft.hours).padStart(2, '0')}:{String(timeLeft.minutes).padStart(2, '0')}
               </span>
             </div>
@@ -109,7 +109,7 @@ export function LimitedTimeOffer({
 
           <Link
             to={linkTo}
-            className="bg-white text-brown-700 px-4 py-1 rounded-full text-sm font-medium hover:bg-amber-50 transition-colors"
+            className="bg-white text-brown-700 px-3 py-1 sm:px-4 sm:py-1 rounded-full text-xs sm:text-sm font-medium hover:bg-amber-50 transition-colors"
           >
             {t('promotions.shopNow', 'Nakupuj zdaj')}
           </Link>
