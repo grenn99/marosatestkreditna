@@ -118,10 +118,10 @@ export function LimitedTimeOffer({
 
       <button
         onClick={onDismiss}
-        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-white/80 hover:text-white"
+        className="absolute right-2 top-2 text-white/90 hover:text-white hover:bg-white/20 rounded-full p-1 transition-all duration-200"
         aria-label={t('common.close', 'Close')}
       >
-        <X className="w-5 h-5" />
+        <X className="w-4 h-4 sm:w-5 sm:h-5" />
       </button>
     </div>
   );
