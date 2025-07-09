@@ -565,7 +565,7 @@ export const slovenian = {
     checkingEmail: 'Preverjanje e-pošte...',
     loginError: 'Napačen e-poštni naslov ali geslo',
     signupError: 'Registracija ni uspela. Poskusite znova.',
-    signupSuccess: 'Registracija uspešna! Preverite svoj e-poštni naslov za potrditev računa.',
+    signupSuccess: 'Registracija uspešna! Dobrodošli na Kmetiji Maroša. Lahko se prijavite.',
     generalError: 'Prišlo je do napake. Poskusite znova.',
     rateLimitError: 'Preveč poskusov prijave. Poskusite znova čez {{time}}.',
     csrfError: 'Varnostna napaka. Prosimo, osvežite stran in poskusite znova.',

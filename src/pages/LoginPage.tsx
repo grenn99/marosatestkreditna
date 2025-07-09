@@ -273,7 +273,7 @@ export function LoginPage() {
           setPostalCode('');
           setCountry('Slovenija');
           // Show success message
-          alert(t('auth.signupSuccess', 'Registracija uspešna! Preverite svoj e-poštni naslov za potrditev računa.'));
+          alert(t('auth.signupSuccess', 'Registracija uspešna! Dobrodošli na Kmetiji Maroša. Lahko se prijavite.'));
         }
       }
     } catch (err) {

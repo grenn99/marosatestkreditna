@@ -32,7 +32,7 @@ export function PrivacyPolicyPage() {
                 <p className="font-semibold">Kmetija Maroša</p>
                 <p>Melinci 24, 9000 Murska Sobota, Slovenija</p>
                 <p>E-pošta: kmetija.marosa@gmail.com</p>
-                <p>Telefon: +386 XX XXX XXX</p>
+                <p>Telefon: +386 31 627 364</p>
               </div>
             </section>
 
@@ -165,7 +165,7 @@ export function PrivacyPolicyPage() {
               </p>
               <div className="space-y-2">
                 <p><strong>E-pošta:</strong> kmetija.marosa@gmail.com</p>
-                <p><strong>Telefon:</strong> +386 XX XXX XXX</p>
+                <p><strong>Telefon:</strong> +386 31 627 364</p>
                 <p><strong>Naslov:</strong> Melinci 24, 9000 Murska Sobota</p>
               </div>
             </section>

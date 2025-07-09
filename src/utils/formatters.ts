@@ -64,7 +64,7 @@ export const generateUUID = (): string => {
 export const getPhonePlaceholder = (country: string): string => {
   switch (country) {
     case 'Slovenija':
-      return '041 222 333';
+      return '041 222 333'; // Supports 040, 041, 051, 031, 070, etc.
     case 'Hrvaška':
       return '091 222 333';
     case 'Avstrija':
@@ -143,29 +143,47 @@ export const formatPhoneNumber = (phone: string, country: string): string => {
 
 /**
  * Format Slovenian phone number (local format without country code)
+ * Supports all Slovenian carriers: 040, 041, 051, 031, 070, etc.
  * @param number The phone number digits
  * @returns Formatted Slovenian number
  */
 const formatSlovenianNumber = (number: string): string => {
   if (!number) return '';
 
-  // Don't remove leading zeros for Slovenian numbers - they're part of the format
-  const cleaned = number.replace(/\D/g, ''); // Only remove non-digits
+  // Only remove non-digits, preserve leading zeros
+  const cleaned = number.replace(/\D/g, '');
 
-  // Format based on length
+  // Handle different Slovenian number formats
   if (cleaned.length === 9 && cleaned.startsWith('0')) {
-    // Mobile with leading 0: 041 222 333
-    return `${cleaned.substring(0, 3)} ${cleaned.substring(3, 6)} ${cleaned.substring(6)}`;
-  } else if (cleaned.length === 8 && cleaned.startsWith('0')) {
-    // Landline with leading 0: 01 222 333
+    // Mobile with leading 0: 041 222 333, 040 222 333, 070 222 333, etc.
+    const prefix = cleaned.substring(0, 3);
+    const validMobilePrefixes = ['040', '041', '051', '031', '070', '071', '030', '064', '068', '069'];
+
+    if (validMobilePrefixes.includes(prefix)) {
+      return `${prefix} ${cleaned.substring(3, 6)} ${cleaned.substring(6)}`;
+    }
+    // If not a known mobile prefix, still format it
+    return `${prefix} ${cleaned.substring(3, 6)} ${cleaned.substring(6)}`;
+  }
+  else if (cleaned.length === 8 && cleaned.startsWith('0')) {
+    // Landline with leading 0: 01 222 333, 02 222 333, etc.
     return `${cleaned.substring(0, 2)} ${cleaned.substring(2, 5)} ${cleaned.substring(5)}`;
-  } else if (cleaned.length === 8 && !cleaned.startsWith('0')) {
+  }
+  else if (cleaned.length === 8 && !cleaned.startsWith('0')) {
     // Mobile without leading 0: 41 222 333 -> 041 222 333
+    const firstTwo = cleaned.substring(0, 2);
+    // Add leading 0 for common mobile prefixes
+    if (['40', '41', '51', '31', '70', '71', '30', '64', '68', '69'].includes(firstTwo)) {
+      return `0${firstTwo} ${cleaned.substring(2, 5)} ${cleaned.substring(5)}`;
+    }
+    // Default to 0 prefix
     return `0${cleaned.substring(0, 2)} ${cleaned.substring(2, 5)} ${cleaned.substring(5)}`;
-  } else if (cleaned.length === 7 && !cleaned.startsWith('0')) {
+  }
+  else if (cleaned.length === 7 && !cleaned.startsWith('0')) {
     // Landline without leading 0: 1 222 333 -> 01 222 333
     return `0${cleaned.substring(0, 1)} ${cleaned.substring(1, 4)} ${cleaned.substring(4)}`;
   }
 
+  // Return as-is if doesn't match expected patterns
   return cleaned;
 };

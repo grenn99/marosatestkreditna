@@ -7,6 +7,7 @@ import { sendRegistrationConfirmationEmail } from '../utils/registrationEmailSer
 
 interface UserMetadata {
   full_name?: string;
+  telephone_nr?: string;
   default_shipping_address?: string;
   [key: string]: any;
 }
@@ -250,13 +251,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const signUp = async (credentials: SignUpWithPasswordCredentials): Promise<SignUpResponse> => {
     setLoading(true);
     try {
-      // First create the auth user without automatic email confirmation
+      // Create the auth user (Supabase will handle basic auth)
       const { data, error } = await supabase.auth.signUp({
         email: (credentials as { email: string }).email,
-        password: (credentials as { password: string }).password,
-        options: {
-          emailRedirectTo: `${window.location.origin}/auth/callback`
-        }
+        password: (credentials as { password: string }).password
       });
 
       if (error) {
@@ -284,6 +282,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
               avatar_url: '',
               website: '',
               email: (credentials as { email: string }).email,
+              telephone_nr: metadata.telephone_nr || '',
               default_shipping_address: metadata.default_shipping_address
             }, { onConflict: 'id' });
 
@@ -291,23 +290,19 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             console.error("Profile creation error during signup:", profileError);
           }
 
-          // Send custom registration confirmation email
+          // Send simple welcome email (like newsletter confirmation)
           try {
             const emailResult = await sendRegistrationConfirmationEmail({
               email: (credentials as { email: string }).email,
               fullName: metadata.full_name,
               userId: data.user.id,
-              language: 'sl' // Default to Slovenian, could be made dynamic
+              language: 'sl'
             });
 
-            if (emailResult.success) {
-              console.log('Registration confirmation email sent successfully');
-            } else {
-              console.error('Failed to send registration confirmation email:', emailResult.message);
-            }
+            console.log('Welcome email result:', emailResult);
           } catch (emailError) {
-            console.error('Error sending registration confirmation email:', emailError);
-            // Don't fail the registration if email fails
+            console.error('Error sending welcome email:', emailError);
+            // Don't fail registration if email fails
           }
       }
 

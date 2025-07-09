@@ -17,7 +17,7 @@ function generateSecureToken(): string {
 }
 
 /**
- * Send registration confirmation email using the same email service as newsletter
+ * Send simple welcome email after registration (like newsletter)
  * @param data Object containing email, fullName, and userId
  * @returns Object with success status and message
  */
@@ -26,42 +26,30 @@ export async function sendRegistrationConfirmationEmail(data: {
   fullName?: string;
   userId: string;
   language?: string;
-}): Promise<{ success: boolean; message: string; confirmationToken?: string }> {
+}): Promise<{ success: boolean; message: string }> {
   try {
-    const { email, fullName, userId, language = 'sl' } = data;
+    const { email, fullName, language = 'sl' } = data;
 
-    // Generate confirmation token
-    const confirmationToken = generateSecureToken();
-
-    // Store the confirmation token in a custom table (we'll create this)
-    // For now, we'll use the confirmation token as a URL parameter
-    const confirmationParams = new URLSearchParams({ 
-      token: confirmationToken, 
-      userId: userId,
-      lang: language 
-    });
-    const confirmationUrl = `${BASE_URL}/auth/confirm-registration?${confirmationParams}`;
-
-    // Generate email content
+    // Generate simple welcome email content (no confirmation needed)
     const htmlContent = generateRegistrationConfirmationEmailHtml({
       fullName,
-      confirmationUrl,
+      confirmationUrl: `${BASE_URL}/login`, // Just link to login page
       language
     });
 
     const textContent = generateRegistrationConfirmationEmailText({
       fullName,
-      confirmationUrl,
+      confirmationUrl: `${BASE_URL}/login`,
       language
     });
 
     // Determine subject based on language
     const subject = (() => {
-      if (language === 'sl') return 'Potrdite svoj račun - Kmetija Maroša';
-      if (language === 'en') return 'Confirm Your Account - Kmetija Maroša';
-      if (language === 'de') return 'Bestätigen Sie Ihr Konto - Kmetija Maroša';
-      if (language === 'hr') return 'Potvrdite svoj račun - Kmetija Maroša';
-      return 'Confirm Your Account - Kmetija Maroša';
+      if (language === 'sl') return 'Dobrodošli na Kmetiji Maroša!';
+      if (language === 'en') return 'Welcome to Kmetija Maroša!';
+      if (language === 'de') return 'Willkommen bei Kmetija Maroša!';
+      if (language === 'hr') return 'Dobrodošli u Kmetiju Maroša!';
+      return 'Dobrodošli na Kmetiji Maroša!';
     })();
 
     try {
@@ -72,44 +60,32 @@ export async function sendRegistrationConfirmationEmail(data: {
         body: JSON.stringify({
           html: htmlContent,
           text: textContent,
-          isRegistrationConfirmation: true,
-          confirmationToken,
-          userId
+          isWelcome: true
         }),
         from: DEFAULT_FROM_EMAIL,
         replyTo: REPLY_TO_EMAIL
       });
 
-      if (emailResult.success) {
-        return {
-          success: true,
-          message: 'Registration confirmation email sent successfully',
-          confirmationToken
-        };
-      } else {
-        throw new Error(emailResult.message);
-      }
+      return emailResult;
     } catch (emailError: any) {
       console.error('Error in email sending service:', emailError);
 
       // For development/testing, return success even if email fails
       if (process.env.NODE_ENV === 'development') {
         console.log('Development mode: Simulating successful email send');
-        console.log('Confirmation URL would be:', confirmationUrl);
         return {
           success: true,
-          message: 'Development mode: Email would be sent in production',
-          confirmationToken
+          message: 'Development mode: Email would be sent in production'
         };
       }
 
       throw emailError;
     }
   } catch (error: any) {
-    console.error('Error sending registration confirmation email:', error);
+    console.error('Error sending welcome email:', error);
     return {
       success: false,
-      message: error.message || 'Failed to send confirmation email'
+      message: error.message || 'Failed to send welcome email'
     };
   }
 }

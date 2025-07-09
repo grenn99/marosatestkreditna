@@ -171,9 +171,10 @@ export function GDPRDataManagement() {
           <p className="text-blue-700 mb-2">
             {t('gdpr.contact.description', 'Za vprašanja o obdelavi vaših osebnih podatkov nas kontaktirajte:')}
           </p>
-          <p className="text-blue-700">
-            <strong>E-pošta:</strong> kmetija.marosa@gmail.com
-          </p>
+          <div className="space-y-1 text-blue-700">
+            <p><strong>E-pošta:</strong> kmetija.marosa@gmail.com</p>
+            <p><strong>Telefon:</strong> +386 31 627 364</p>
+          </div>
         </div>
       </div>
 

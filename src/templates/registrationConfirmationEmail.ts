@@ -26,76 +26,81 @@ export function generateRegistrationConfirmationEmailHtml(data: RegistrationConf
 
   // Determine title based on language
   const title = (() => {
-    if (language === 'sl') return 'Potrdite svoj račun';
-    if (language === 'en') return 'Confirm Your Account';
-    if (language === 'de') return 'Bestätigen Sie Ihr Konto';
-    if (language === 'hr') return 'Potvrdite svoj račun';
-    return 'Confirm Your Account';
+    if (language === 'sl') return 'Dobrodošli na Kmetiji Maroša!';
+    if (language === 'en') return 'Welcome to Kmetija Maroša!';
+    if (language === 'de') return 'Willkommen bei Kmetija Maroša!';
+    if (language === 'hr') return 'Dobrodošli u Kmetiju Maroša!';
+    return 'Dobrodošli na Kmetiji Maroša!';
   })();
-  
+
   // Determine content text based on language
   const contentText = (() => {
     if (language === 'sl') {
       return `
-        <p>Hvala, da ste se registrirali na spletni strani Kmetije Maroša.</p>
-        <p>Za dokončanje registracije in potrditev vašega e-poštnega naslova, prosimo kliknite na spodnji gumb:</p>
+        <p>Hvala, da ste se registrirali na spletni strani Kmetije Maroša!</p>
+        <p>Vaš račun je bil uspešno ustvarjen in lahko se že prijavite ter začnete nakupovati naše kakovostne izdelke.</p>
+        <p>Odkrijte našo ponudbo svežih izdelkov iz naše kmetije v Melinicah.</p>
       `;
     } else if (language === 'en') {
       return `
-        <p>Thank you for registering on the Kmetija Maroša website.</p>
-        <p>To complete your registration and confirm your email address, please click the button below:</p>
+        <p>Thank you for registering on the Kmetija Maroša website!</p>
+        <p>Your account has been successfully created and you can now log in and start shopping our quality products.</p>
+        <p>Discover our range of fresh products from our farm in Melinci.</p>
       `;
     } else if (language === 'de') {
       return `
-        <p>Vielen Dank für Ihre Registrierung auf der Website von Kmetija Maroša.</p>
-        <p>Um Ihre Registrierung abzuschließen und Ihre E-Mail-Adresse zu bestätigen, klicken Sie bitte auf die Schaltfläche unten:</p>
+        <p>Vielen Dank für Ihre Registrierung auf der Website von Kmetija Maroša!</p>
+        <p>Ihr Konto wurde erfolgreich erstellt und Sie können sich jetzt anmelden und unsere hochwertigen Produkte kaufen.</p>
+        <p>Entdecken Sie unser Sortiment an frischen Produkten von unserem Hof in Melinci.</p>
       `;
     } else if (language === 'hr') {
       return `
-        <p>Hvala što ste se registrirali na web stranici Kmetije Maroša.</p>
-        <p>Da biste dovršili registraciju i potvrdili svoju adresu e-pošte, kliknite gumb u nastavku:</p>
+        <p>Hvala što ste se registrirali na web stranici Kmetije Maroša!</p>
+        <p>Vaš račun je uspješno stvoren i sada se možete prijaviti i početi kupovati naše kvalitetne proizvode.</p>
+        <p>Otkrijte naš asortiman svježih proizvoda s naše farme u Melincima.</p>
       `;
     }
     return `
-      <p>Thank you for registering on the Kmetija Maroša website.</p>
-      <p>To complete your registration and confirm your email address, please click the button below:</p>
+      <p>Thank you for registering on the Kmetija Maroša website!</p>
+      <p>Your account has been successfully created and you can now log in and start shopping our quality products.</p>
+      <p>Discover our range of fresh products from our farm in Melinci.</p>
     `;
   })();
 
   // Determine button text based on language
   const buttonText = (() => {
-    if (language === 'sl') return 'Potrdite račun';
-    if (language === 'en') return 'Confirm Account';
-    if (language === 'de') return 'Konto bestätigen';
-    if (language === 'hr') return 'Potvrdite račun';
-    return 'Confirm Account';
+    if (language === 'sl') return 'Prijavite se';
+    if (language === 'en') return 'Log In';
+    if (language === 'de') return 'Anmelden';
+    if (language === 'hr') return 'Prijavite se';
+    return 'Prijavite se';
   })();
-  
+
   // Determine footer text based on language
   const footerText = (() => {
     if (language === 'sl') {
       return `
-        <p>Če niste zahtevali te registracije, lahko to sporočilo preprosto ignorirate.</p>
+        <p>Veselimo se vašega prvega naročila!</p>
         <p>Lep pozdrav,<br>Ekipa Kmetije Maroša</p>
       `;
     } else if (language === 'en') {
       return `
-        <p>If you did not request this registration, you can simply ignore this message.</p>
+        <p>We look forward to your first order!</p>
         <p>Best regards,<br>The Kmetija Maroša Team</p>
       `;
     } else if (language === 'de') {
       return `
-        <p>Wenn Sie diese Registrierung nicht angefordert haben, können Sie diese Nachricht einfach ignorieren.</p>
+        <p>Wir freuen uns auf Ihre erste Bestellung!</p>
         <p>Mit freundlichen Grüßen,<br>Das Kmetija Maroša Team</p>
       `;
     } else if (language === 'hr') {
       return `
-        <p>Ako niste zatražili ovu registraciju, možete jednostavno zanemariti ovu poruku.</p>
+        <p>Radujemo se vašoj prvoj narudžbi!</p>
         <p>Srdačan pozdrav,<br>Tim Kmetije Maroša</p>
       `;
     }
     return `
-      <p>If you did not request this registration, you can simply ignore this message.</p>
+      <p>We look forward to your first order!</p>
       <p>Best regards,<br>The Kmetija Maroša Team</p>
     `;
   })();
