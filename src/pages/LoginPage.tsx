@@ -9,6 +9,7 @@ import { checkRateLimit, incrementRateLimit, formatTimeRemaining } from '../util
 import { handleAuthError, ErrorCategory, ErrorSeverity } from '../utils/errorHandling';
 import { logSecurityEvent, SecurityEventType } from '../utils/securityMonitoring';
 import { getPhonePlaceholder, formatPhoneNumber } from '../utils/formatters';
+import { ConsentCheckboxes } from '../components/ConsentCheckboxes';
 
 export function LoginPage() {
   const { t, i18n } = useTranslation();
@@ -38,6 +39,10 @@ export function LoginPage() {
     isLimited: false,
     timeRemaining: 0
   });
+
+  // GDPR Consent
+  const [processingConsent, setProcessingConsent] = useState(false);
+  const [marketingConsent, setMarketingConsent] = useState(false);
 
   // Generate CSRF token on component mount
   useEffect(() => {
@@ -120,6 +125,11 @@ export function LoginPage() {
 
       if (!fullName.trim()) {
         newErrors.fullName = t('validation.required', 'To polje je obvezno');
+      }
+
+      // GDPR consent validation for registration
+      if (!processingConsent) {
+        newErrors.processingConsent = t('validation.consentRequired', 'Soglasje za obdelavo podatkov je obvezno');
       }
     }
 
@@ -564,6 +574,19 @@ export function LoginPage() {
                 </select>
               </div>
             </>
+          )}
+
+          {/* GDPR Consent Checkboxes for Registration */}
+          {!isLogin && (
+            <div className="mt-6">
+              <ConsentCheckboxes
+                processingConsent={processingConsent}
+                marketingConsent={marketingConsent}
+                onProcessingConsentChange={setProcessingConsent}
+                onMarketingConsentChange={setMarketingConsent}
+                errors={errors}
+              />
+            </div>
           )}
 
           <div className="mt-6">

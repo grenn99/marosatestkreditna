@@ -34,6 +34,7 @@ import { AdminSettingsPage } from './pages/AdminSettingsPage';
 import { AdminDebugPage } from './pages/AdminDebugPage';
 import { LoginPage } from './pages/LoginPage';
 import { AuthCallbackPage } from './pages/AuthCallbackPage';
+import { PrivacyPolicyPage } from './pages/PrivacyPolicyPage';
 import { BannerDiscountManager } from './pages/admin/BannerDiscountManager';
 import { OrderConfirmationPage } from './pages/OrderConfirmationPage';
 import { OrderSuccessPage } from './pages/OrderSuccessPage';
@@ -59,6 +60,7 @@ import TranslationDebug from './components/dev/TranslationDebug';
 import TranslationManager from './components/admin/TranslationManager';
 import { TestToastNotification } from './pages/TestToastNotification';
 import { TestStickyNotification } from './pages/TestStickyNotification';
+import { CookieConsent } from './components/CookieConsent';
 import { CartNotificationWrapper } from './components/CartNotificationWrapper';
 
 function HomePage() {
@@ -208,6 +210,7 @@ function App() {
               <Route path="/login" element={<LoginPage />} />
               <Route path="/auth/callback" element={<AuthCallbackPage />} />
               <Route path="/auth/confirm-registration" element={<AuthCallbackPage />} />
+              <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
               <Route path="/image-test" element={<ImageTest />} />
               <Route path="/confirm-subscription" element={<ConfirmSubscriptionPage />} />
               <Route path="/unsubscribe" element={<UnsubscribePage />} />
@@ -262,6 +265,9 @@ function App() {
 
           {/* Cart Notification - Responsive (Toast on desktop, Sticky on mobile) */}
           <CartNotificationWrapper />
+
+          {/* GDPR Cookie Consent */}
+          <CookieConsent />
         </CartProvider>
       </ToastProvider>
     </div>

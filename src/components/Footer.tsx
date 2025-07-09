@@ -144,11 +144,18 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Bottom section with copyright */}
-        <div className="pt-8 border-t border-brown-700 text-center">
-          <p className="text-gray-400 text-sm">
-            {t('footer.copyright', { year: new Date().getFullYear() })}
-          </p>
+        {/* Bottom section with copyright and legal links */}
+        <div className="pt-8 border-t border-brown-700">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+            <p className="text-gray-400 text-sm">
+              {t('footer.copyright', { year: new Date().getFullYear() })}
+            </p>
+            <div className="flex gap-6 text-sm">
+              <Link to="/privacy-policy" className="text-gray-400 hover:text-white transition-colors">
+                {t('footer.privacyPolicy', 'Pravilnik o zasebnosti')}
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
     </footer>

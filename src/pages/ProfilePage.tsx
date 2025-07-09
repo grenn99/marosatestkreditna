@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useAuth } from '../context/AuthContext';
 import { supabase } from '../lib/supabaseClient';
 import { getPhonePlaceholder, formatPhoneNumber } from '../utils/formatters';
+import { GDPRDataManagement } from '../components/GDPRDataManagement';
 
 interface Profile {
   id: string;
@@ -364,6 +365,11 @@ export function ProfilePage() {
             </button>
           </div>
         </form>
+      </div>
+
+      {/* GDPR Data Management */}
+      <div className="mt-8">
+        <GDPRDataManagement />
       </div>
     </div>
   );

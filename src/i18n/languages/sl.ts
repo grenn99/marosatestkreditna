@@ -533,7 +533,8 @@ export const slovenian = {
     quickLinks: 'Hitre povezave',
     contactUs: 'Kontaktirajte nas',
     followUs: 'Sledite nam',
-    copyright: '© {{year}} Kmetija Maroša. Vse pravice pridržane.'
+    copyright: '© {{year}} Kmetija Maroša. Vse pravice pridržane.',
+    privacyPolicy: 'Pravilnik o zasebnosti'
   },
   location: {
     title: 'Kje smo',
@@ -579,6 +580,137 @@ export const slovenian = {
     redirectingToLogin: 'Preusmerjamo na prijavno stran...',
     goToLogin: 'Pojdi na prijavo'
   },
+  privacy: {
+    title: 'Pravilnik o zasebnosti',
+    subtitle: 'Kako varujemo vaše osebne podatke',
+    controller: {
+      title: 'Upravljavec osebnih podatkov'
+    },
+    dataCollection: {
+      title: 'Katere podatke zbiramo',
+      account: 'Podatki računa',
+      accountDesc: 'E-poštni naslov, polno ime, telefonska številka, naslov za dostavo',
+      orders: 'Podatki naročil',
+      ordersDesc: 'Zgodovina nakupov, plačilni podatki, naslov za dostavo',
+      newsletter: 'E-novice',
+      newsletterDesc: 'E-poštni naslov, ime, jezikovne preference'
+    },
+    legalBasis: {
+      title: 'Pravna podlaga za obdelavo',
+      contract: 'Izvršitev pogodbe (obdelava naročil)',
+      consent: 'Privolitev (e-novice, marketing)',
+      legitimate: 'Upravičen interes (izboljšanje storitev)'
+    },
+    security: {
+      title: 'Varnost podatkov',
+      encryption: 'Šifriranje občutljivih podatkov (AES-GCM)',
+      access: 'Omejen dostop samo pooblaščenim osebam',
+      backup: 'Redni varnostni posnetki'
+    },
+    rights: {
+      title: 'Vaše pravice',
+      access: 'Dostop do podatkov',
+      accessDesc: 'Zahtevajte kopijo svojih podatkov',
+      portability: 'Prenosljivost',
+      portabilityDesc: 'Prenos podatkov k drugemu ponudniku',
+      deletion: 'Izbris podatkov',
+      deletionDesc: 'Zahtevajte izbris svojih podatkov',
+      objection: 'Ugovor',
+      objectionDesc: 'Ugovorite obdelavi za marketing'
+    },
+    contact: {
+      title: 'Kontakt za vprašanja o zasebnosti',
+      desc: 'Za vprašanja o obdelavi osebnih podatkov nas kontaktirajte:'
+    },
+    lastUpdated: 'Zadnja posodobitev'
+  },
+  cookies: {
+    banner: {
+      title: 'Uporabljamo piškotke',
+      description: 'Uporabljamo piškotke za izboljšanje vaše izkušnje. Nekateri so potrebni za delovanje strani, drugi pa nam pomagajo razumeti, kako uporabljate našo spletno stran.',
+      learnMore: 'Več o zasebnosti',
+      settings: 'Nastavitve',
+      necessary: 'Samo potrebni',
+      acceptAll: 'Sprejmi vse'
+    },
+    settings: {
+      title: 'Nastavitve piškotkov',
+      save: 'Shrani nastavitve',
+      acceptAll: 'Sprejmi vse'
+    },
+    necessary: {
+      title: 'Potrebni piškotki',
+      required: 'Obvezni',
+      description: 'Ti piškotki so potrebni za osnovno delovanje spletne strani in jih ni mogoče onemogočiti.'
+    },
+    functional: {
+      title: 'Funkcionalni piškotki',
+      description: 'Ti piškotki omogočajo izboljšane funkcionalnosti in personalizacijo (npr. jezikovne preference, košarica).'
+    },
+    analytics: {
+      title: 'Analitični piškotki',
+      description: 'Ti piškotki nam pomagajo razumeti, kako obiskovalci uporabljajo spletno stran, da jo lahko izboljšamo.'
+    },
+    marketing: {
+      title: 'Trženjski piškotki',
+      description: 'Ti piškotki se uporabljajo za prikazovanje relevantnih oglasov in merjenje učinkovitosti marketinških kampanj.'
+    }
+  },
+  consent: {
+    processing: {
+      title: 'Soglašam z obdelavo osebnih podatkov',
+      description: 'Soglašam, da Kmetija Maroša obdeluje moje osebne podatke za namen izvršitve naročila in komunikacije. Več informacij v',
+      privacyPolicy: 'pravilniku o zasebnosti'
+    },
+    marketing: {
+      title: 'Želim prejemati e-novice in promocijske ponudbe',
+      description: 'Soglašam, da mi Kmetija Maroša pošilja e-novice, promocijske ponudbe in obvestila o novih izdelkih. Soglasje lahko kadarkoli prekličem.'
+    },
+    gdpr: {
+      title: 'Vaše pravice po GDPR',
+      description: 'Imate pravico do dostopa, popravka, prenosljivosti in izbrisa svojih podatkov. Za več informacij ali uveljavljanje pravic nas kontaktirajte na'
+    }
+  },
+  gdpr: {
+    title: 'Upravljanje osebnih podatkov',
+    export: {
+      title: 'Izvoz mojih podatkov',
+      description: 'Prenesite kopijo vseh svojih osebnih podatkov, ki jih hranimo.',
+      button: 'Izvozi podatke',
+      loading: 'Izvažam...',
+      error: 'Napaka pri izvozu podatkov',
+      modal: {
+        title: 'Vaši podatki',
+        profile: 'Profil',
+        profileDesc: 'Ime, e-pošta, telefon, naslov',
+        orders: 'Naročila',
+        ordersCount: 'naročil',
+        newsletter: 'E-novice',
+        subscribed: 'Naročeni',
+        notSubscribed: 'Niste naročeni',
+        download: 'Prenesi kot JSON'
+      }
+    },
+    delete: {
+      title: 'Izbris računa',
+      description: 'Trajno izbriši svoj račun in vse povezane podatke. Ta dejanja ni mogoče razveljaviti.',
+      button: 'Izbriši račun',
+      success: 'Vaš račun je bil uspešno izbrisan',
+      error: 'Napaka pri brisanju računa',
+      confirm: {
+        title: 'Potrdite izbris',
+        warning: 'Ta dejanja ni mogoče razveljaviti. Vsi vaši podatki bodo trajno izbrisani.',
+        instruction: 'Vtipkajte "IZBRIŠI" za potrditev:',
+        cancel: 'Prekliči',
+        delete: 'Izbriši',
+        deleting: 'Brišem...'
+      }
+    },
+    contact: {
+      title: 'Vprašanja o zasebnosti',
+      description: 'Za vprašanja o obdelavi vaših osebnih podatkov nas kontaktirajte:'
+    }
+  },
   password: {
     veryWeak: 'Zelo šibko geslo',
     weak: 'Šibko geslo',
@@ -611,7 +743,8 @@ export const slovenian = {
     passwordStrength: 'Geslo mora vsebovati vsaj 10 znakov, vključno z veliko črko, malo črko, številko in posebnim znakom',
     passwordMatch: 'Gesli se ne ujemata',
     postalCode: 'Poštna številka mora imeti 4 številke',
-    cityLength: 'Ime mesta mora imeti vsaj 2 znaka'
+    cityLength: 'Ime mesta mora imeti vsaj 2 znaka',
+    consentRequired: 'Soglasje za obdelavo podatkov je obvezno'
   },
   discounts: {
     manager: 'Upravljanje popustov',
