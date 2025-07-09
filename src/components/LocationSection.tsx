@@ -144,14 +144,14 @@ export const LocationSection = () => {
             <div className="relative">
               <div className="h-[550px] rounded-xl overflow-hidden shadow-lg">
                 <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2768.035533660742!2d16.235825776926827!3d46.60824785722092!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x476f1cc7c8ea03a3%3A0x5a2c01586ef6068e!2sMelinci%2024%2C%209000%20Murska%20Sobota%2C%20Slovenia!5e0!3m2!1sen!2ssi!4v1709556428095!5m2!1sen!2ssi"
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2768.035533660742!2d16.235825776926827!3d46.60824785722092!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDbCsDM2JzI5LjciTiAxNsKwMTQnMDkuMCJF!5e0!3m2!1sen!2ssi!4v1709556428095!5m2!1sen!2ssi"
                   width="100%"
                   height="100%"
                   style={{ border: 0 }}
                   allowFullScreen={true}
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
-                  title="Location map"
+                  title="Kmetija Maroša Location"
                 />
               </div>
 
@@ -160,7 +160,7 @@ export const LocationSection = () => {
                 <h3 className="text-lg font-bold text-brown-800 mb-1">Kmetija Maroša</h3>
                 <p className="text-gray-700 mb-3 text-sm">{t('location.address')}</p>
                 <a
-                  href="https://maps.google.com/?q=Melinci+24,+9000+Murska+Sobota,+Slovenia"
+                  href="https://maps.google.com/?q=Melinci+80,+9231+Beltinci,+Slovenia"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1.5 bg-brown-600 hover:bg-brown-700 text-white px-3 py-1.5 rounded-md text-xs font-medium transition-colors"
