@@ -149,16 +149,22 @@ export const formatPhoneNumber = (phone: string, country: string): string => {
 const formatSlovenianNumber = (number: string): string => {
   if (!number) return '';
 
-  // Remove any leading zeros
-  const cleaned = number.replace(/^0+/, '');
+  // Don't remove leading zeros for Slovenian numbers - they're part of the format
+  const cleaned = number.replace(/\D/g, ''); // Only remove non-digits
 
   // Format based on length
-  if (cleaned.length === 8) {
-    // Mobile: 041 222 333
+  if (cleaned.length === 9 && cleaned.startsWith('0')) {
+    // Mobile with leading 0: 041 222 333
     return `${cleaned.substring(0, 3)} ${cleaned.substring(3, 6)} ${cleaned.substring(6)}`;
-  } else if (cleaned.length === 7) {
-    // Landline: 01 222 333
+  } else if (cleaned.length === 8 && cleaned.startsWith('0')) {
+    // Landline with leading 0: 01 222 333
     return `${cleaned.substring(0, 2)} ${cleaned.substring(2, 5)} ${cleaned.substring(5)}`;
+  } else if (cleaned.length === 8 && !cleaned.startsWith('0')) {
+    // Mobile without leading 0: 41 222 333 -> 041 222 333
+    return `0${cleaned.substring(0, 2)} ${cleaned.substring(2, 5)} ${cleaned.substring(5)}`;
+  } else if (cleaned.length === 7 && !cleaned.startsWith('0')) {
+    // Landline without leading 0: 1 222 333 -> 01 222 333
+    return `0${cleaned.substring(0, 1)} ${cleaned.substring(1, 4)} ${cleaned.substring(4)}`;
   }
 
   return cleaned;

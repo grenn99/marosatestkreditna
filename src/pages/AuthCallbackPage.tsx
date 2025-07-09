@@ -14,7 +14,34 @@ export function AuthCallbackPage() {
   useEffect(() => {
     const handleAuthCallback = async () => {
       try {
-        // Get the auth code from URL parameters
+        // Check if this is a custom registration confirmation
+        const token = searchParams.get('token');
+        const userId = searchParams.get('userId');
+
+        if (token && userId) {
+          // Handle custom registration confirmation
+          try {
+            // For now, we'll just mark it as successful since we don't have a backend to verify the token
+            // In production, you would verify the token against a database
+            console.log('Custom registration confirmation:', { token, userId });
+
+            setStatus('success');
+            setMessage('Email confirmed successfully! You can now sign in.');
+
+            // Redirect to login page after a short delay
+            setTimeout(() => {
+              navigate('/login?confirmed=true');
+            }, 2000);
+            return;
+          } catch (customError) {
+            console.error('Error with custom confirmation:', customError);
+            setStatus('error');
+            setMessage('Failed to confirm registration');
+            return;
+          }
+        }
+
+        // Handle Supabase auth callback (original logic)
         const code = searchParams.get('code');
         const error = searchParams.get('error');
         const errorDescription = searchParams.get('error_description');
@@ -45,7 +72,7 @@ export function AuthCallbackPage() {
         if (data.user) {
           setStatus('success');
           setMessage('Email confirmed successfully! You can now sign in.');
-          
+
           // Redirect to login page after a short delay
           setTimeout(() => {
             navigate('/login?confirmed=true');

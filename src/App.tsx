@@ -207,6 +207,7 @@ function App() {
               } />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/auth/callback" element={<AuthCallbackPage />} />
+              <Route path="/auth/confirm-registration" element={<AuthCallbackPage />} />
               <Route path="/image-test" element={<ImageTest />} />
               <Route path="/confirm-subscription" element={<ConfirmSubscriptionPage />} />
               <Route path="/unsubscribe" element={<UnsubscribePage />} />

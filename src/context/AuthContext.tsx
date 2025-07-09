@@ -3,6 +3,7 @@ import { Session, User, AuthError, SignInWithPasswordCredentials, SignUpWithPass
 import { supabase } from '../lib/supabaseClient'; // Your Supabase client instance
 import { isAdminEmail } from '../config/adminConfig';
 import { isAdminUser } from '../utils/userManagement';
+import { sendRegistrationConfirmationEmail } from '../utils/registrationEmailService';
 
 interface UserMetadata {
   full_name?: string;
@@ -249,7 +250,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const signUp = async (credentials: SignUpWithPasswordCredentials): Promise<SignUpResponse> => {
     setLoading(true);
     try {
-      // First create the auth user with email confirmation
+      // First create the auth user without automatic email confirmation
       const { data, error } = await supabase.auth.signUp({
         email: (credentials as { email: string }).email,
         password: (credentials as { password: string }).password,
@@ -288,6 +289,25 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
           if (profileError) {
             console.error("Profile creation error during signup:", profileError);
+          }
+
+          // Send custom registration confirmation email
+          try {
+            const emailResult = await sendRegistrationConfirmationEmail({
+              email: (credentials as { email: string }).email,
+              fullName: metadata.full_name,
+              userId: data.user.id,
+              language: 'sl' // Default to Slovenian, could be made dynamic
+            });
+
+            if (emailResult.success) {
+              console.log('Registration confirmation email sent successfully');
+            } else {
+              console.error('Failed to send registration confirmation email:', emailResult.message);
+            }
+          } catch (emailError) {
+            console.error('Error sending registration confirmation email:', emailError);
+            // Don't fail the registration if email fails
           }
       }
 
