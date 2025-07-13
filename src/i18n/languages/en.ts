@@ -436,7 +436,8 @@ export const english = {
     visitUs: 'Visit Us',
     ourLocation: 'Our Location',
     getDirections: 'Get Directions',
-    navigate: 'Navigate'
+    navigate: 'Navigate',
+    viewOnMaps: 'View on Maps'
   },
   auth: {
     loginTitle: 'Login',

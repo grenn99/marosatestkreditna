@@ -407,7 +407,8 @@ export const german = {
     visitUs: 'Besuchen Sie uns',
     ourLocation: 'Unser Standort',
     getDirections: 'Wegbeschreibung',
-    navigate: 'Navigieren'
+    navigate: 'Navigieren',
+    viewOnMaps: 'Auf Karte anzeigen'
   },
   auth: {
     loginTitle: 'Anmelden',

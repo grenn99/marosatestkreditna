@@ -407,7 +407,8 @@ export const croatian = {
     visitUs: 'Posjetite nas',
     ourLocation: 'Naša lokacija',
     getDirections: 'Upute za dolazak',
-    navigate: 'Navigiraj'
+    navigate: 'Navigiraj',
+    viewOnMaps: 'Pogledaj na karti'
   },
   auth: {
     loginTitle: 'Prijava',

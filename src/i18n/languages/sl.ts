@@ -533,7 +533,8 @@ export const slovenian = {
     visitUs: 'Obiščite nas',
     ourLocation: 'Naša lokacija',
     getDirections: 'Navodila za pot',
-    navigate: 'Navigacija'
+    navigate: 'Navigacija',
+    viewOnMaps: 'Poglej na zemljevidu'
   },
   auth: {
     loginTitle: 'Prijava',

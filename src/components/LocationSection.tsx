@@ -142,37 +142,34 @@ export const LocationSection = () => {
           {/* Right Column - Map */}
           <div className={`transition-all duration-1000 delay-500 ${isVisible ? 'opacity-100 transform-none' : 'opacity-0 translate-x-10'}`}>
             <div className="relative">
-              <div className="h-[550px] rounded-xl overflow-hidden shadow-lg bg-stone-100 flex items-center justify-center">
-                <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2768.035533660742!2d16.235825776926827!3d46.60824785722092!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x476f1cc7c8ea03a3%3A0x5a2c01586ef6068e!2sMelinci%2080%2C%209231%20Beltinci%2C%20Slovenia!5e0!3m2!1sen!2ssi!4v1709556428095!5m2!1sen!2ssi"
-                  width="100%"
-                  height="100%"
-                  style={{ border: 0 }}
-                  allowFullScreen={true}
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                  title="Kmetija Maroša Location"
-                  onError={(e) => {
-                    // If iframe fails to load, show fallback
-                    const target = e.target as HTMLIFrameElement;
-                    target.style.display = 'none';
-                    const fallback = target.parentElement?.querySelector('.map-fallback') as HTMLElement;
-                    if (fallback) fallback.style.display = 'flex';
-                  }}
-                />
-                <div className="map-fallback hidden flex-col items-center justify-center text-center p-8">
-                  <MapPin className="w-16 h-16 text-brown-600 mb-4" />
-                  <h3 className="text-xl font-bold text-brown-800 mb-2">Kmetija Maroša</h3>
-                  <p className="text-gray-700 mb-4">{t('location.address')}</p>
-                  <a
-                    href="https://maps.google.com/?q=Melinci+80,+9231+Beltinci,+Slovenia"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="bg-brown-600 hover:bg-brown-700 text-white px-6 py-3 rounded-lg font-medium transition-colors inline-flex items-center gap-2"
-                  >
-                    <Navigation className="w-5 h-5" />
-                    {t('location.getDirections')}
-                  </a>
+              <div className="h-[550px] rounded-xl overflow-hidden shadow-lg bg-stone-100 relative">
+                {/* Simple, reliable map solution */}
+                <div className="w-full h-full flex flex-col items-center justify-center text-center p-8 bg-gradient-to-br from-stone-50 to-stone-100">
+                  <div className="bg-white rounded-lg p-6 shadow-md max-w-sm">
+                    <MapPin className="w-12 h-12 text-brown-600 mx-auto mb-4" />
+                    <h3 className="text-xl font-bold text-brown-800 mb-2">Kmetija Maroša</h3>
+                    <p className="text-gray-700 mb-4 text-sm">{t('location.address')}</p>
+                    <div className="space-y-3">
+                      <a
+                        href="https://maps.google.com/?q=Melinci+80,+9231+Beltinci,+Slovenia"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-full bg-brown-600 hover:bg-brown-700 text-white px-4 py-3 rounded-lg font-medium transition-colors inline-flex items-center justify-center gap-2"
+                      >
+                        <Navigation className="w-5 h-5" />
+                        {t('location.getDirections')}
+                      </a>
+                      <a
+                        href="https://www.google.com/maps/place/Melinci+80,+9231+Beltinci,+Slovenia/@46.6082479,16.2358258,17z"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-3 rounded-lg font-medium transition-colors inline-flex items-center justify-center gap-2"
+                      >
+                        <MapPin className="w-5 h-5" />
+                        {t('location.viewOnMaps')}
+                      </a>
+                    </div>
+                  </div>
                 </div>
               </div>
 
