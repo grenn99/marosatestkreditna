@@ -1,5 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, Suspense, lazy } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { initSessionTimeout, cleanupSessionTimeout } from './utils/sessionTimeout';
@@ -28,14 +28,15 @@ import { GiftBuilderPage } from './pages/GiftBuilderPage';
 import { ProfilePage } from './pages/ProfilePage';
 import { ChangePasswordPage } from './pages/ChangePasswordPage';
 import { OrdersPage } from './pages/OrdersPage';
-import { AdminOrdersPage } from './pages/AdminOrdersPage';
-import { AdminProductsPage } from './pages/AdminProductsPage';
-import { AdminSettingsPage } from './pages/AdminSettingsPage';
-import { AdminDebugPage } from './pages/AdminDebugPage';
+// Lazy load admin pages to reduce main bundle size
+const AdminOrdersPage = lazy(() => import('./pages/AdminOrdersPage').then(module => ({ default: module.AdminOrdersPage })));
+const AdminProductsPage = lazy(() => import('./pages/AdminProductsPage').then(module => ({ default: module.AdminProductsPage })));
+const AdminSettingsPage = lazy(() => import('./pages/AdminSettingsPage').then(module => ({ default: module.AdminSettingsPage })));
+const AdminDebugPage = lazy(() => import('./pages/AdminDebugPage').then(module => ({ default: module.AdminDebugPage })));
 import { LoginPage } from './pages/LoginPage';
 import { AuthCallbackPage } from './pages/AuthCallbackPage';
 import { PrivacyPolicyPage } from './pages/PrivacyPolicyPage';
-import { BannerDiscountManager } from './pages/admin/BannerDiscountManager';
+const BannerDiscountManager = lazy(() => import('./pages/admin/BannerDiscountManager').then(module => ({ default: module.BannerDiscountManager })));
 import { OrderConfirmationPage } from './pages/OrderConfirmationPage';
 import { OrderSuccessPage } from './pages/OrderSuccessPage';
 import { StripeProvider } from './components/StripeProvider';
@@ -48,6 +49,7 @@ import { ToastProvider } from './components/Toast';
 import { NewsletterSignup } from './components/NewsletterSignup';
 import { FirstTimeVisitorDiscount } from './components/FirstTimeVisitorDiscount';
 import { LimitedTimeOffer } from './components/LimitedTimeOffer';
+import { PageLoadingSpinner } from './components/common/LoadingSpinner';
 import { SimpleBanner } from './components/SimpleBanner';
 import ConfirmSubscriptionPage from './pages/ConfirmSubscriptionPage';
 import { UnsubscribePage } from './pages/UnsubscribePage';
@@ -57,7 +59,7 @@ import { DirectEmailTestPage } from './pages/DirectEmailTestPage';
 import { PopupDebugPage } from './pages/PopupDebugPage';
 import TranslationStatus from './components/dev/TranslationStatus';
 import TranslationDebug from './components/dev/TranslationDebug';
-import TranslationManager from './components/admin/TranslationManager';
+const TranslationManager = lazy(() => import('./components/admin/TranslationManager'));
 import { TestToastNotification } from './pages/TestToastNotification';
 import { TestStickyNotification } from './pages/TestStickyNotification';
 import { CookieConsent } from './components/CookieConsent';
@@ -181,31 +183,43 @@ function App() {
               <Route path="/test-stripe" element={<TestStripePage />} />
               <Route path="/admin/orders" element={
                 <SecureAdminRoute>
-                  <AdminOrdersPage />
+                  <Suspense fallback={<PageLoadingSpinner />}>
+                    <AdminOrdersPage />
+                  </Suspense>
                 </SecureAdminRoute>
               } />
               <Route path="/admin/products" element={
                 <SecureAdminRoute>
-                  <AdminProductsPage />
+                  <Suspense fallback={<PageLoadingSpinner />}>
+                    <AdminProductsPage />
+                  </Suspense>
                 </SecureAdminRoute>
               } />
               <Route path="/admin/settings" element={
                 <SecureAdminRoute>
-                  <AdminSettingsPage />
+                  <Suspense fallback={<PageLoadingSpinner />}>
+                    <AdminSettingsPage />
+                  </Suspense>
                 </SecureAdminRoute>
               } />
               <Route path="/admin/banner-discounts" element={
                 <SecureAdminRoute>
-                  <BannerDiscountManager />
+                  <Suspense fallback={<PageLoadingSpinner />}>
+                    <BannerDiscountManager />
+                  </Suspense>
                 </SecureAdminRoute>
               } />
               <Route path="/admin/translations" element={
                 <SecureAdminRoute>
-                  <TranslationManager />
+                  <Suspense fallback={<PageLoadingSpinner />}>
+                    <TranslationManager />
+                  </Suspense>
                 </SecureAdminRoute>
               } />
               <Route path="/admin/debug" element={
-                <AdminDebugPage />
+                <Suspense fallback={<PageLoadingSpinner />}>
+                  <AdminDebugPage />
+                </Suspense>
               } />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/auth/callback" element={<AuthCallbackPage />} />

@@ -4,6 +4,7 @@ export const slovenian = {
     currency: 'EUR',
     optional: 'neobvezno',
     loading: 'Nalaganje...',
+    loadingPage: 'Prosimo počakajte, medtem ko nalagamo stran',
     error: 'Prišlo je do napake',
     save: 'Shrani',
     saving: 'Shranjujem...',
