@@ -168,9 +168,13 @@ export const slovenian = {
       addOption: 'Dodaj možnost',
       removeOption: 'Odstrani možnost',
       optionDescription: 'Opis možnosti',
+      optionDescriptionPlaceholder: 'npr. 250g steklenica',
       price: 'Cena',
       weight: 'Teža',
-      saving: 'Shranjujem...'
+      saving: 'Shranjujem...',
+      creating: 'Ustvarjam...',
+      createError: 'Napaka pri ustvarjanju izdelka',
+      option: 'Možnost'
     },
     discounts: {
       bannerTitle: 'Upravljanje popustnih pasic',
@@ -720,19 +724,6 @@ export const slovenian = {
   password: {
     veryWeak: 'Zelo šibko geslo',
     weak: 'Šibko geslo',
-    moderate: 'Zmerno geslo',
-    strong: 'Močno geslo',
-    veryStrong: 'Zelo močno geslo',
-    requirements: 'Geslo mora vsebovati:',
-    minLength: 'Vsaj 10 znakov',
-    uppercase: 'Vsaj eno veliko črko',
-    lowercase: 'Vsaj eno malo črko',
-    number: 'Vsaj eno številko',
-    special: 'Vsaj en poseben znak'
-  },
-  password: {
-    veryWeak: 'Zelo šibko geslo',
-    weak: 'Šibko geslo',
     moderate: 'Zmerno močno geslo',
     strong: 'Močno geslo',
     veryStrong: 'Zelo močno geslo',
@@ -782,31 +773,6 @@ export const slovenian = {
     isActive: 'Aktiven',
     create: 'Ustvari',
     update: 'Posodobi'
-  },
-  cart: {
-    title: 'Vaša nakupovalna košarica',
-    empty: 'Vaša košarica je trenutno prazna.',
-    continueShopping: 'Nadaljuj z nakupovanjem',
-    product: 'Izdelek',
-    package: 'Pakiranje',
-    quantity: 'Količina',
-    price: 'Cena',
-    total: 'Skupaj',
-    subtotal: 'Vmesni seštevek',
-    checkout: 'Na blagajno',
-    remove: 'Odstrani',
-    update: 'Posodobi',
-    checkoutInfo: 'Poštnina se obračuna posebej.',
-    clearCart: 'Izprazni košarico',
-    shipping: 'Poštnina',
-    free: 'Brezplačno',
-    shippingCost: 'Strošek dostave',
-    freeShippingAchieved: 'Brezplačna dostava!',
-    qualifiedForFreeShipping: 'Vaše naročilo je upravičeno do brezplačne dostave!',
-    addMoreForFreeShipping: 'Dodajte še za {{amount}}, da pridobite brezplačno dostavo!',
-    shippingPolicy: 'Naročila pod {{threshold}}€ imajo strošek dostave {{cost}}€.',
-    backToCart: 'Nazaj na košarico',
-    editCart: 'Uredi košarico'
   },
   orders: {
     title: 'Moja naročila',
