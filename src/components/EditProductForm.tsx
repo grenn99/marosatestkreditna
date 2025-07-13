@@ -196,54 +196,161 @@ export function EditProductForm({ product, onClose, onSuccess }: EditProductForm
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="admin-form">
-          {/* Main Product Image Preview */}
-          <div className="mb-6">
-            <h3 className="text-lg font-medium text-brown-800 mb-2">{t('admin.products.mainImage', 'Main Product Image')}</h3>
+        <form onSubmit={handleSubmit} className="space-y-8">
+          {/* Basic Information Section */}
+          <div className="bg-white p-6 rounded-lg border border-gray-200">
+            <h3 className="text-lg font-semibold text-brown-800 mb-4 border-b border-gray-200 pb-2">
+              Osnovne informacije
+            </h3>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
+                  {t('admin.products.name')} *
+                </label>
+                <input
+                  type="text"
+                  id="name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-brown-500 focus:border-brown-500"
+                  required
+                  placeholder="Vnesite ime izdelka"
+                />
+              </div>
+
+              <div>
+                <label htmlFor="category" className="block text-sm font-medium text-gray-700 mb-2">
+                  {t('admin.products.category')}
+                </label>
+                <input
+                  type="text"
+                  id="category"
+                  value={category}
+                  onChange={(e) => setCategory(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-brown-500 focus:border-brown-500"
+                  placeholder="npr. Olje, Čaj, Semena"
+                />
+              </div>
+
+              <div className="md:col-span-2">
+                <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-2">
+                  {t('admin.products.description')}
+                </label>
+                <textarea
+                  id="description"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-brown-500 focus:border-brown-500"
+                  rows={4}
+                  placeholder="Vnesite opis izdelka"
+                />
+              </div>
+
+              <div>
+                <label htmlFor="stockQuantity" className="block text-sm font-medium text-gray-700 mb-2">
+                  {t('admin.products.stockQuantity')}
+                </label>
+                <input
+                  type="number"
+                  id="stockQuantity"
+                  min="0"
+                  value={stockQuantity}
+                  onChange={(e) => setStockQuantity(parseInt(e.target.value) || 0)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-brown-500 focus:border-brown-500"
+                  placeholder="0"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Main Product Image Section */}
+          <div className="bg-white p-6 rounded-lg border border-gray-200">
+            <h3 className="text-lg font-semibold text-brown-800 mb-4 border-b border-gray-200 pb-2">
+              {t('admin.products.mainImage')}
+            </h3>
+
             {imageUrl && (
               <div className="w-full flex justify-center mb-4">
-                <div className="relative w-64 h-64 overflow-hidden rounded-md border border-brown-200">
+                <div className="relative w-64 h-64 overflow-hidden rounded-lg border-2 border-gray-200 bg-gray-50">
                   <img
                     src={getImageUrl(imageUrl) || '/images/placeholder-product.jpg'}
                     alt={name}
                     className="w-full h-full object-contain p-2"
                     onError={(e) => {
-                      // Only log in development
                       if (process.env.NODE_ENV !== 'production') {
                         console.error('Error loading image:', imageUrl);
                       }
-                      // Use a local placeholder image instead of external URL to avoid CORS issues
                       (e.target as HTMLImageElement).src = '/images/placeholder-product.jpg';
                     }}
                   />
                 </div>
               </div>
             )}
+
+            <div>
+              <label htmlFor="imageUrl" className="block text-sm font-medium text-gray-700 mb-2">
+                {t('admin.products.imageUrl')}
+              </label>
+              <div className="space-y-3">
+                <input
+                  type="text"
+                  id="imageUrl"
+                  value={imageUrl}
+                  onChange={(e) => setImageUrl(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-brown-500 focus:border-brown-500"
+                  placeholder="/images/imeizdelka/slika.jpg"
+                />
+                <div className="flex items-center gap-3">
+                  <span className="text-sm text-gray-500">{t('admin.products.or')}</span>
+                  <label className="cursor-pointer bg-brown-100 hover:bg-brown-200 text-brown-800 px-4 py-2 rounded-md text-sm transition-colors">
+                    <input
+                      type="file"
+                      accept="image/*"
+                      className="hidden"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        if (file) {
+                          const fileName = file.name;
+                          const productFolder = name.toLowerCase().trim().replace(/\s+/g, ' ') || 'product';
+                          const correctPath = `/images/${productFolder}/${fileName}`;
+                          setImageUrl(correctPath);
+                          console.log('Selected file:', file.name);
+                          console.log('Set path to:', correctPath);
+                        }
+                      }}
+                    />
+                    {t('admin.products.selectFile')}
+                  </label>
+                </div>
+                <p className="text-xs text-gray-500">
+                  {t('admin.products.imagePathHelp')}
+                </p>
+              </div>
+            </div>
           </div>
 
           {/* Additional Images Section */}
-          <div className="mb-6">
-            <h3 className="text-lg font-medium text-brown-800 mb-2">
-              {t('admin.products.additionalImages', 'Additional Images')}
+          <div className="bg-white p-6 rounded-lg border border-gray-200">
+            <h3 className="text-lg font-semibold text-brown-800 mb-4 border-b border-gray-200 pb-2">
+              {t('admin.products.additionalImages')}
               <span className="text-sm font-normal text-gray-500 ml-2">({additionalImages.length}/5)</span>
             </h3>
 
             {/* Additional Images Grid */}
             {additionalImages.length > 0 && (
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 mb-4">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 mb-6">
                 {additionalImages.map((imgUrl, index) => (
                   <div key={index} className="relative group">
-                    <div className="w-full aspect-square overflow-hidden rounded-md border border-brown-200">
+                    <div className="w-full aspect-square overflow-hidden rounded-lg border-2 border-gray-200 bg-gray-50">
                       <img
                         src={getImageUrl(imgUrl) || '/images/placeholder-product.jpg'}
-                        alt={`${name} - Image ${index + 1}`}
+                        alt={`${name} - Slika ${index + 1}`}
                         className="w-full h-full object-contain p-1"
                         onError={(e) => {
-                          // Only log in development
                           if (process.env.NODE_ENV !== 'production') {
                             console.error('Error loading additional image:', imgUrl);
                           }
-                          // Use a local placeholder image instead of external URL to avoid CORS issues
                           (e.target as HTMLImageElement).src = '/images/placeholder-product.jpg';
                         }}
                       />
@@ -251,8 +358,8 @@ export function EditProductForm({ product, onClose, onSuccess }: EditProductForm
                     <button
                       type="button"
                       onClick={() => handleRemoveImage(index)}
-                      className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
-                      title={t('admin.products.removeImage', 'Remove Image')}
+                      className="absolute -top-2 -right-2 bg-red-500 hover:bg-red-600 text-white rounded-full p-1.5 opacity-0 group-hover:opacity-100 transition-all duration-200 shadow-lg"
+                      title={t('admin.products.removeImage')}
                     >
                       <X className="h-4 w-4" />
                     </button>
@@ -262,19 +369,19 @@ export function EditProductForm({ product, onClose, onSuccess }: EditProductForm
             )}
 
             {/* Add New Image Form */}
-            <div className="flex flex-col gap-2 mt-4">
-              <div className="flex items-end gap-2">
+            <div className="space-y-4">
+              <div className="flex flex-col sm:flex-row gap-3">
                 <div className="flex-1">
-                  <label htmlFor="newImageUrl" className="block text-sm font-medium text-brown-700 mb-1">
-                    {t('admin.products.addNewImage', 'Add New Image URL')}
+                  <label htmlFor="newImageUrl" className="block text-sm font-medium text-gray-700 mb-2">
+                    {t('admin.products.addNewImage')}
                   </label>
                   <input
                     type="text"
                     id="newImageUrl"
                     value={newImageUrl}
                     onChange={(e) => setNewImageUrl(e.target.value)}
-                    className="admin-form-input"
-                    placeholder="/images/productname/image.jpg or https://example.com/image.jpg"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-brown-500 focus:border-brown-500"
+                    placeholder="/images/imeizdelka/slika.jpg"
                     onKeyDown={(e) => {
                       if (e.key === 'Enter') {
                         e.preventDefault();
@@ -283,19 +390,21 @@ export function EditProductForm({ product, onClose, onSuccess }: EditProductForm
                     }}
                   />
                 </div>
-                <button
-                  type="button"
-                  onClick={handleAddImage}
-                  className="admin-button-secondary h-10"
-                  disabled={!newImageUrl || additionalImages.length >= 5}
-                >
-                  {t('admin.products.addImage', 'Add')}
-                </button>
+                <div className="flex items-end">
+                  <button
+                    type="button"
+                    onClick={handleAddImage}
+                    className="px-4 py-2 bg-brown-600 hover:bg-brown-700 text-white rounded-md transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
+                    disabled={!newImageUrl || additionalImages.length >= 5}
+                  >
+                    {t('admin.products.addImage')}
+                  </button>
+                </div>
               </div>
 
-              <div className="flex items-center mt-2">
-                <span className="text-sm text-gray-600 mr-2">{t('admin.products.or', 'Or')}</span>
-                <label className="cursor-pointer bg-brown-100 hover:bg-brown-200 text-brown-800 px-3 py-2 rounded-md text-sm transition-colors">
+              <div className="flex items-center gap-3">
+                <span className="text-sm text-gray-500">{t('admin.products.or')}</span>
+                <label className="cursor-pointer bg-brown-100 hover:bg-brown-200 text-brown-800 px-4 py-2 rounded-md text-sm transition-colors">
                   <input
                     type="file"
                     accept="image/*"
@@ -303,262 +412,148 @@ export function EditProductForm({ product, onClose, onSuccess }: EditProductForm
                     onChange={(e) => {
                       const file = e.target.files?.[0];
                       if (file) {
-                        // Create a path to the images folder with the correct format
                         const fileName = file.name;
-                        // Get the product name or use a default folder
                         const productFolder = name.toLowerCase().trim().replace(/\s+/g, ' ') || 'product';
-                        // Use the correct path format: /images/productname/filename.jpg
                         const correctPath = `/images/${productFolder}/${fileName}`;
                         setNewImageUrl(correctPath);
                         console.log('Selected additional file:', file.name);
                       }
                     }}
                   />
-                  {t('admin.products.selectFile', 'Select Image File')}
+                  {t('admin.products.selectFile')}
                 </label>
               </div>
-              <div className="mt-2">
-                <p className="text-sm text-gray-600 mb-1">
-                  {t('admin.products.note', 'Note:')}
+
+              <div className="bg-blue-50 p-4 rounded-md">
+                <p className="text-sm text-blue-800 font-medium mb-2">
+                  {t('admin.products.note')}
                 </p>
-                <ul className="text-xs text-gray-600 list-disc pl-5 space-y-1">
-                  <li>{t('admin.products.imageTip1', 'Use forward slashes (/) in paths')}</li>
-                  <li>{t('admin.products.imageTip2', 'Start with /images/ for local images')}</li>
-                  <li className="text-red-600">
-                    {t('admin.products.imageTip3', 'Example: /images/Poprova meta/Poprova meta1.jpeg')}
-                  </li>
+                <ul className="text-sm text-blue-700 space-y-1">
+                  <li>• {t('admin.products.imageTip1')}</li>
+                  <li>• {t('admin.products.imageTip2')}</li>
+                  <li className="text-blue-900 font-medium">• {t('admin.products.imageTip3')}</li>
                 </ul>
               </div>
             </div>
           </div>
 
-          <div className="admin-form-section">
-            <div className="admin-form-group">
-              <label htmlFor="name" className="admin-form-label">
-                {t('admin.products.name')}:
-              </label>
-              <div className="admin-form-field">
-                <input
-                  type="text"
-                  id="name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  className="admin-form-input"
-                  required
-                />
-              </div>
-            </div>
-
-            <div className="admin-form-group">
-              <label htmlFor="description" className="admin-form-label">
-                {t('admin.products.description')}:
-              </label>
-              <div className="admin-form-field">
-                <textarea
-                  id="description"
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  className="admin-form-textarea"
-                  rows={4}
-                />
-              </div>
-            </div>
-
-            <div className="admin-form-group">
-              <label htmlFor="category" className="admin-form-label">
-                {t('admin.products.category')}:
-              </label>
-              <div className="admin-form-field">
-                <input
-                  type="text"
-                  id="category"
-                  value={category}
-                  onChange={(e) => setCategory(e.target.value)}
-                  className="admin-form-input"
-                />
-              </div>
-            </div>
-
-            <div className="admin-form-group">
-              <label htmlFor="imageUrl" className="admin-form-label">
-                {t('admin.products.imageUrl')}:
-              </label>
-              <div className="admin-form-field">
-                <div className="flex flex-col space-y-2">
-                  <input
-                    type="text"
-                    id="imageUrl"
-                    value={imageUrl}
-                    onChange={(e) => setImageUrl(e.target.value)}
-                    className="admin-form-input"
-                    placeholder="/images/productname/image.jpg or https://example.com/image.jpg"
-                  />
-                  <div className="flex items-center">
-                    <span className="text-sm text-gray-600 mr-2">{t('admin.products.or', 'Or')}</span>
-                    <label className="cursor-pointer bg-brown-100 hover:bg-brown-200 text-brown-800 px-3 py-2 rounded-md text-sm transition-colors">
-                      <input
-                        type="file"
-                        accept="image/*"
-                        className="hidden"
-                        onChange={(e) => {
-                          const file = e.target.files?.[0];
-                          if (file) {
-                            // Create a path to the images folder with the correct format
-                            const fileName = file.name;
-                            // Get the product name or use a default folder
-                            // For "caj konoplja", use the full name as the folder
-                            const productFolder = name.toLowerCase().trim().replace(/\s+/g, ' ') || 'product';
-                            // Use the correct path format: /images/productname/filename.jpg
-                            const correctPath = `/images/${productFolder}/${fileName}`;
-                            setImageUrl(correctPath);
-
-                            // Optional: You could also implement actual file upload here
-                            // For now, we're just setting the path assuming the user will upload manually
-                            console.log('Selected file:', file.name);
-                            console.log('Set path to:', correctPath);
-                          }
-                        }}
-                      />
-                      {t('admin.products.selectFile', 'Select Image File')}
-                    </label>
-                  </div>
-                </div>
-                <p className="text-xs text-gray-500 mt-1">
-                  {t('admin.products.imagePathHelp', 'For local images, use path like: /images/productname/image.jpg')}
-                </p>
-              </div>
-            </div>
-
-            <div className="admin-form-group">
-              <label htmlFor="stockQuantity" className="admin-form-label">
-                {t('admin.products.stockQuantity')}:
-              </label>
-              <div className="admin-form-field">
-                <input
-                  type="number"
-                  id="stockQuantity"
-                  min="0"
-                  value={stockQuantity}
-                  onChange={(e) => setStockQuantity(parseInt(e.target.value) || 0)}
-                  className="admin-form-input"
-                />
-              </div>
-            </div>
-          </div>
-
-          <div className="mt-8">
-            <h3 className="text-lg font-medium text-brown-900 mb-4">
+          {/* Package Options Section */}
+          <div className="bg-white p-6 rounded-lg border border-gray-200">
+            <h3 className="text-lg font-semibold text-brown-800 mb-4 border-b border-gray-200 pb-2">
               {t('admin.products.packageOptions')}
             </h3>
 
-            {packageOptions.map((option, index) => (
-              <div key={option.uniq_id} className="bg-brown-50 p-4 rounded-md mb-4">
-                <div className="flex justify-between items-center mb-3">
-                  <h4 className="text-sm font-medium text-brown-700">
-                    {t('admin.products.option')} {index + 1}
-                  </h4>
-                  <button
-                    type="button"
-                    className="admin-button-danger text-xs"
-                    onClick={() => handleRemovePackageOption(index)}
-                    disabled={packageOptions.length === 1}
-                  >
-                    <Trash2 className="h-3 w-3 mr-1" />
-                    {t('admin.products.removeOption')}
-                  </button>
-                </div>
-
-                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                  <div>
-                    <label
-                      htmlFor={`option-description-${index}`}
-                      className="block text-sm font-medium text-brown-700 mb-1"
+            <div className="space-y-4">
+              {packageOptions.map((option, index) => (
+                <div key={option.uniq_id} className="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                  <div className="flex justify-between items-center mb-4">
+                    <h4 className="text-base font-medium text-gray-800">
+                      Možnost pakiranja {index + 1}
+                    </h4>
+                    <button
+                      type="button"
+                      className="px-3 py-1.5 bg-red-500 hover:bg-red-600 text-white text-sm rounded-md transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
+                      onClick={() => handleRemovePackageOption(index)}
+                      disabled={packageOptions.length === 1}
                     >
-                      {t('admin.products.optionDescription')}:
-                    </label>
-                    <input
-                      type="text"
-                      id={`option-description-${index}`}
-                      value={option.description}
-                      onChange={(e) =>
-                        handlePackageOptionChange(index, 'description', e.target.value)
-                      }
-                      placeholder={t('admin.products.optionDescriptionPlaceholder')}
-                      className="admin-form-input"
-                    />
+                      <Trash2 className="h-4 w-4 mr-1 inline" />
+                      {t('admin.products.removeOption')}
+                    </button>
                   </div>
 
-                  <div>
-                    <label
-                      htmlFor={`option-price-${index}`}
-                      className="block text-sm font-medium text-brown-700 mb-1"
-                    >
-                      {t('admin.products.price')}:
-                    </label>
-                    <input
-                      type="number"
-                      id={`option-price-${index}`}
-                      min="0"
-                      step="0.01"
-                      value={option.price}
-                      onChange={(e) =>
-                        handlePackageOptionChange(index, 'price', e.target.value)
-                      }
-                      className="admin-form-input"
-                    />
-                  </div>
-
-                  <div>
-                    <label
-                      htmlFor={`option-weight-${index}`}
-                      className="block text-sm font-medium text-brown-700 mb-1"
-                    >
-                      {t('admin.products.weight')}:
-                    </label>
-                    <div className="flex">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                      <label
+                        htmlFor={`option-description-${index}`}
+                        className="block text-sm font-medium text-gray-700 mb-2"
+                      >
+                        {t('admin.products.optionDescription')} *
+                      </label>
                       <input
                         type="text"
-                        id={`option-weight-${index}`}
-                        value={option.weight}
-                        placeholder="e.g. 0,5l, 1kg, 200g"
+                        id={`option-description-${index}`}
+                        value={option.description}
                         onChange={(e) =>
-                          handlePackageOptionChange(index, 'weight', e.target.value)
+                          handlePackageOptionChange(index, 'description', e.target.value)
                         }
-                        className="admin-form-input rounded-r-none flex-1"
-                        style={{ minWidth: '80px' }} /* Fixed minimum width */
+                        placeholder="npr. 250g steklenica"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-brown-500 focus:border-brown-500"
                       />
-                      <select
-                        value={option.unit}
-                        onChange={(e) =>
-                          handlePackageOptionChange(index, 'unit', e.target.value)
-                        }
-                        className="admin-form-select rounded-l-none w-20"
+                    </div>
+
+                    <div>
+                      <label
+                        htmlFor={`option-price-${index}`}
+                        className="block text-sm font-medium text-gray-700 mb-2"
                       >
-                        <option value="g">g</option>
-                        <option value="kg">kg</option>
-                        <option value="ml">ml</option>
-                        <option value="l">l</option>
-                      </select>
+                        {t('admin.products.price')} (€) *
+                      </label>
+                      <input
+                        type="number"
+                        id={`option-price-${index}`}
+                        min="0"
+                        step="0.01"
+                        value={option.price}
+                        onChange={(e) =>
+                          handlePackageOptionChange(index, 'price', e.target.value)
+                        }
+                        placeholder="0.00"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-brown-500 focus:border-brown-500"
+                      />
+                    </div>
+
+                    <div>
+                      <label
+                        htmlFor={`option-weight-${index}`}
+                        className="block text-sm font-medium text-gray-700 mb-2"
+                      >
+                        {t('admin.products.weight')} *
+                      </label>
+                      <div className="flex">
+                        <input
+                          type="text"
+                          id={`option-weight-${index}`}
+                          value={option.weight}
+                          placeholder="npr. 0,5 ali 250"
+                          onChange={(e) =>
+                            handlePackageOptionChange(index, 'weight', e.target.value)
+                          }
+                          className="flex-1 px-3 py-2 border border-gray-300 rounded-l-md shadow-sm focus:outline-none focus:ring-2 focus:ring-brown-500 focus:border-brown-500"
+                        />
+                        <select
+                          value={option.unit}
+                          onChange={(e) =>
+                            handlePackageOptionChange(index, 'unit', e.target.value)
+                          }
+                          className="px-3 py-2 border border-l-0 border-gray-300 rounded-r-md shadow-sm focus:outline-none focus:ring-2 focus:ring-brown-500 focus:border-brown-500 bg-white"
+                        >
+                          <option value="g">g</option>
+                          <option value="kg">kg</option>
+                          <option value="ml">ml</option>
+                          <option value="l">l</option>
+                        </select>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
 
-            <button
-              type="button"
-              className="admin-button-secondary mt-2"
-              onClick={handleAddPackageOption}
-            >
-              <Plus className="h-4 w-4 mr-1" />
-              {t('admin.products.addOption')}
-            </button>
+              <button
+                type="button"
+                className="w-full mt-4 px-4 py-2 border-2 border-dashed border-brown-300 text-brown-600 hover:border-brown-400 hover:text-brown-700 rounded-lg transition-colors"
+                onClick={handleAddPackageOption}
+              >
+                <Plus className="h-5 w-5 mr-2 inline" />
+                {t('admin.products.addOption')}
+              </button>
+            </div>
           </div>
 
-          <div className="admin-form-actions mt-8">
+          {/* Form Actions */}
+          <div className="flex justify-end space-x-4 pt-6 border-t border-gray-200">
             <button
               type="button"
-              className="admin-button-secondary"
+              className="px-6 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               onClick={onClose}
               disabled={saving}
             >
@@ -566,7 +561,7 @@ export function EditProductForm({ product, onClose, onSuccess }: EditProductForm
             </button>
             <button
               type="submit"
-              className="admin-button-primary"
+              className="px-6 py-2 bg-brown-600 hover:bg-brown-700 text-white rounded-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               disabled={saving}
             >
               {saving ? t('admin.products.saving') : t('admin.products.save')}
