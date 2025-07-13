@@ -4,33 +4,44 @@ import { useTranslation } from 'react-i18next';
 import { useAuth } from '../context/AuthContext';
 import { supabase } from '../lib/supabaseClient';
 import { Product, PackageOption } from '../types';
-import { EditProductForm } from '../components/EditProductForm';
-import { AddProductForm } from '../components/AddProductForm';
+import { EditProductForm } from '../components/admin/EditProductForm';
+import { AddProductForm } from '../components/admin/AddProductForm';
 import { PlusCircle, Edit, Trash2, Package } from 'lucide-react';
 import { isAdminEmail } from '../config/adminConfig';
 import { Image } from '../components/Image';
+import { useProducts } from '../hooks/useProducts';
+import { parsePackageOptions } from '../utils/packageUtils';
 
 export function AdminProductsPage() {
   const { t, i18n } = useTranslation();
   const { user, loading: authLoading } = useAuth();
   const navigate = useNavigate();
 
-  const [products, setProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  // Use the shared useProducts hook
+  const [categoryFilter, setCategoryFilter] = useState<string>('all');
+  const { products, loading, error: fetchError, refetch } = useProducts({
+    categoryFilter,
+    includeInactive: true
+  });
+
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [editingProductId, setEditingProductId] = useState<number | null>(null);
   const [editingStockQuantity, setEditingStockQuantity] = useState<number>(0);
-  const [categoryFilter, setCategoryFilter] = useState<string>('all');
   const [categories, setCategories] = useState<string[]>([]);
   const [updatingProductId, setUpdatingProductId] = useState<number | null>(null);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [isAddingProduct, setIsAddingProduct] = useState(false);
   const [deletingProductId, setDeletingProductId] = useState<number | null>(null);
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+  const [error, setError] = useState<string | null>(fetchError);
 
   // Check if user is admin
   const isAdmin = user && isAdminEmail(user.email);
+
+  // Update error state when fetchError changes
+  useEffect(() => {
+    setError(fetchError);
+  }, [fetchError]);
 
   useEffect(() => {
     // Redirect if not logged in or not admin
@@ -39,58 +50,14 @@ export function AdminProductsPage() {
       return;
     }
 
-    fetchProducts();
-  }, [user, authLoading, navigate, i18n.language, categoryFilter, isAdmin]);
-
-  const fetchProducts = async () => {
-    if (!user || !isAdmin) return;
-
-    try {
-      setLoading(true);
-
-      // Build query
-      let query = supabase.from('products').select('*');
-
-      // Apply category filter if not 'all'
-      if (categoryFilter !== 'all') {
-        query = query.eq('category', categoryFilter);
-      }
-
-      // Execute query
-      const { data, error: fetchError } = await query.order('id');
-
-      if (fetchError) {
-        throw fetchError;
-      }
-
-      // Process the data
-      const processedProducts = data.map((product: any) => {
-        // Parse package_options if it's a string
-        if (typeof product.package_options === 'string') {
-          try {
-            product.package_options = JSON.parse(product.package_options);
-          } catch (e) {
-            console.error('Error parsing package_options:', e);
-            product.package_options = [];
-          }
-        }
-        return product as Product;
-      });
-
-      setProducts(processedProducts);
-
-      // Extract unique categories for the filter
+    // Extract unique categories for the filter
+    if (products.length > 0) {
       const uniqueCategories = Array.from(
-        new Set(data.map((product: any) => product.category).filter(Boolean))
+        new Set(products.map(product => product.category).filter(Boolean))
       ) as string[];
       setCategories(uniqueCategories);
-    } catch (err: any) {
-      console.error('Error fetching products:', err);
-      setError(t('admin.products.fetchError'));
-    } finally {
-      setLoading(false);
     }
-  };
+  }, [user, authLoading, navigate, i18n.language, isAdmin, products]);
 
   const updateProductStock = async (productId: number, newStockQuantity: number) => {
     if (!user || !isAdmin) return;
@@ -361,7 +328,7 @@ export function AdminProductsPage() {
               onClose={() => setEditingProduct(null)}
               onSuccess={() => {
                 setEditingProduct(null);
-                fetchProducts();
+                refetch();
               }}
             />
           </div>
@@ -376,7 +343,7 @@ export function AdminProductsPage() {
               onClose={() => setIsAddingProduct(false)}
               onSuccess={() => {
                 setIsAddingProduct(false);
-                fetchProducts();
+                refetch();
               }}
             />
           </div>

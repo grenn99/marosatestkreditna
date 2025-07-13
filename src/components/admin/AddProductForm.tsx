@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { supabase } from '../lib/supabaseClient';
+import { supabase } from '../../lib/supabaseClient';
 import { X, Plus, Trash2 } from 'lucide-react';
-import { getImageUrl } from '../utils/imageUtils';
+import { getImageUrl } from '../../utils/imageUtils';
 
 interface AddProductFormProps {
   onClose: () => void;

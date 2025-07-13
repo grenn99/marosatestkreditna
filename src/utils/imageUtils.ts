@@ -478,3 +478,29 @@ export function clearAllImageCaches(): void {
     console.error('Error clearing image caches:', e);
   }
 }
+
+/**
+ * Generate image path for product based on product name and filename
+ * Consolidates the logic used across multiple components
+ */
+export function generateProductImagePath(productName: string, filename: string): string {
+  const productFolder = productName.toLowerCase().trim().replace(/\s+/g, ' ') || 'product';
+  return `/images/${productFolder}/${filename}`;
+}
+
+/**
+ * Extract filename from a file input event
+ * Common pattern used in forms
+ */
+export function extractFilename(event: Event): string | null {
+  const target = event.target as HTMLInputElement;
+  const file = target.files?.[0];
+  return file ? file.name : null;
+}
+
+/**
+ * Check if an image URL is a placeholder
+ */
+export function isPlaceholderImage(url: string): boolean {
+  return url.includes('placeholder') || url.includes('default') || url === DEFAULT_FALLBACK_IMAGE;
+}
