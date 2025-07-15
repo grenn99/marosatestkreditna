@@ -464,11 +464,32 @@ export const MultiStepCheckoutPage: React.FC = () => {
         discount_amount: discountAmount || 0,
       };
 
+      console.log('Attempting to create order with data:', orderData);
+
+      // Validate required fields
+      if (!shippingAddress.name || !shippingAddress.email || !shippingAddress.address) {
+        console.error('Missing required customer information', shippingAddress);
+        throw new Error('Missing required customer information');
+      }
+
+      if (!paymentMethod) {
+        console.error('Payment method is required');
+        throw new Error('Payment method is required');
+      }
+
+      if (!orderItems || orderItems.length === 0) {
+        console.error('Cart is empty');
+        throw new Error('Cart is empty');
+      }
+
+      // Add anon key to ensure guest orders work
       const { data: newOrder, error: orderError } = await supabase
         .from('orders')
         .insert(orderData)
         .select('id')
         .single();
+
+      console.log('Order creation result:', { newOrder, orderError });
 
       if (orderError) throw new Error(`Order creation failed: ${orderError.message}`);
       if (!newOrder) throw new Error('Order creation returned no data.');
@@ -530,7 +551,28 @@ export const MultiStepCheckoutPage: React.FC = () => {
       navigate(successUrl, { replace: true });
     } catch (err: any) {
       console.error('Error processing order:', err);
-      setError(t('checkout.errors.orderProcessing', 'An error occurred while processing your order. Please try again.'));
+      console.error('Error details:', {
+        message: err.message,
+        code: err.code,
+        details: err.details,
+        hint: err.hint,
+        stack: err.stack
+      });
+
+      // Provide more specific error messages
+      let errorMessage = t('checkout.errors.orderProcessing', 'An error occurred while processing your order. Please try again.');
+
+      if (err.message?.includes('duplicate key')) {
+        errorMessage = t('checkout.errors.duplicateOrder', 'This order has already been processed. Please check your email for confirmation.');
+      } else if (err.message?.includes('permission denied') || err.code === 'PGRST301') {
+        errorMessage = t('checkout.errors.permissionDenied', 'Permission denied. Please try again or contact support.');
+      } else if (err.message?.includes('network') || err.message?.includes('fetch')) {
+        errorMessage = t('checkout.errors.networkError', 'Network error. Please check your connection and try again.');
+      } else if (err.message) {
+        errorMessage = `${t('checkout.errors.orderProcessing', 'An error occurred while processing your order.')}: ${err.message}`;
+      }
+
+      setError(errorMessage);
       setIsSubmitting(false);
     }
   };

@@ -357,6 +357,16 @@ export const slovenian = {
     submitErrorGeneral: 'Prišlo je do nepričakovane napake. Prosimo, poskusite znova.',
     submitErrorCartEmpty: 'Nadaljevanje z prazno košarico ni mogoče.',
     errorPaymentMethodRequired: 'Prosimo, izberite način plačila.',
+    errors: {
+      missingFields: 'Prosimo, izpolnite vsa obvezna polja.',
+      selectPayment: 'Prosimo, izberite način plačila.',
+      incompletePayment: 'Prosimo, dokončajte podatke o plačilu.',
+      orderProcessing: 'Prišlo je do napake pri obdelavi naročila. Prosimo, poskusite znova.',
+      duplicateOrder: 'To naročilo je že bilo obdelano. Preverite svojo e-pošto za potrditev.',
+      permissionDenied: 'Dostop zavrnjen. Prosimo, poskusite znova ali se obrnite na podporo.',
+      networkError: 'Napaka omrežja. Prosimo, preverite svojo povezavo in poskusite znova.',
+      loadingProducts: 'Napaka pri nalaganju podrobnosti izdelkov. Prosimo, poskusite znova.'
+    },
     orderSuccess: 'Naročilo uspešno oddano!',
     orderSuccessMessage: 'Hvala za vaše naročilo! Obdelali ga bomo v najkrajšem času.',
     cartEmptyTitle: 'Vaša košarica je prazna',

@@ -4,6 +4,7 @@
 // Define allowed origins - replace with your actual domains
 const ALLOWED_ORIGINS = [
   'https://marosakreditna.netlify.app',
+  'https://marosatest.netlify.app',
   'https://680ad6594e5703d7515a85fe--marosakreditna.netlify.app',
   'http://localhost:5173',
   'http://localhost:5174',
