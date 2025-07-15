@@ -37,8 +37,8 @@ interface OrderDetails {
 }
 
 // Email configuration
-const DEFAULT_FROM_EMAIL = 'marc999933@gmail.com';
-const ADMIN_EMAIL = 'marc999933@gmail.com'; // Admin email for order notifications
+const DEFAULT_FROM_EMAIL = 'kmetija.marosa.narocila@gmail.com';
+const ADMIN_EMAIL = 'kmetija.marosa.narocila@gmail.com'; // Admin email for order notifications
 
 /**
  * Sends an email using Supabase Functions
@@ -132,7 +132,7 @@ export async function sendOrderConfirmationEmail(
       orderItems: formattedOrderItems,
       shippingAddress: orderDetails.shippingAddress,
       orderDate: new Date().toISOString(),
-      replyToEmail: 'kmetija.marosa@gmail.com' // Explicitly set the reply-to email
+      replyToEmail: 'kmetija.marosa.narocila@gmail.com' // Explicitly set the reply-to email
     };
 
     // Log the order items to help debug

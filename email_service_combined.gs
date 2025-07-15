@@ -51,8 +51,8 @@ function handleNewsletterConfirmation(data) {
     // Extract data
     const to = data.to || '';
     const subject = data.subject || 'Potrditev prijave na e-novice Kmetije Maroša';
-    const from = data.from || 'marc999933@gmail.com';
-    const replyTo = data.replyTo || 'kmetija.marosa@gmail.com';
+    const from = data.from || 'kmetija.marosa.narocila@gmail.com';
+    const replyTo = data.replyTo || 'kmetija.marosa.narocila@gmail.com';
 
     // Parse the body to get HTML and text content
     let htmlContent = '';
@@ -152,8 +152,8 @@ function handleWelcomeEmail(data) {
     // Extract data
     const to = data.to || '';
     const subject = data.subject || 'Dobrodošli na Kmetiji Maroša - Vaša koda za popust!';
-    const from = data.from || 'marc999933@gmail.com';
-    const replyTo = data.replyTo || 'kmetija.marosa@gmail.com';
+    const from = data.from || 'kmetija.marosa.narocila@gmail.com';
+    const replyTo = data.replyTo || 'kmetija.marosa.narocila@gmail.com';
 
     // Log if discount code is present at top level
     if (data.discountCode) {
@@ -266,7 +266,7 @@ function handleOrderConfirmation(data) {
     const orderId = data.orderId || 'Unknown';
     const customerName = data.customerName || 'Customer';
     const customerEmail = data.customerEmail || '';
-    const adminEmail = data.adminEmail || 'marc999933@gmail.com';
+    const adminEmail = data.adminEmail || 'kmetija.marosa.narocila@gmail.com';
     const orderTotal = data.orderTotal || '0.00';
     const paymentMethod = data.paymentMethod || 'unknown';
     const orderItems = data.orderItems || [];

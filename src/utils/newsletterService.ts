@@ -8,8 +8,8 @@ import { generateWelcomeEmailHtml, generateWelcomeEmailText } from '../templates
 import { createWelcomeDiscount } from './discountUtils';
 
 // Email configuration
-const DEFAULT_FROM_EMAIL = 'marc999933@gmail.com';
-const REPLY_TO_EMAIL = 'kmetija.marosa@gmail.com';
+const DEFAULT_FROM_EMAIL = 'kmetija.marosa.narocila@gmail.com';
+const REPLY_TO_EMAIL = 'kmetija.marosa.narocila@gmail.com';
 
 // Set BASE_URL based on environment
 const BASE_URL = process.env.NODE_ENV === 'development'

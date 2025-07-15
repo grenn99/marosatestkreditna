@@ -1,8 +1,8 @@
 import { sendEmail } from './emailService';
 import { generateRegistrationConfirmationEmailHtml, generateRegistrationConfirmationEmailText } from '../templates/registrationConfirmationEmail';
 
-const DEFAULT_FROM_EMAIL = 'marc999933@gmail.com';
-const REPLY_TO_EMAIL = 'kmetija.marosa@gmail.com';
+const DEFAULT_FROM_EMAIL = 'kmetija.marosa.narocila@gmail.com';
+const REPLY_TO_EMAIL = 'kmetija.marosa.narocila@gmail.com';
 const BASE_URL = process.env.NODE_ENV === 'production' 
   ? 'https://marosakreditna.netlify.app' 
   : 'http://localhost:5174';

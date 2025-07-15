@@ -251,7 +251,7 @@ function handleOrderConfirmation(data) {
     const orderId = data.orderId || 'Unknown';
     const customerName = data.customerName || 'Customer';
     const customerEmail = data.customerEmail || '';
-    const adminEmail = data.adminEmail || 'marc999933@gmail.com';
+    const adminEmail = data.adminEmail || 'kmetija.marosa.narocila@gmail.com';
     const orderTotal = data.orderTotal || '0.00';
     const paymentMethod = data.paymentMethod || 'unknown';
     const orderItems = data.orderItems || [];
