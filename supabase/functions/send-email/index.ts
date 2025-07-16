@@ -49,8 +49,9 @@ serve(async (req: Request) => {
       });
     }
 
-    // Hardcoded Google Apps Script URL - latest deployment with fixed reply-to address
-    const googleScriptUrl = 'https://script.google.com/macros/s/AKfycbxE10OFGBoSVGRFBk304KTgu1txHxFXIq97mE4xN05wQnQf2v_815uKT_LoXZYOebXqZg/exec';
+    // Google Apps Script URL for kmetija.marosa.narocila@gmail.com - ORDER CONFIRMATIONS
+    // Deployed on 16. jul. 2025, 19:54 - Version 1
+    const googleScriptUrl = 'https://script.google.com/macros/s/AKfycbw2pysAAgrqlkDA85BghF4QM9sCbDjFdogrIHRDA3UDpMo-8SsttlsUXMmATz-kRdSDSg/exec';
 
     if (!googleScriptUrl) {
       console.error('Google Script URL not available');
@@ -153,7 +154,7 @@ serve(async (req: Request) => {
       to: emailData.to,
       subject: emailData.subject,
       from: emailData.from,
-      replyTo: 'kmetija.marosa@gmail.com',
+      replyTo: 'kmetija.marosa.narocila@gmail.com',
     };
 
     // Check if parsedBody itself indicates it's a newsletter or welcome email
