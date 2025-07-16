@@ -49,9 +49,47 @@ serve(async (req: Request) => {
       });
     }
 
-    // Google Apps Script URL for kmetija.marosa.narocila@gmail.com - ORDER CONFIRMATIONS
-    // Deployed on 16. jul. 2025, 19:54 - Version 1
-    const googleScriptUrl = 'https://script.google.com/macros/s/AKfycbw2pysAAgrqlkDA85BghF4QM9sCbDjFdogrIHRDA3UDpMo-8SsttlsUXMmATz-kRdSDSg/exec';
+    // Google Apps Script URLs for different email types
+    const ORDER_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw2pysAAgrqlkDA85BghF4QM9sCbDjFdogrIHRDA3UDpMo-8SsttlsUXMmATz-kRdSDSg/exec'; // kmetija.marosa.narocila@gmail.com
+    const NEWSLETTER_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbymww6hPFesPcur582hJINP4OF_ezHt7fq79Xps_2gDtWcA1tICqi4Drf8Kh9YXGbA3mA/exec'; // kmetija.marosa.novice@gmail.com
+    const EMAIL_CONFIRMATION_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyetuVQxGhFAznSHk2ljWOCK4aInHmTbiDv4hKUlrbCSs2Q2aUHTlG6CepP7TdwcSLh4A/exec'; // kmetija.marosa.novice@gmail.com (Version 3)
+
+    // Determine which script URL to use based on email type
+    let googleScriptUrl;
+
+    // Parse the request body to determine email type
+    const requestBody = await req.text();
+    let parsedBody;
+    try {
+      parsedBody = JSON.parse(requestBody);
+    } catch (e) {
+      console.error('Failed to parse request body:', e);
+      return new Response(JSON.stringify({
+        success: false,
+        error: 'Invalid JSON in request body'
+      }), {
+        headers: {
+          ...corsHeaders,
+          'Content-Type': 'application/json'
+        },
+        status: 400
+      });
+    }
+
+    // Determine email type and script URL
+    const isNewsletterEmail = parsedBody.body && (parsedBody.body.isConfirmation || parsedBody.body.isWelcome);
+    const isRegistrationEmail = parsedBody.body && parsedBody.body.isRegistrationConfirmation;
+
+    if (isNewsletterEmail) {
+      googleScriptUrl = NEWSLETTER_SCRIPT_URL;
+      console.log('Using newsletter script for email type:', parsedBody.body.isConfirmation ? 'confirmation' : 'welcome');
+    } else if (isRegistrationEmail) {
+      googleScriptUrl = EMAIL_CONFIRMATION_SCRIPT_URL;
+      console.log('Using email confirmation script for registration confirmation');
+    } else {
+      googleScriptUrl = ORDER_SCRIPT_URL;
+      console.log('Using order script for order confirmation email');
+    }
 
     if (!googleScriptUrl) {
       console.error('Google Script URL not available');
@@ -67,8 +105,8 @@ serve(async (req: Request) => {
       });
     }
 
-    // Parse the request body
-    const emailData = await req.json();
+    // Use the already parsed body
+    const emailData = parsedBody;
 
     // Validate required fields from client
     if (!emailData.to || !emailData.subject || !emailData.body) {
@@ -150,11 +188,14 @@ serve(async (req: Request) => {
     // Prepare the payload for Google Apps Script
     let googleScriptPayload: Record<string, any>;
 
+    // Determine reply-to email based on email type
+    const replyToEmail = (isNewsletterEmail || isRegistrationEmail) ? 'kmetija.marosa.novice@gmail.com' : 'kmetija.marosa.narocila@gmail.com';
+
     const commonEmailProperties = {
       to: emailData.to,
       subject: emailData.subject,
       from: emailData.from,
-      replyTo: 'kmetija.marosa.narocila@gmail.com',
+      replyTo: replyToEmail,
     };
 
     // Check if parsedBody itself indicates it's a newsletter or welcome email
