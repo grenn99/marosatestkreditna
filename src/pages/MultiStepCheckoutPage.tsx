@@ -516,6 +516,20 @@ export const MultiStepCheckoutPage: React.FC = () => {
 
         console.log('Email order items:', JSON.stringify(emailOrderItems));
 
+        // Get localized payment method name
+        const getLocalizedPaymentMethod = (method: string) => {
+          switch (method) {
+            case PAYMENT_METHODS.creditCard:
+              return t('checkout.paymentOptions.creditCard', 'Kreditna kartica (Stripe)');
+            case PAYMENT_METHODS.payOnDelivery:
+              return t('checkout.paymentOptions.payOnDelivery', 'Plačilo po povzetju');
+            case PAYMENT_METHODS.bankTransfer:
+              return t('checkout.paymentOptions.bankTransfer', 'Neposredno bančno nakazilo');
+            default:
+              return method;
+          }
+        };
+
         // Make a single call to send both customer and admin emails
         const emailResult = await sendOrderConfirmationEmail(
           newOrder.id,
@@ -525,9 +539,7 @@ export const MultiStepCheckoutPage: React.FC = () => {
             items: emailOrderItems,
             total: total,
             shippingAddress: shippingAddress,
-            paymentMethod: paymentMethod === PAYMENT_METHODS.creditCard ? 'Credit Card' :
-                          paymentMethod === PAYMENT_METHODS.payOnDelivery ? 'Pay on Delivery' :
-                          paymentMethod === PAYMENT_METHODS.bankTransfer ? 'Bank Transfer' : paymentMethod
+            paymentMethod: getLocalizedPaymentMethod(paymentMethod)
           }
         );
 

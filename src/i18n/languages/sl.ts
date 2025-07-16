@@ -752,7 +752,8 @@ export const slovenian = {
     passwordMatch: 'Gesli se ne ujemata',
     postalCode: 'Poštna številka mora imeti 4 številke',
     cityLength: 'Ime mesta mora imeti vsaj 2 znaka',
-    consentRequired: 'Soglasje za obdelavo podatkov je obvezno'
+    consentRequired: 'Soglasje za obdelavo podatkov je obvezno',
+    errorsFound: 'Prosimo, popravite naslednje napake:'
   },
   discounts: {
     manager: 'Upravljanje popustov',
@@ -804,6 +805,7 @@ export const slovenian = {
     subtotal: 'Vmesna vsota',
     shipping: 'Poštnina',
     totalAmount: 'Skupni znesek',
+    discount: 'Popust',
     notes: 'Opombe stranke',
     emailSent: 'E-pošta poslana',
     giftRecipientAddress: 'Naslov prejemnika darila',

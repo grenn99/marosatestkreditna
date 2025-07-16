@@ -47,6 +47,8 @@ interface Order {
   gift_product_cost?: number;
   gift_option_id?: string;
   gift_message?: string;
+  discount_amount?: number;
+  discount_code?: string;
 }
 
 // Define the exact status values that are allowed by the database constraint
@@ -117,14 +119,14 @@ export function AdminOrdersPage() {
     try {
       setLoading(true);
 
-      // Build query with explicit column selection to ensure we get all gift-related fields
+      // Build query with explicit column selection to ensure we get all gift-related and discount fields
       let query = supabase
         .from('orders')
         .select(`
           id, created_at, status, total_price, payment_method, items, shipping_address,
           notes, user_id, profile_id, is_guest_order,
           gift_product_id, gift_product_package_id, gift_product_cost,
-          gift_option_id, gift_message
+          gift_option_id, gift_message, discount_amount, discount_code
         `)
         .order('created_at', { ascending: false });
 
@@ -786,6 +788,24 @@ export function AdminOrdersPage() {
                                     </td>
                                   </tr>
                                 ))}
+                                {/* Show discount information if available */}
+                                {order.discount_code && order.discount_amount && order.discount_amount > 0 && (
+                                  <tr className="bg-green-50">
+                                    <td colSpan={3} className="px-4 py-2 whitespace-nowrap text-sm text-gray-900 text-right">
+                                      <div className="flex items-center justify-end">
+                                        <svg className="w-4 h-4 text-green-600 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+                                        </svg>
+                                        <span className="font-medium text-green-800">
+                                          {t('orders.discount', 'Discount')} ({order.discount_code})
+                                        </span>
+                                      </div>
+                                    </td>
+                                    <td className="px-4 py-2 whitespace-nowrap text-sm font-medium text-green-800 text-right">
+                                      -{formatCurrency(order.discount_amount)}
+                                    </td>
+                                  </tr>
+                                )}
                                 <tr className="bg-gray-50">
                                   <td colSpan={3} className="px-4 py-2 whitespace-nowrap text-sm font-medium text-gray-900 text-right">
                                     {t('orders.totalAmount', 'Total Amount')}
