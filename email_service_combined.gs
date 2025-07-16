@@ -305,25 +305,53 @@ function handleOrderConfirmation(data) {
     // Generate email subject
     const subject = `Kmetija Maroša - Potrditev naročila #${orderId}`;
 
-    // Generate email body based on payment method
-    let emailBody = `Spoštovani ${customerName},<br><br>`;
-    emailBody += `Zahvaljujemo se vam za vaše naročilo. Spodaj so podrobnosti vašega naročila:<br><br>`;
-    emailBody += `<strong>Številka naročila:</strong> ${orderId}<br>`;
-    emailBody += `<strong>Datum naročila:</strong> ${formattedDate}<br>`;
-    emailBody += `<strong>Skupni znesek:</strong> ${orderTotal} €<br><br>`;
+    // Generate email body with HTML structure and logo
+    let emailBody = `
+    <!DOCTYPE html>
+    <html lang="sl">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Potrditev naročila - Kmetija Maroša</title>
+        <style>
+            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px; }
+            .header { text-align: center; margin-bottom: 30px; padding: 20px; background-color: #f9f9f9; border-radius: 10px; }
+            .logo { max-width: 150px; height: auto; }
+            .content { background-color: #f9f9f9; padding: 30px; border-radius: 10px; margin-bottom: 20px; }
+            .footer { text-align: center; font-size: 12px; color: #666; margin-top: 30px; }
+            table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+            th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+            th { background-color: #8B4513; color: white; }
+        </style>
+    </head>
+    <body>
+        <div class="header">
+            <img src="https://marosatest.netlify.app/images/logo.png" alt="Kmetija Maroša" class="logo">
+            <h1>Potrditev naročila</h1>
+        </div>
 
-    // Add shipping address
-    emailBody += `<strong>Naslov za dostavo:</strong><br>`;
-    emailBody += `${shippingAddress.name || customerName}<br>`;
-    emailBody += `${shippingAddress.address || ''}<br>`;
-    emailBody += `${shippingAddress.postalCode || ''} ${shippingAddress.city || ''}<br>`;
-    emailBody += `${shippingAddress.country || ''}<br>`;
-    emailBody += `Tel: ${shippingAddress.phone || ''}<br><br>`;
+        <div class="content">
+            <h2>Spoštovani ${customerName},</h2>
+            <p>Zahvaljujemo se vam za vaše naročilo. Spodaj so podrobnosti vašega naročila:</p>
 
-    // Add order items
-    emailBody += `<strong>Naročeni izdelki:</strong><br>`;
-    emailBody += `<table border="1" cellpadding="5" style="border-collapse: collapse;">`;
-    emailBody += `<tr><th>Izdelek</th><th>Pakiranje</th><th>Količina</th><th>Cena</th><th>Skupaj</th></tr>`;
+            <p><strong>Številka naročila:</strong> ${orderId}<br>
+            <strong>Datum naročila:</strong> ${formattedDate}<br>
+            <strong>Skupni znesek:</strong> ${orderTotal} €</p>`;
+
+            // Add shipping address
+            emailBody += `
+            <h3>Naslov za dostavo:</h3>
+            <p>${shippingAddress.name || customerName}<br>
+            ${shippingAddress.address || ''}<br>
+            ${shippingAddress.postalCode || ''} ${shippingAddress.city || ''}<br>
+            ${shippingAddress.country || ''}<br>
+            Tel: ${shippingAddress.phone || ''}</p>`;
+
+            // Add order items
+            emailBody += `
+            <h3>Naročeni izdelki:</h3>
+            <table>
+                <tr><th>Izdelek</th><th>Pakiranje</th><th>Količina</th><th>Cena</th><th>Skupaj</th></tr>`;
 
     orderItems.forEach(item => {
       emailBody += `<tr>`;
@@ -335,30 +363,43 @@ function handleOrderConfirmation(data) {
       emailBody += `</tr>`;
     });
 
-    emailBody += `</table><br>`;
+            emailBody += `</table>`;
 
-    // Add payment-specific information
-    if (paymentMethod === 'bank_transfer' || paymentMethod === 'Bank Transfer') {
-      emailBody += `<strong>Podatki za bančno nakazilo:</strong><br>`;
-      emailBody += `IBAN: SI56 0700 0000 4161 875<br>`;
-      emailBody += `Imetnik računa: Kmetija Maroša<br>`;
-      emailBody += `Banka: Gorenjska Banka d.d., Kranj<br>`;
-      emailBody += `Sklic: ${orderId}<br>`;
-      emailBody += `Znesek: ${orderTotal} €<br><br>`;
-      emailBody += `Prosimo, vključite številko naročila v sklic plačila. Vaše naročilo bo obdelano, ko bo plačilo prejeto.<br><br>`;
-    } else if (paymentMethod === 'pay_on_delivery' || paymentMethod === 'Pay on Delivery') {
-      emailBody += `<strong>Plačilo po povzetju:</strong><br>`;
-      emailBody += `Prosimo, pripravite točen znesek ob dostavi.<br><br>`;
-    } else if (paymentMethod === 'credit_card' || paymentMethod === 'Credit Card') {
-      emailBody += `<strong>Plačilo s kreditno kartico:</strong><br>`;
-      emailBody += `Vaše plačilo je bilo uspešno obdelano. Hvala za vaš nakup!<br><br>`;
-    }
+            // Add payment-specific information
+            if (paymentMethod === 'bank_transfer' || paymentMethod === 'Bank Transfer') {
+              emailBody += `
+              <h3>Podatki za bančno nakazilo:</h3>
+              <p><strong>IBAN:</strong> SI56 0700 0000 4161 875<br>
+              <strong>Imetnik računa:</strong> Kmetija Maroša<br>
+              <strong>Banka:</strong> Gorenjska Banka d.d., Kranj<br>
+              <strong>Sklic:</strong> ${orderId}<br>
+              <strong>Znesek:</strong> ${orderTotal} €</p>
+              <p>Prosimo, vključite številko naročila v sklic plačila. Vaše naročilo bo obdelano, ko bo plačilo prejeto.</p>`;
+            } else if (paymentMethod === 'pay_on_delivery' || paymentMethod === 'Pay on Delivery' || paymentMethod === 'Plačilo po povzetju') {
+              emailBody += `
+              <h3>Plačilo po povzetju:</h3>
+              <p>Prosimo, pripravite točen znesek ob dostavi.</p>`;
+            } else if (paymentMethod === 'credit_card' || paymentMethod === 'Credit Card') {
+              emailBody += `
+              <h3>Plačilo s kreditno kartico:</h3>
+              <p>Vaše plačilo je bilo uspešno obdelano. Hvala za vaš nakup!</p>`;
+            }
 
-    // Add footer
-    emailBody += `Če imate kakršna koli vprašanja glede vašega naročila, nas lahko kontaktirate na kmetija.marosa@gmail.com ali 031 627 364.<br><br>`;
-    emailBody += `Hvala za vaše naročilo!<br><br>`;
-    emailBody += `Lep pozdrav,<br>`;
-    emailBody += `Ekipa Kmetije Maroša`;
+            // Add footer
+            emailBody += `
+            <p>Če imate kakršna koli vprašanja glede vašega naročila, nas lahko kontaktirate na kmetija.marosa.narocila@gmail.com ali 031 627 364.</p>
+
+            <p>Hvala za vaše naročilo!</p>
+
+            <p>Lep pozdrav,<br>
+            Ekipa Kmetije Maroša</p>
+        </div>
+
+        <div class="footer">
+            &copy; ${new Date().getFullYear()} Kmetija Maroša. All rights reserved.
+        </div>
+    </body>
+    </html>`;
 
     // Send email to customer with explicit error handling
     let customerEmailSent = false;

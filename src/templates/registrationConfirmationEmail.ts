@@ -124,7 +124,7 @@ export function generateRegistrationConfirmationEmailHtml(data: RegistrationConf
 </head>
 <body>
     <div class="header">
-        <img src="https://i.ibb.co/8D2qrWnG/logo.png" alt="Kmetija Maroša" class="logo">
+        <img src="https://marosatest.netlify.app/images/logo.png" alt="Kmetija Maroša" class="logo">
         <h1>${title}</h1>
     </div>
     

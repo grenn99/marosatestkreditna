@@ -262,7 +262,7 @@ export function generateWelcomeEmailHtml(data: WelcomeEmailData): string {
     <body>
       <div class="container">
         <div class="header">
-          <img src="https://kmetija-marosa.si/logo.png" alt="Kmetija Maroša" class="logo">
+          <img src="https://marosatest.netlify.app/images/logo.png" alt="Kmetija Maroša" class="logo">
         </div>
         <div class="content">
           <h2>${greeting}</h2>
