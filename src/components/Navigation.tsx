@@ -91,7 +91,7 @@ export function Navigation() {
         <Link to={`/?lang=${i18n.language}`} className="flex-shrink-0 group">
           <div className="relative overflow-hidden rounded-full p-1 bg-gradient-to-r from-amber-100 to-brown-100 group-hover:from-amber-200 group-hover:to-brown-200 transition-all duration-300">
             <img
-              src="https://i.ibb.co/8D2qrWnG/logo.png"
+              src="/images/logo.png"
               alt={t('nav.logoAlt')}
               className="h-10 w-auto relative z-10 transform group-hover:scale-105 transition-transform duration-300"
             />

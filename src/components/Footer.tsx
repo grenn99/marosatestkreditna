@@ -22,7 +22,7 @@ export function Footer() {
             <Link to="/" className="block">
               <div className="bg-white/10 backdrop-blur-sm p-3 rounded-xl inline-block">
                 <img
-                  src="https://i.ibb.co/8D2qrWnG/logo.png"
+                  src="/images/logo.png"
                   alt={t('nav.logoAlt')}
                   className="w-[100px] h-[87.5px]"
                 />

@@ -66,7 +66,6 @@ export const IMAGES = {
   logoPath: '/images/logo.png',
   maxAdditionalImages: 6,
   allowedDomains: [
-    'i.ibb.co',
     'images.unsplash.com',
     'source.unsplash.com',
     'vibrantplate.com',

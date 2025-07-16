@@ -3,8 +3,8 @@
   <circle cx="100" cy="100" r="100" fill="white"/>
   
   <!-- Logo image -->
-  <image 
-    href="https://i.ibb.co/8D2qrWnG/logo.png"
+  <image
+    href="/images/logo.png"
     x="20"
     y="20"
     width="160"

@@ -55,7 +55,7 @@ export function Header() {
         <Link to="/" className="hover:opacity-90 transition-opacity">
           <div className="relative transform hover:scale-105 transition-transform duration-300">
             <img
-              src="https://i.ibb.co/8D2qrWnG/logo.png"
+              src="/images/logo.png"
               alt="Kmetija Maroša"
               className="w-[180px] h-[160px] sm:w-[220px] sm:h-[190px] lg:w-[260px] lg:h-[225px] relative z-10"
             />

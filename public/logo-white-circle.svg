@@ -10,8 +10,8 @@
       <circle cx="100" cy="100" r="70"/>
     </clipPath>
   </defs>
-  <image 
-    href="https://i.ibb.co/pv6L4sv/logo.png"
+  <image
+    href="/images/logo.png"
     x="50"
     y="50"
     width="200"
