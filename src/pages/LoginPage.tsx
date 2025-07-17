@@ -10,6 +10,7 @@ import { handleAuthError, ErrorCategory, ErrorSeverity } from '../utils/errorHan
 import { logSecurityEvent, SecurityEventType } from '../utils/securityMonitoring';
 import { getPhonePlaceholder, formatPhoneNumber } from '../utils/formatters';
 import { ConsentCheckboxes } from '../components/ConsentCheckboxes';
+import { validateSlovenianData } from '../utils/slovenianValidation';
 
 export function LoginPage() {
   const { t, i18n } = useTranslation();
@@ -125,6 +126,25 @@ export function LoginPage() {
 
       if (!fullName.trim()) {
         newErrors.fullName = t('validation.required', 'To polje je obvezno');
+      }
+
+      // Validate Slovenian data format for registration
+      const slovenianValidation = validateSlovenianData({
+        name: fullName,
+        postalCode: postalCode || '1000', // Use provided postal code or dummy for name validation
+        phone: phone,
+        city: city || 'Ljubljana' // Use provided city or dummy for name validation
+      });
+
+      // Add Slovenian validation errors
+      if (slovenianValidation.errors.name) {
+        newErrors.fullName = slovenianValidation.errors.name;
+      }
+      if (slovenianValidation.errors.phone && phone) {
+        newErrors.phone = slovenianValidation.errors.phone;
+      }
+      if (slovenianValidation.errors.postalCode && postalCode) {
+        newErrors.postalCode = slovenianValidation.errors.postalCode;
       }
 
       // GDPR consent validation for registration
