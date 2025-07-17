@@ -1225,9 +1225,27 @@ export const CheckoutPage: React.FC = () => {
 
       // Try to add shipping_cost if the column exists
       try {
+        // Get next order number directly from function
+        const { data: orderNumberData, error: orderNumberError } = await supabase
+          .rpc('get_next_order_number');
+
+        if (orderNumberError) {
+          console.error('Failed to get order number:', orderNumberError);
+          throw new Error('Failed to generate order number');
+        }
+
+        const nextOrderNumber = orderNumberData;
+        console.log('Got next order number:', nextOrderNumber);
+
+        // Add order number to order data
+        const orderDataWithNumber = {
+          ...orderData,
+          order_number: nextOrderNumber
+        };
+
         const { data: newOrder, error: orderError } = await supabase
           .from('orders')
-          .insert(orderData)
+          .insert(orderDataWithNumber)
           .select('id, order_number')
           .single();
 
