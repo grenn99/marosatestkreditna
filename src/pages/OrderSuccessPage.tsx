@@ -271,9 +271,13 @@ export const OrderSuccessPage: React.FC = () => {
   };
 
   // Generate a simplified reference number
-  const generateSimpleReference = (orderId: string) => {
-    // Extract first 8 characters and remove dashes
-    return orderId.substring(0, 10).replace(/-/g, '');
+  const generateSimpleReference = (order: any) => {
+    // Use order number if available, otherwise fall back to UUID
+    if (order.order_number) {
+      return order.order_number.toString();
+    }
+    // Fallback to UUID for old orders
+    return order.id.substring(0, 10).replace(/-/g, '');
   };
 
   if (order) {
@@ -441,7 +445,7 @@ export const OrderSuccessPage: React.FC = () => {
                 {t('orders.orderDetails', 'Order Details')}
               </h2>
               <p className="text-gray-600">
-                <span className="font-medium">{t('orders.orderNumber', 'Order Number')}:</span> {order.id}
+                <span className="font-medium">{t('orders.orderNumber', 'Order Number')}:</span> {order.order_number || order.id}
               </p>
               <p className="text-gray-600">
                 <span className="font-medium">{t('orders.orderDate', 'Order Date')}:</span> {formattedDate}
@@ -559,9 +563,9 @@ export const OrderSuccessPage: React.FC = () => {
 
                     {/* Simplified reference number with copy button */}
                     <div className="flex justify-between items-center mb-1">
-                      <p><span className="font-medium">{t('checkout.reference', 'Reference')}:</span> {generateSimpleReference(order.id)}</p>
+                      <p><span className="font-medium">{t('checkout.reference', 'Reference')}:</span> {generateSimpleReference(order)}</p>
                       <button
-                        onClick={() => copyToClipboard(generateSimpleReference(order.id), 'reference')}
+                        onClick={() => copyToClipboard(generateSimpleReference(order), 'reference')}
                         className="text-blue-600 hover:text-blue-800 p-1 rounded-md hover:bg-blue-50"
                         title={t('common.copy', 'Copy to clipboard')}
                       >
