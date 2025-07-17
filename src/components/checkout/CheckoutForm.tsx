@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { SHIPPING, POSTAL_CODES, VALIDATION } from '../../config/appConfig';
 import { useErrorHandler } from '../../utils/errorMonitoring';
 import { validateRequired, validateEmail, validatePhone, validatePostalCode } from '../../utils/formValidation';
+import { getPhonePlaceholder } from '../../utils/formatters';
 
 interface PostalCodeSuggestion {
   code: string;
@@ -24,6 +25,7 @@ interface CheckoutFormProps {
   onEmailBlur?: () => void;
   isSubmitting: boolean;
   error: string | null;
+  fieldErrors?: Record<string, string>;
 }
 
 /**
@@ -34,7 +36,8 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({
   onChange,
   onEmailBlur,
   isSubmitting,
-  error
+  error,
+  fieldErrors = {}
 }) => {
   const { t } = useTranslation();
   const errorHandler = useErrorHandler({ source: 'CheckoutForm' });
@@ -130,11 +133,12 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({
             name="name"
             value={formData.name}
             onChange={handleInputChange}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brown-500"
+            className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-brown-500 ${fieldErrors.name ? 'border-red-500' : 'border-gray-300'}`}
             placeholder={t('checkout.form.namePlaceholder', 'Janez Novak')}
             required
             disabled={isSubmitting}
           />
+          {fieldErrors.name && <p className="mt-1 text-sm text-red-600">{fieldErrors.name}</p>}
         </div>
         
         {/* Email */}
@@ -149,11 +153,12 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({
             value={formData.email}
             onChange={handleInputChange}
             onBlur={onEmailBlur}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brown-500"
+            className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-brown-500 ${fieldErrors.email ? 'border-red-500' : 'border-gray-300'}`}
             placeholder="janez.novak@example.com"
             required
             disabled={isSubmitting}
           />
+          {fieldErrors.email && <p className="mt-1 text-sm text-red-600">{fieldErrors.email}</p>}
         </div>
         
         {/* Phone */}
@@ -167,11 +172,12 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({
             name="phone"
             value={formData.phone}
             onChange={handleInputChange}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brown-500"
+            className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-brown-500 ${fieldErrors.phone ? 'border-red-500' : 'border-gray-300'}`}
             placeholder={getPhonePlaceholder(formData.country)}
             required
             disabled={isSubmitting}
           />
+          {fieldErrors.phone && <p className="mt-1 text-sm text-red-600">{fieldErrors.phone}</p>}
         </div>
         
         {/* Address */}
@@ -185,11 +191,12 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({
             name="address"
             value={formData.address}
             onChange={handleInputChange}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brown-500"
+            className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-brown-500 ${fieldErrors.address ? 'border-red-500' : 'border-gray-300'}`}
             placeholder={t('checkout.form.addressPlaceholder', 'Slovenska cesta 1')}
             required
             disabled={isSubmitting}
           />
+          {fieldErrors.address && <p className="mt-1 text-sm text-red-600">{fieldErrors.address}</p>}
         </div>
         
         {/* Postal Code and City in a row */}
@@ -205,11 +212,12 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({
               name="postalCode"
               value={formData.postalCode}
               onChange={handleInputChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brown-500"
+              className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-brown-500 ${fieldErrors.postalCode ? 'border-red-500' : 'border-gray-300'}`}
               placeholder="1000"
               required
               disabled={isSubmitting}
             />
+            {fieldErrors.postalCode && <p className="mt-1 text-sm text-red-600">{fieldErrors.postalCode}</p>}
             
             {/* Postal code suggestions */}
             {postalSuggestions.length > 0 && (
@@ -238,11 +246,12 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({
               name="city"
               value={formData.city}
               onChange={handleInputChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brown-500"
+              className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-brown-500 ${fieldErrors.city ? 'border-red-500' : 'border-gray-300'}`}
               placeholder="Ljubljana"
               required
               disabled={isSubmitting}
             />
+            {fieldErrors.city && <p className="mt-1 text-sm text-red-600">{fieldErrors.city}</p>}
           </div>
         </div>
         

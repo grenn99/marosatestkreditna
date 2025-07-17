@@ -46,6 +46,7 @@ export const MultiStepCheckoutPage: React.FC = () => {
 
   // Error states
   const [error, setError] = useState<string | null>(null);
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
   const [authError, setAuthError] = useState<string | null>(null);
 
   // Check URL parameters for step
@@ -272,10 +273,30 @@ export const MultiStepCheckoutPage: React.FC = () => {
   const handleNextStep = () => {
     // Validate first step
     if (currentStep === 1) {
+      // Clear previous errors
+      setFieldErrors({});
+      setError(null);
+
       // Basic validation for first step
-      if (!formData.name || !formData.email || !formData.phone || !formData.address || !formData.city || !formData.postalCode) {
-        setError(t('checkout.errors.missingFields', 'Please fill in all required fields.'));
-        return;
+      const newFieldErrors: Record<string, string> = {};
+
+      if (!formData.name) {
+        newFieldErrors.name = t('checkout.errors.nameRequired', 'Ime je obvezno');
+      }
+      if (!formData.email) {
+        newFieldErrors.email = t('checkout.errors.emailRequired', 'E-pošta je obvezna');
+      }
+      if (!formData.phone) {
+        newFieldErrors.phone = t('checkout.errors.phoneRequired', 'Telefon je obvezen');
+      }
+      if (!formData.address) {
+        newFieldErrors.address = t('checkout.errors.addressRequired', 'Naslov je obvezen');
+      }
+      if (!formData.city) {
+        newFieldErrors.city = t('checkout.errors.cityRequired', 'Mesto je obvezno');
+      }
+      if (!formData.postalCode) {
+        newFieldErrors.postalCode = t('checkout.errors.postalCodeRequired', 'Poštna številka je obvezna');
       }
 
       // Validate Slovenian data format
@@ -286,9 +307,20 @@ export const MultiStepCheckoutPage: React.FC = () => {
         city: formData.city
       });
 
-      if (!dataValidation.isValid) {
-        const errorMessages = Object.values(dataValidation.errors).join(' ');
-        setError(errorMessages);
+      // Add Slovenian validation errors
+      if (dataValidation.errors.name) {
+        newFieldErrors.name = dataValidation.errors.name;
+      }
+      if (dataValidation.errors.phone) {
+        newFieldErrors.phone = dataValidation.errors.phone;
+      }
+      if (dataValidation.errors.postalCode) {
+        newFieldErrors.postalCode = dataValidation.errors.postalCode;
+      }
+
+      // If there are field errors, set them and return
+      if (Object.keys(newFieldErrors).length > 0) {
+        setFieldErrors(newFieldErrors);
         return;
       }
     }
@@ -307,11 +339,30 @@ export const MultiStepCheckoutPage: React.FC = () => {
 
     if (isSubmitting) return;
 
-    // Validate form
-    if (!formData.name || !formData.email || !formData.phone || !formData.address || !formData.city || !formData.postalCode) {
-      setError(t('checkout.errors.missingFields', 'Please fill in all required fields.'));
-      setCurrentStep(1); // Go back to first step if there are errors
-      return;
+    // Clear previous errors
+    setFieldErrors({});
+    setError(null);
+
+    // Validate form with individual field errors
+    const newFieldErrors: Record<string, string> = {};
+
+    if (!formData.name) {
+      newFieldErrors.name = t('checkout.errors.nameRequired', 'Ime je obvezno');
+    }
+    if (!formData.email) {
+      newFieldErrors.email = t('checkout.errors.emailRequired', 'E-pošta je obvezna');
+    }
+    if (!formData.phone) {
+      newFieldErrors.phone = t('checkout.errors.phoneRequired', 'Telefon je obvezen');
+    }
+    if (!formData.address) {
+      newFieldErrors.address = t('checkout.errors.addressRequired', 'Naslov je obvezen');
+    }
+    if (!formData.city) {
+      newFieldErrors.city = t('checkout.errors.cityRequired', 'Mesto je obvezno');
+    }
+    if (!formData.postalCode) {
+      newFieldErrors.postalCode = t('checkout.errors.postalCodeRequired', 'Poštna številka je obvezna');
     }
 
     // Validate Slovenian data format
@@ -322,9 +373,20 @@ export const MultiStepCheckoutPage: React.FC = () => {
       city: formData.city
     });
 
-    if (!dataValidation.isValid) {
-      const errorMessages = Object.values(dataValidation.errors).join(' ');
-      setError(errorMessages);
+    // Add Slovenian validation errors
+    if (dataValidation.errors.name) {
+      newFieldErrors.name = dataValidation.errors.name;
+    }
+    if (dataValidation.errors.phone) {
+      newFieldErrors.phone = dataValidation.errors.phone;
+    }
+    if (dataValidation.errors.postalCode) {
+      newFieldErrors.postalCode = dataValidation.errors.postalCode;
+    }
+
+    // If there are field errors, set them and return
+    if (Object.keys(newFieldErrors).length > 0) {
+      setFieldErrors(newFieldErrors);
       setCurrentStep(1); // Go back to first step if there are errors
       return;
     }
@@ -874,6 +936,7 @@ export const MultiStepCheckoutPage: React.FC = () => {
                           onEmailBlur={handleEmailBlur}
                           isSubmitting={isSubmitting}
                           error={error}
+                          fieldErrors={fieldErrors}
                         />
                       )}
 
