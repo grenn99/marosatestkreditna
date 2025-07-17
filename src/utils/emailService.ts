@@ -126,7 +126,7 @@ export async function sendOrderConfirmationEmail(
 
     // Format the data as expected by the Google Apps Script
     const googleScriptData = {
-      orderId: orderId,
+      orderId: displayOrderNumber, // Use order number for display (1101, 1102, etc.)
       orderNumber: displayOrderNumber, // Use simple order number (1101, 1102, etc.) or shortened UUID
       customerName: customerName,
       customerEmail: customerEmail,
