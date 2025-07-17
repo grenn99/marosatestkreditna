@@ -7,6 +7,7 @@ import { formatCurrency } from '../utils/formatters';
 import AdminNavigation from '../components/AdminNavigation';
 import { decryptObject, isEncrypted } from '../utils/encryption';
 import { isAdminEmail } from '../config/adminConfig';
+import { getOrderDisplayNumber } from '../utils/helpers';
 
 interface OrderItem {
   product_id: string;
@@ -32,6 +33,7 @@ interface ShippingAddress {
 
 interface Order {
   id: string;
+  order_number?: number;
   created_at: string;
   status: string;
   total_price: string;
@@ -123,7 +125,7 @@ export function AdminOrdersPage() {
       let query = supabase
         .from('orders')
         .select(`
-          id, created_at, status, total_price, payment_method, items, shipping_address,
+          id, order_number, created_at, status, total_price, payment_method, items, shipping_address,
           notes, user_id, profile_id, is_guest_order,
           gift_product_id, gift_product_package_id, gift_product_cost,
           gift_option_id, gift_message, discount_amount, discount_code
@@ -455,7 +457,7 @@ export function AdminOrdersPage() {
                     <div>
                       <div className="flex items-center gap-2 mb-1">
                         <span className="text-sm text-gray-500">
-                          {t('orders.orderNumber', 'Order')} #{order.id.substring(0, 8)}
+                          {t('orders.orderNumber', 'Order')} #{getOrderDisplayNumber(order)}
                         </span>
                         <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${getStatusBadgeClass(order.status)}`}>
                           {getStatusTranslation(order.status)}

@@ -15,6 +15,20 @@ export function generateUUID(): string {
 }
 
 /**
+ * Get display order number from order data
+ * Prefers order_number if available, falls back to shortened UUID
+ * @param order - Order object with id and optional order_number
+ * @returns Display-friendly order number
+ */
+export function getOrderDisplayNumber(order: { id: string; order_number?: number }): string {
+  if (order.order_number) {
+    return order.order_number.toString();
+  }
+  // Fallback to shortened UUID for existing orders
+  return order.id.substring(0, 8).toUpperCase();
+}
+
+/**
  * Format a price as a currency string
  * @param price - The price to format
  * @param currency - The currency symbol (default: '€')

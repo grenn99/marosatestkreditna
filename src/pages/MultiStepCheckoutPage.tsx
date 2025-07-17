@@ -486,7 +486,7 @@ export const MultiStepCheckoutPage: React.FC = () => {
       const { data: newOrder, error: orderError } = await supabase
         .from('orders')
         .insert(orderData)
-        .select('id')
+        .select('id, order_number')
         .single();
 
       console.log('Order creation result:', { newOrder, orderError });
@@ -540,7 +540,8 @@ export const MultiStepCheckoutPage: React.FC = () => {
             total: total,
             shippingAddress: shippingAddress,
             paymentMethod: getLocalizedPaymentMethod(paymentMethod)
-          }
+          },
+          newOrder.order_number // Pass the order number for display
         );
 
         if (emailResult.success) {

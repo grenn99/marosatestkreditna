@@ -1228,7 +1228,7 @@ export const CheckoutPage: React.FC = () => {
         const { data: newOrder, error: orderError } = await supabase
           .from('orders')
           .insert(orderData)
-          .select('id')
+          .select('id, order_number')
           .single();
 
       if (orderError) throw new Error(`Order creation failed: ${orderError.message}`);

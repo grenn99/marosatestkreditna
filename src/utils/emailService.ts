@@ -105,7 +105,8 @@ export async function sendOrderConfirmationEmail(
   orderId: string,
   customerEmail: string,
   customerName: string,
-  orderDetails: OrderDetails
+  orderDetails: OrderDetails,
+  orderNumber?: number
 ): Promise<{ success: boolean; message: string }> {
   try {
     // Ensure order items are properly formatted for the email
@@ -120,10 +121,13 @@ export async function sendOrderConfirmationEmail(
       };
     });
 
+    // Use order number if available, otherwise fall back to shortened UUID
+    const displayOrderNumber = orderNumber ? orderNumber.toString() : orderId.substring(0, 8).toUpperCase();
+
     // Format the data as expected by the Google Apps Script
     const googleScriptData = {
       orderId: orderId,
-      orderNumber: orderId.substring(0, 8).toUpperCase(), // Add a shorter order number for display
+      orderNumber: displayOrderNumber, // Use simple order number (1101, 1102, etc.) or shortened UUID
       customerName: customerName,
       customerEmail: customerEmail,
       adminEmail: ADMIN_EMAIL, // Add admin email for notifications
@@ -142,7 +146,7 @@ export async function sendOrderConfirmationEmail(
     // The Google Apps Script will handle sending to both customer and admin
     const emailResult = await sendEmail({
       to: customerEmail,
-      subject: `Kmetija Maroša - Potrditev naročila #${orderId.substring(0, 8)}`,
+      subject: `Kmetija Maroša - Potrditev naročila #${displayOrderNumber}`,
       body: JSON.stringify(googleScriptData),
       from: DEFAULT_FROM_EMAIL,
       replyTo: DEFAULT_FROM_EMAIL // Explicitly set reply-to to match from address
