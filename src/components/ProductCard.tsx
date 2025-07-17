@@ -32,15 +32,7 @@ export function ProductCard({ product }: ProductCardProps) {
     product.description; // Default fallback
 
   // Only log in development
-  if (process.env.NODE_ENV !== 'production') {
-    console.log('Product card description from database:', product.description);
-    let translatedField;
-    if (i18n.language === 'en') translatedField = product.description_en;
-    else if (i18n.language === 'de') translatedField = product.description_de;
-    else if (i18n.language === 'hr') translatedField = product.description_hr;
-    else translatedField = product.description;
-    console.log(`Product card translated description (${i18n.language}):`, translatedField);
-  }
+  // Debug logging removed for cleaner console
 
   // Get the first package option price if available
   const getPrice = () => {
