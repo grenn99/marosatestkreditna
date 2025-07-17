@@ -522,10 +522,11 @@ export function LoginPage() {
                     const formatted = formatPhoneNumber(e.target.value, country);
                     setPhone(formatted);
                   }}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                  className={`w-full px-3 py-2 border rounded-md ${errors.phone ? 'border-red-500' : 'border-gray-300'}`}
                   disabled={loading}
                   placeholder={getPhonePlaceholder(country)}
                 />
+                {errors.phone && <p className="mt-1 text-sm text-red-600">{errors.phone}</p>}
               </div>
 
               <div className="mb-4">
@@ -537,10 +538,11 @@ export function LoginPage() {
                   id="address"
                   value={address}
                   onChange={(e) => setAddress(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                  className={`w-full px-3 py-2 border rounded-md ${errors.address ? 'border-red-500' : 'border-gray-300'}`}
                   disabled={loading}
                   placeholder="Slovenska cesta 1"
                 />
+                {errors.address && <p className="mt-1 text-sm text-red-600">{errors.address}</p>}
               </div>
 
               <div className="grid grid-cols-2 gap-4 mb-4">
@@ -553,10 +555,11 @@ export function LoginPage() {
                     id="city"
                     value={city}
                     onChange={(e) => setCity(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                    className={`w-full px-3 py-2 border rounded-md ${errors.city ? 'border-red-500' : 'border-gray-300'}`}
                     disabled={loading}
                     placeholder="Ljubljana"
                   />
+                  {errors.city && <p className="mt-1 text-sm text-red-600">{errors.city}</p>}
                 </div>
                 <div>
                   <label htmlFor="postalCode" className="block text-sm font-medium text-gray-700 mb-1">
@@ -567,10 +570,11 @@ export function LoginPage() {
                     id="postalCode"
                     value={postalCode}
                     onChange={(e) => setPostalCode(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                    className={`w-full px-3 py-2 border rounded-md ${errors.postalCode ? 'border-red-500' : 'border-gray-300'}`}
                     disabled={loading}
                     placeholder="1000"
                   />
+                  {errors.postalCode && <p className="mt-1 text-sm text-red-600">{errors.postalCode}</p>}
                 </div>
               </div>
 
