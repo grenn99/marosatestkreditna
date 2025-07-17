@@ -22,6 +22,7 @@ import { ShippingCostNotification } from '../components/ShippingCostNotification
 import { generateUUID } from '../utils/helpers';
 import { useErrorHandler } from '../utils/errorMonitoring';
 import { sendOrderConfirmationEmail } from '../utils/emailService';
+import { validateSlovenianAddress, formatSlovenianPhoneNumber } from '../utils/slovenianValidation';
 
 /**
  * MultiStepCheckoutPage - A two-step checkout process that maintains the same design and functionality
@@ -276,6 +277,19 @@ export const MultiStepCheckoutPage: React.FC = () => {
         setError(t('checkout.errors.missingFields', 'Please fill in all required fields.'));
         return;
       }
+
+      // Validate Slovenian address format
+      const addressValidation = validateSlovenianAddress({
+        postalCode: formData.postalCode,
+        phone: formData.phone,
+        city: formData.city
+      });
+
+      if (!addressValidation.isValid) {
+        const errorMessages = Object.values(addressValidation.errors).join(' ');
+        setError(errorMessages);
+        return;
+      }
     }
 
     setCurrentStep(prev => Math.min(prev + 1, totalSteps));
@@ -295,6 +309,20 @@ export const MultiStepCheckoutPage: React.FC = () => {
     // Validate form
     if (!formData.name || !formData.email || !formData.phone || !formData.address || !formData.city || !formData.postalCode) {
       setError(t('checkout.errors.missingFields', 'Please fill in all required fields.'));
+      setCurrentStep(1); // Go back to first step if there are errors
+      return;
+    }
+
+    // Validate Slovenian address format
+    const addressValidation = validateSlovenianAddress({
+      postalCode: formData.postalCode,
+      phone: formData.phone,
+      city: formData.city
+    });
+
+    if (!addressValidation.isValid) {
+      const errorMessages = Object.values(addressValidation.errors).join(' ');
+      setError(errorMessages);
       setCurrentStep(1); // Go back to first step if there are errors
       return;
     }

@@ -349,6 +349,7 @@ export const slovenian = {
     backToOptions: 'Nazaj na možnosti',
     orderSummary: 'Povzetek naročila',
     shippingInfo: 'Podatki za dostavo',
+    shippingInformation: 'Podatki za dostavo',
     paymentInfo: 'Podatki o plačilu',
     paymentMethod: 'Način plačila',
     submitting: 'Obdelujem...',
