@@ -22,7 +22,7 @@ import { ShippingCostNotification } from '../components/ShippingCostNotification
 import { generateUUID } from '../utils/helpers';
 import { useErrorHandler } from '../utils/errorMonitoring';
 import { sendOrderConfirmationEmail } from '../utils/emailService';
-import { validateSlovenianAddress, formatSlovenianPhoneNumber } from '../utils/slovenianValidation';
+import { validateSlovenianData, formatSlovenianPhoneNumber } from '../utils/slovenianValidation';
 
 /**
  * MultiStepCheckoutPage - A two-step checkout process that maintains the same design and functionality
@@ -278,15 +278,16 @@ export const MultiStepCheckoutPage: React.FC = () => {
         return;
       }
 
-      // Validate Slovenian address format
-      const addressValidation = validateSlovenianAddress({
+      // Validate Slovenian data format
+      const dataValidation = validateSlovenianData({
+        name: formData.name,
         postalCode: formData.postalCode,
         phone: formData.phone,
         city: formData.city
       });
 
-      if (!addressValidation.isValid) {
-        const errorMessages = Object.values(addressValidation.errors).join(' ');
+      if (!dataValidation.isValid) {
+        const errorMessages = Object.values(dataValidation.errors).join(' ');
         setError(errorMessages);
         return;
       }
@@ -313,15 +314,16 @@ export const MultiStepCheckoutPage: React.FC = () => {
       return;
     }
 
-    // Validate Slovenian address format
-    const addressValidation = validateSlovenianAddress({
+    // Validate Slovenian data format
+    const dataValidation = validateSlovenianData({
+      name: formData.name,
       postalCode: formData.postalCode,
       phone: formData.phone,
       city: formData.city
     });
 
-    if (!addressValidation.isValid) {
-      const errorMessages = Object.values(addressValidation.errors).join(' ');
+    if (!dataValidation.isValid) {
+      const errorMessages = Object.values(dataValidation.errors).join(' ');
       setError(errorMessages);
       setCurrentStep(1); // Go back to first step if there are errors
       return;

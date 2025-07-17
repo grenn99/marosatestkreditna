@@ -4,35 +4,62 @@
 
 /**
  * Validate Slovenian postal code (4 digits: 1000-9999)
+ * Major postal codes: 1000 Ljubljana, 2000 Maribor, 3000 Celje, 4000 Kranj, 5000 Nova Gorica
  */
 export function validateSlovenianPostalCode(postalCode: string): boolean {
   const cleaned = postalCode.replace(/\s/g, '');
+  // Must be exactly 4 digits, starting with 1-9 (not 0)
   const postalCodeRegex = /^[1-9]\d{3}$/;
   return postalCodeRegex.test(cleaned);
 }
 
 /**
- * Validate Slovenian phone number
- * Accepts formats: 041234567, 031234567, 070123456, etc.
- * Mobile: 030, 031, 040, 041, 051, 064, 068, 070, 071
- * Landline: 01, 02, 03, 04, 05, 07, 08, 09
+ * Validate full name (must contain at least first name and last name)
+ * Prevents single letters like "darko m"
+ */
+export function validateFullName(name: string): boolean {
+  const trimmed = name.trim();
+
+  // Must be at least 3 characters total
+  if (trimmed.length < 3) return false;
+
+  // Split by spaces and filter out empty strings
+  const nameParts = trimmed.split(/\s+/).filter(part => part.length > 0);
+
+  // Must have at least 2 parts (first name + last name)
+  if (nameParts.length < 2) return false;
+
+  // Each part must be at least 2 characters (no single letters)
+  return nameParts.every(part => part.length >= 2);
+}
+
+/**
+ * Validate Slovenian phone number based on official Wikipedia data
+ * Mobile operators and their prefixes:
+ * - A1 Slovenija: 030, 040, 068, 069
+ * - Telekom Slovenije: 031, 041, 051, 065
+ * - Telemach: 070, 071
+ * - T-2: 064
+ * - Mega M: 065
+ * Landline area codes: 01, 02, 03, 04, 05, 07
  */
 export function validateSlovenianPhoneNumber(phone: string): boolean {
-  const cleaned = phone.replace(/[\s\-\(\)]/g, '');
-  
+  const cleaned = phone.replace(/[\s\-\(\)\.]/g, '');
+
   // Remove +386 prefix if present
-  const withoutCountryCode = cleaned.startsWith('+386') 
-    ? cleaned.substring(4) 
-    : cleaned.startsWith('386') 
-    ? cleaned.substring(3)
-    : cleaned;
-  
-  // Mobile numbers (9 digits starting with specific prefixes)
-  const mobileRegex = /^(030|031|040|041|051|064|068|070|071)\d{6}$/;
-  
-  // Landline numbers (8 digits starting with area codes)
-  const landlineRegex = /^(01|02|03|04|05|07|08|09)\d{6}$/;
-  
+  let withoutCountryCode = cleaned;
+  if (cleaned.startsWith('+386')) {
+    withoutCountryCode = cleaned.substring(4);
+  } else if (cleaned.startsWith('386')) {
+    withoutCountryCode = cleaned.substring(3);
+  }
+
+  // Mobile numbers (9 digits) - Based on official operator prefixes
+  const mobileRegex = /^(030|031|040|041|051|064|065|068|069|070|071)\d{6}$/;
+
+  // Landline numbers (8 digits) - Based on official area codes
+  const landlineRegex = /^(01|02|03|04|05|07)\d{6}$/;
+
   return mobileRegex.test(withoutCountryCode) || landlineRegex.test(withoutCountryCode);
 }
 
@@ -144,42 +171,58 @@ export function getSlovenianCitySuggestions(input: string, limit: number = 5): s
 }
 
 /**
- * Comprehensive validation for Slovenian address
+ * Comprehensive validation for Slovenian address and personal data
  */
-export interface SlovenianAddressValidation {
+export interface SlovenianValidationResult {
   isValid: boolean;
   errors: {
+    name?: string;
     postalCode?: string;
     phone?: string;
     city?: string;
   };
 }
 
-export function validateSlovenianAddress(address: {
+export function validateSlovenianData(data: {
+  name?: string;
   postalCode: string;
   phone?: string;
   city: string;
-}): SlovenianAddressValidation {
-  const errors: { postalCode?: string; phone?: string; city?: string } = {};
-  
+}): SlovenianValidationResult {
+  const errors: { name?: string; postalCode?: string; phone?: string; city?: string } = {};
+
+  // Validate full name if provided
+  if (data.name && !validateFullName(data.name)) {
+    errors.name = 'Prosimo, vnesite polno ime (ime in priimek, vsaj 2 črki za vsak del)';
+  }
+
   // Validate postal code
-  if (!validateSlovenianPostalCode(address.postalCode)) {
+  if (!validateSlovenianPostalCode(data.postalCode)) {
     errors.postalCode = 'Prosimo, vnesite veljavno 4-mestno poštno številko (1000-9999)';
   }
-  
+
   // Validate phone number if provided
-  if (address.phone && !validateSlovenianPhoneNumber(address.phone)) {
-    errors.phone = 'Prosimo, vnesite veljavno slovensko telefonsko številko (npr. 041234567)';
+  if (data.phone && !validateSlovenianPhoneNumber(data.phone)) {
+    errors.phone = 'Prosimo, vnesite veljavno slovensko telefonsko številko (npr. 041234567, 031234567)';
   }
-  
+
   // Validate city (optional - just warn if not recognized)
-  if (!validateSlovenianCity(address.city)) {
+  if (!validateSlovenianCity(data.city)) {
     // Don't add error, just log for potential autocomplete
-    console.log(`City "${address.city}" not in common Slovenian cities list`);
+    console.log(`City "${data.city}" not in common Slovenian cities list`);
   }
-  
+
   return {
     isValid: Object.keys(errors).length === 0,
     errors
   };
+}
+
+// Keep the old function for backward compatibility
+export function validateSlovenianAddress(address: {
+  postalCode: string;
+  phone?: string;
+  city: string;
+}): SlovenianValidationResult {
+  return validateSlovenianData(address);
 }

@@ -24,6 +24,7 @@ import { DiscountCodeInput } from '../components/DiscountCodeInput';
 import { Gift } from 'lucide-react';
 import { GiftRecipientAddressForm } from '../components/GiftRecipientAddressForm';
 import { sendOrderConfirmationEmail } from '../utils/emailService';
+import { validateSlovenianData } from '../utils/slovenianValidation';
 
 // Define RecipientAddress interface directly since we're not using the GiftRecipientForm component
 interface RecipientAddress {
@@ -260,10 +261,21 @@ export const CheckoutPage: React.FC = () => {
         return false;
       }
 
-      // Validate phone number format (simple validation)
-      const phoneRegex = /^[0-9\+\-\s]{8,15}$/;
-      if (!phoneRegex.test(formData.phone)) {
-        setError(t('checkout.errors.invalidPhone', 'Prosimo, vnesite veljavno telefonsko številko'));
+      // Validate Slovenian data format
+      const dataValidation = validateSlovenianData({
+        name: formData.name,
+        postalCode: '1000', // Dummy postal code for name validation
+        phone: formData.phone,
+        city: 'Ljubljana' // Dummy city for name validation
+      });
+
+      if (dataValidation.errors.name) {
+        setError(dataValidation.errors.name);
+        return false;
+      }
+
+      if (dataValidation.errors.phone) {
+        setError(dataValidation.errors.phone);
         return false;
       }
     }
@@ -275,11 +287,18 @@ export const CheckoutPage: React.FC = () => {
         return false;
       }
 
-      // Validate postal code format (simple validation for Slovenia)
+      // Validate Slovenian address format
       if (formData.country === 'Slovenija') {
-        const postalCodeRegex = /^[0-9]{4}$/;
-        if (!postalCodeRegex.test(formData.postalCode)) {
-          setError(t('checkout.errors.invalidPostalCode', 'Prosimo, vnesite veljavno poštno številko (4 številke)'));
+        const addressValidation = validateSlovenianData({
+          name: formData.name,
+          postalCode: formData.postalCode,
+          phone: formData.phone,
+          city: formData.city
+        });
+
+        if (!addressValidation.isValid) {
+          const errorMessages = Object.values(addressValidation.errors).join(' ');
+          setError(errorMessages);
           return false;
         }
       }
