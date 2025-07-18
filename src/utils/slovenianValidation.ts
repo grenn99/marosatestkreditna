@@ -90,72 +90,90 @@ export function formatSlovenianPhoneNumber(phone: string): string {
 }
 
 /**
- * Common Slovenian cities for validation/autocomplete
+ * Comprehensive list of Slovenian cities, towns, and municipalities for autocomplete
  */
 export const SLOVENIAN_CITIES = [
-  'Ljubljana',
-  'Maribor',
-  'Celje',
-  'Kranj',
-  'Velenje',
-  'Koper',
-  'Novo mesto',
-  'Ptuj',
-  'Trbovlje',
-  'Kamnik',
-  'Jesenice',
-  'Nova Gorica',
-  'Domžale',
-  'Škofja Loka',
-  'Murska Sobota',
-  'Slovenj Gradec',
-  'Krško',
-  'Postojna',
-  'Litija',
-  'Sevnica',
-  'Ajdovščina',
-  'Idrija',
-  'Metlika',
-  'Radovljica',
-  'Lendava',
-  'Piran',
-  'Izola',
-  'Portorož',
-  'Bled',
-  'Bohinj',
-  'Bovec',
-  'Tolmin',
-  'Kobarid',
-  'Sežana',
-  'Divača',
-  'Ilirska Bistrica',
-  'Ribnica',
-  'Kočevje',
-  'Črnomelj',
-  'Brežice',
-  'Trebnje',
-  'Grosuplje',
-  'Ivančna Gorica',
-  'Moravče',
-  'Mengeš',
-  'Vodice',
-  'Komenda',
-  'Medvode',
-  'Vrhnika',
-  'Logatec',
-  'Cerknica',
-  'Borovnica',
-  'Horjul'
+  // Major cities
+  'Ljubljana', 'Maribor', 'Celje', 'Kranj', 'Velenje', 'Koper', 'Novo mesto', 'Ptuj',
+  'Trbovlje', 'Kamnik', 'Jesenice', 'Nova Gorica', 'Domžale', 'Škofja Loka', 'Murska Sobota',
+  'Slovenj Gradec', 'Krško', 'Postojna', 'Litija', 'Sevnica', 'Ajdovščina', 'Idrija', 'Metlika',
+  'Radovljica', 'Lendava', 'Piran', 'Izola', 'Portorož', 'Bled', 'Bohinj', 'Bovec', 'Tolmin',
+  'Kobarid', 'Sežana', 'Divača', 'Ilirska Bistrica', 'Ribnica', 'Kočevje', 'Črnomelj', 'Brežice',
+  'Trebnje', 'Grosuplje', 'Ivančna Gorica', 'Moravče', 'Mengeš', 'Vodice', 'Komenda', 'Medvode',
+  'Vrhnika', 'Logatec', 'Cerknica', 'Borovnica', 'Horjul',
+
+  // Additional municipalities and towns
+  'Beltinci', 'Benedikt', 'Bistrica ob Sotli', 'Bled', 'Bloke', 'Bohinj', 'Borovnica', 'Bovec',
+  'Braslovče', 'Brda', 'Brezovica', 'Brežice', 'Cankova', 'Cerklje na Gorenjskem', 'Cerknica',
+  'Cerkno', 'Cerkvenjak', 'Cirkulane', 'Črenšovci', 'Črna na Koroškem', 'Črnomelj', 'Destrnik',
+  'Divača', 'Dobje', 'Dobrepolje', 'Dobrna', 'Dobrova-Polhov Gradec', 'Dobrovnik', 'Dol pri Ljubljani',
+  'Dolenjske Toplice', 'Duplek', 'Gorenja vas-Poljane', 'Gorišnica', 'Gornja Radgona', 'Gornji Grad',
+  'Gornji Petrovci', 'Grad', 'Grosuplje', 'Hajdina', 'Hoče-Slivnica', 'Hodoš', 'Hrpelje-Kozina',
+  'Idrija', 'Ig', 'Ilirska Bistrica', 'Ivančna Gorica', 'Izola', 'Jezersko', 'Juršinci', 'Kamnik',
+  'Kanal', 'Kidričevo', 'Kobarid', 'Kobilje', 'Kočevje', 'Komen', 'Komenda', 'Koper', 'Kostanjevica na Krki',
+  'Kostel', 'Kozje', 'Kranj', 'Kranjska Gora', 'Križevci', 'Krško', 'Kungota', 'Kuzma', 'Laško',
+  'Lenart', 'Lendava', 'Litija', 'Ljubno', 'Ljutomer', 'Log-Dragomer', 'Logatec', 'Loška dolina',
+  'Loški Potok', 'Lovrenc na Pohorju', 'Luče', 'Lukovica', 'Majšperk', 'Makole', 'Maribor', 'Markovci',
+  'Medvode', 'Mengeš', 'Metlika', 'Mežica', 'Miklavž na Dravskem polju', 'Miren-Kostanjevica', 'Mirna',
+  'Mirna Peč', 'Mislinja', 'Mokronog-Trebelno', 'Moravče', 'Moravske Toplice', 'Mozirje', 'Murska Sobota',
+  'Muta', 'Naklo', 'Nazarje', 'Nova Gorica', 'Novo mesto', 'Odranci', 'Oplotnica', 'Ormož', 'Osilnica',
+  'Pesnica', 'Piran', 'Pivka', 'Podčetrtek', 'Podlehnik', 'Podvelka', 'Poljčane', 'Polzela', 'Postojna',
+  'Prebold', 'Preddvor', 'Prevalje', 'Ptuj', 'Puconci', 'Rače-Fram', 'Radeče', 'Radenci', 'Radlje ob Dravi',
+  'Radovljica', 'Ravne na Koroškem', 'Razkrižje', 'Rečica ob Savinji', 'Renče-Vogrsko', 'Ribnica',
+  'Ribnica na Pohorju', 'Rogaška Slatina', 'Rogašovci', 'Rogatec', 'Ruše', 'Šalovci', 'Selnica ob Dravi',
+  'Semič', 'Sevnica', 'Sežana', 'Slovenj Gradec', 'Slovenska Bistrica', 'Slovenske Konjice', 'Šmarje pri Jelšah',
+  'Šmarješke Toplice', 'Šmartno ob Paki', 'Šmartno pri Litiji', 'Sodražica', 'Solčava', 'Šoštanj',
+  'Starše', 'Štore', 'Straža', 'Sveta Ana', 'Sveta Trojica v Slovenskih goricah', 'Sveti Andraž v Slovenskih goricah',
+  'Sveti Jurij ob Ščavnici', 'Sveti Jurij v Slovenskih goricah', 'Sveti Tomaž', 'Šentilj', 'Šentjernej',
+  'Šentjur', 'Šentrupert', 'Škocjan', 'Škofja Loka', 'Škofljica', 'Tabor', 'Tišina', 'Tolmin', 'Trbovlje',
+  'Trebnje', 'Trnovska vas', 'Trzin', 'Tržič', 'Turnišče', 'Velenje', 'Velika Polana', 'Velike Lašče',
+  'Veržej', 'Videm', 'Vipava', 'Vitanje', 'Vodice', 'Vojnik', 'Vransko', 'Vrhnika', 'Vuzenica', 'Zagorje ob Savi',
+  'Zavrč', 'Zreče', 'Žalec', 'Železniki', 'Žetale', 'Žiri', 'Žirovnica', 'Žužemberk'
 ];
 
 /**
- * Validate if city is a known Slovenian city (case-insensitive)
+ * Validate if city looks like a real Slovenian city name
+ * More lenient approach - blocks obvious nonsense but allows real places
  */
 export function validateSlovenianCity(city: string): boolean {
-  const normalizedCity = city.trim().toLowerCase();
-  return SLOVENIAN_CITIES.some(slovenianCity =>
+  const trimmed = city.trim();
+
+  // Must be at least 2 characters
+  if (trimmed.length < 2) return false;
+
+  // Must contain only letters, spaces, hyphens, apostrophes and Slovenian characters
+  const validCharsRegex = /^[a-zA-ZčćžšđČĆŽŠĐ\s\-']+$/;
+  if (!validCharsRegex.test(trimmed)) return false;
+
+  // Block only very obvious nonsense patterns (be very restrictive here)
+  const nonsensePatterns = [
+    /^[a-z]{1,4}$/i,           // Very short random letters like "dsda", "abc", "xy", "abcd"
+    /^[a-z]\s*[a-z]$/i,        // Single letters like "d s", "a b"
+    /^\d+$/,                   // Only numbers like "123"
+    /^[a-z]{1,2}\d+$/i,        // Letters + numbers like "ab123", "x5"
+    /^[bcdfghjklmnpqrstvwxyz]{4,}$/i, // Only consonants, no vowels (like "dsda")
+  ];
+
+  // If it matches obvious nonsense patterns, reject it
+  if (nonsensePatterns.some(pattern => pattern.test(trimmed))) {
+    return false;
+  }
+
+  // Check if it's in our comprehensive cities list
+  const normalizedCity = trimmed.toLowerCase();
+  const isKnownCity = SLOVENIAN_CITIES.some(slovenianCity =>
     slovenianCity.toLowerCase() === normalizedCity
   );
+
+  // If it's a known city, definitely allow it
+  if (isKnownCity) return true;
+
+  // For unknown cities, be very lenient - allow anything reasonable
+  // Must have at least one vowel to look like a real word
+  const hasVowel = /[aeiouAEIOU]/.test(trimmed);
+
+  // Allow if it has vowels and reasonable length (covers all villages, districts, etc.)
+  return hasVowel && trimmed.length >= 3 && trimmed.length <= 50;
 }
 
 /**
