@@ -249,16 +249,26 @@ export const CheckoutPage: React.FC = () => {
 
     // Step 1: Personal Information
     if (currentStep === 1) {
-      if (!formData.name || !formData.email || !formData.phone) {
-        setError(t('checkout.errors.personalInfoRequired', 'Prosimo, izpolnite vsa osebna polja'));
-        return false;
+      // Clear previous errors
+      setFieldErrors({});
+      setError(null);
+
+      const newFieldErrors: Record<string, string> = {};
+
+      // Basic validation
+      if (!formData.name) {
+        newFieldErrors.name = t('checkout.errors.nameRequired', 'Ime je obvezno');
+      }
+      if (!formData.email) {
+        newFieldErrors.email = t('checkout.errors.emailRequired', 'E-pošta je obvezna');
+      }
+      if (!formData.phone) {
+        newFieldErrors.phone = t('checkout.errors.phoneRequired', 'Telefon je obvezen');
       }
 
       // Validate email format
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(formData.email)) {
-        setError(t('checkout.errors.invalidEmail', 'Prosimo, vnesite veljaven e-poštni naslov'));
-        return false;
+      if (formData.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+        newFieldErrors.email = t('checkout.errors.invalidEmail', 'Prosimo, vnesite veljaven e-poštni naslov');
       }
 
       // Validate Slovenian data format
@@ -269,22 +279,38 @@ export const CheckoutPage: React.FC = () => {
         city: 'Ljubljana' // Dummy city for name validation
       });
 
+      // Add Slovenian validation errors
       if (dataValidation.errors.name) {
-        setError(dataValidation.errors.name);
-        return false;
+        newFieldErrors.name = dataValidation.errors.name;
+      }
+      if (dataValidation.errors.phone) {
+        newFieldErrors.phone = dataValidation.errors.phone;
       }
 
-      if (dataValidation.errors.phone) {
-        setError(dataValidation.errors.phone);
+      // If there are field errors, set them and return
+      if (Object.keys(newFieldErrors).length > 0) {
+        setFieldErrors(newFieldErrors);
         return false;
       }
     }
 
     // Step 2: Shipping Information
     else if (currentStep === 2) {
-      if (!formData.address || !formData.city || !formData.postalCode || !formData.country) {
-        setError(t('checkout.errors.shippingInfoRequired', 'Prosimo, izpolnite vse podatke za dostavo'));
-        return false;
+      // Clear previous errors
+      setFieldErrors({});
+      setError(null);
+
+      const newFieldErrors: Record<string, string> = {};
+
+      // Basic validation
+      if (!formData.address) {
+        newFieldErrors.address = t('checkout.errors.addressRequired', 'Naslov je obvezen');
+      }
+      if (!formData.city) {
+        newFieldErrors.city = t('checkout.errors.cityRequired', 'Mesto je obvezno');
+      }
+      if (!formData.postalCode) {
+        newFieldErrors.postalCode = t('checkout.errors.postalCodeRequired', 'Poštna številka je obvezna');
       }
 
       // Validate Slovenian address format
@@ -296,11 +322,16 @@ export const CheckoutPage: React.FC = () => {
           city: formData.city
         });
 
-        if (!addressValidation.isValid) {
-          const errorMessages = Object.values(addressValidation.errors).join(' ');
-          setError(errorMessages);
-          return false;
+        // Add Slovenian validation errors
+        if (addressValidation.errors.postalCode) {
+          newFieldErrors.postalCode = addressValidation.errors.postalCode;
         }
+      }
+
+      // If there are field errors, set them and return
+      if (Object.keys(newFieldErrors).length > 0) {
+        setFieldErrors(newFieldErrors);
+        return false;
       }
     }
 
@@ -403,6 +434,7 @@ export const CheckoutPage: React.FC = () => {
   const [checkingEmail, setCheckingEmail] = useState<boolean>(false);
 
   const [error, setError] = useState<string | null>(null); // General/Submission errors
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({}); // Individual field errors
   const [authError, setAuthError] = useState<string | null>(null); // Specific auth errors
   const [paymentMethod, setPaymentMethod] = useState<string>('pay_on_delivery');
   const [stripePaymentComplete, setStripePaymentComplete] = useState<boolean>(false);
@@ -1972,7 +2004,8 @@ export const CheckoutPage: React.FC = () => {
                         <label htmlFor="email" className="block text-sm font-medium text-gray-700">{t('checkout.form.email', 'Email naslov')}</label>
                         <input type="email" id="email" name="email" value={formData.email} onChange={(e) => handleInputChange(e)} required
                           placeholder={t('checkout.form.emailPlaceholder', 'janez.novak@primer.si')}
-                          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-brown-500 focus:border-brown-500 placeholder:text-gray-300" />
+                          className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-brown-500 focus:border-brown-500 placeholder:text-gray-300 ${fieldErrors.email ? 'border-red-500' : 'border-gray-300'}`} />
+                        {fieldErrors.email && <p className="mt-1 text-sm text-red-600">{fieldErrors.email}</p>}
                     </div>
                )}
 
@@ -1982,26 +2015,30 @@ export const CheckoutPage: React.FC = () => {
                   <label htmlFor="name" className="block text-sm font-medium text-gray-700">{t('checkout.form.name', 'Polno ime')}</label>
                   <input type="text" id="name" name="name" value={formData.name} onChange={(e) => handleInputChange(e)} required
                     placeholder={t('checkout.form.namePlaceholder', 'Janez Novak')}
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-brown-500 focus:border-brown-500 placeholder:text-gray-300" />
+                    className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-brown-500 focus:border-brown-500 placeholder:text-gray-300 ${fieldErrors.name ? 'border-red-500' : 'border-gray-300'}`} />
+                  {fieldErrors.name && <p className="mt-1 text-sm text-red-600">{fieldErrors.name}</p>}
                 </div>
                 <div>
                   <label htmlFor="phone" className="block text-sm font-medium text-gray-700">{t('checkout.form.phone', 'Telefonska številka')}</label>
                   <input type="tel" id="phone" name="phone" value={formData.phone} onChange={(e) => handleInputChange(e)} required
                     placeholder={getPhonePlaceholder(formData.country, t)}
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-brown-500 focus:border-brown-500 placeholder:text-gray-300" />
+                    className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-brown-500 focus:border-brown-500 placeholder:text-gray-300 ${fieldErrors.phone ? 'border-red-500' : 'border-gray-300'}`} />
+                  {fieldErrors.phone && <p className="mt-1 text-sm text-red-600">{fieldErrors.phone}</p>}
                 </div>
                 <div>
                   <label htmlFor="address" className="block text-sm font-medium text-gray-700">{t('checkout.form.address', 'Naslov ulice')}</label>
                   <input type="text" id="address" name="address" value={formData.address} onChange={(e) => handleInputChange(e)} required
                     placeholder={t('checkout.form.addressPlaceholder', 'Slovenska cesta 1')}
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-brown-500 focus:border-brown-500 placeholder:text-gray-300" />
+                    className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-brown-500 focus:border-brown-500 placeholder:text-gray-300 ${fieldErrors.address ? 'border-red-500' : 'border-gray-300'}`} />
+                  {fieldErrors.address && <p className="mt-1 text-sm text-red-600">{fieldErrors.address}</p>}
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label htmlFor="city" className="block text-sm font-medium text-gray-700">{t('checkout.form.city', 'Mesto')}</label>
                     <input type="text" id="city" name="city" value={formData.city} onChange={(e) => handleInputChange(e)} required
                       placeholder={t('checkout.form.cityPlaceholder', 'Ljubljana')}
-                      className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-brown-500 focus:border-brown-500 placeholder:text-gray-300" />
+                      className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-brown-500 focus:border-brown-500 placeholder:text-gray-300 ${fieldErrors.city ? 'border-red-500' : 'border-gray-300'}`} />
+                    {fieldErrors.city && <p className="mt-1 text-sm text-red-600">{fieldErrors.city}</p>}
                   </div>
                   <div>
                     <label htmlFor="postalCode" className="block text-sm font-medium text-gray-700">{t('checkout.form.postalCode', 'Poštna številka')}</label>
@@ -2015,7 +2052,7 @@ export const CheckoutPage: React.FC = () => {
                         required
                         maxLength={4}
                         placeholder="1000"
-                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-brown-500 focus:border-brown-500 placeholder:text-gray-300"
+                        className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-brown-500 focus:border-brown-500 placeholder:text-gray-300 ${fieldErrors.postalCode ? 'border-red-500' : 'border-gray-300'}`}
                       />
                       {postalSuggestions.length > 0 && (
                         <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg">
@@ -2038,6 +2075,7 @@ export const CheckoutPage: React.FC = () => {
                       <small className="form-text text-muted">
                         {t('checkout.postalCodeFormat', 'Enter a 4-digit postal code')}
                       </small>
+                      {fieldErrors.postalCode && <p className="mt-1 text-sm text-red-600">{fieldErrors.postalCode}</p>}
                     </div>
                   </div>
                 </div>
