@@ -14,7 +14,7 @@ const REPLY_TO_EMAIL = 'kmetija.marosa.narocila@gmail.com';
 // Set BASE_URL based on environment
 const BASE_URL = process.env.NODE_ENV === 'development'
   ? window.location.origin  // Use current origin in development (e.g., http://localhost:5173)
-  : 'https://kmetija-marosa.si'; // Use production URL in production
+  : 'https://marosakreditna.netlify.app'; // Use current production URL
 
 interface SubscriptionData {
   email: string;
