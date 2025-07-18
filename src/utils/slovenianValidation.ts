@@ -162,7 +162,7 @@ export function validateSlovenianCity(city: string): boolean {
  * Validate Slovenian address format
  * Must contain street name and house number
  */
-export function validateSlovenianAddress(address: string): boolean {
+export function validateSlovenianAddressFormat(address: string): boolean {
   const trimmed = address.trim();
 
   // Must be at least 5 characters
@@ -241,7 +241,7 @@ export function validateSlovenianData(data: {
   }
 
   // Validate address if provided
-  if (data.address && !validateSlovenianAddress(data.address)) {
+  if (data.address && !validateSlovenianAddressFormat(data.address)) {
     errors.address = 'Prosimo, vnesite veljaven naslov (npr. Slovenska cesta 1)';
   }
 
