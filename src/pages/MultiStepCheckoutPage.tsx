@@ -304,7 +304,8 @@ export const MultiStepCheckoutPage: React.FC = () => {
         name: formData.name,
         postalCode: formData.postalCode,
         phone: formData.phone,
-        city: formData.city
+        city: formData.city,
+        address: formData.address
       });
 
       // Add Slovenian validation errors
@@ -316,6 +317,12 @@ export const MultiStepCheckoutPage: React.FC = () => {
       }
       if (dataValidation.errors.postalCode) {
         newFieldErrors.postalCode = dataValidation.errors.postalCode;
+      }
+      if (dataValidation.errors.address) {
+        newFieldErrors.address = dataValidation.errors.address;
+      }
+      if (dataValidation.errors.city) {
+        newFieldErrors.city = dataValidation.errors.city;
       }
 
       // If there are field errors, set them and return
@@ -370,7 +377,8 @@ export const MultiStepCheckoutPage: React.FC = () => {
       name: formData.name,
       postalCode: formData.postalCode,
       phone: formData.phone,
-      city: formData.city
+      city: formData.city,
+      address: formData.address
     });
 
     // Add Slovenian validation errors
@@ -382,6 +390,12 @@ export const MultiStepCheckoutPage: React.FC = () => {
     }
     if (dataValidation.errors.postalCode) {
       newFieldErrors.postalCode = dataValidation.errors.postalCode;
+    }
+    if (dataValidation.errors.address) {
+      newFieldErrors.address = dataValidation.errors.address;
+    }
+    if (dataValidation.errors.city) {
+      newFieldErrors.city = dataValidation.errors.city;
     }
 
     // If there are field errors, set them and return

@@ -276,7 +276,8 @@ export const CheckoutPage: React.FC = () => {
         name: formData.name,
         postalCode: '1000', // Dummy postal code for name validation
         phone: formData.phone,
-        city: 'Ljubljana' // Dummy city for name validation
+        city: 'Ljubljana', // Dummy city for name validation
+        address: 'Slovenska cesta 1' // Dummy address for name validation
       });
 
       // Add Slovenian validation errors
@@ -319,12 +320,19 @@ export const CheckoutPage: React.FC = () => {
           name: formData.name,
           postalCode: formData.postalCode,
           phone: formData.phone,
-          city: formData.city
+          city: formData.city,
+          address: formData.address
         });
 
         // Add Slovenian validation errors
         if (addressValidation.errors.postalCode) {
           newFieldErrors.postalCode = addressValidation.errors.postalCode;
+        }
+        if (addressValidation.errors.address) {
+          newFieldErrors.address = addressValidation.errors.address;
+        }
+        if (addressValidation.errors.city) {
+          newFieldErrors.city = addressValidation.errors.city;
         }
       }
 

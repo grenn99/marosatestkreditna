@@ -153,9 +153,41 @@ export const SLOVENIAN_CITIES = [
  */
 export function validateSlovenianCity(city: string): boolean {
   const normalizedCity = city.trim().toLowerCase();
-  return SLOVENIAN_CITIES.some(slovenianCity => 
+  return SLOVENIAN_CITIES.some(slovenianCity =>
     slovenianCity.toLowerCase() === normalizedCity
   );
+}
+
+/**
+ * Validate Slovenian address format
+ * Must contain street name and house number
+ */
+export function validateSlovenianAddress(address: string): boolean {
+  const trimmed = address.trim();
+
+  // Must be at least 5 characters
+  if (trimmed.length < 5) return false;
+
+  // Must contain at least one letter (street name) and one number (house number)
+  const hasLetter = /[a-zA-ZčćžšđČĆŽŠĐ]/.test(trimmed);
+  const hasNumber = /\d/.test(trimmed);
+
+  if (!hasLetter || !hasNumber) return false;
+
+  // Split by spaces and check structure
+  const parts = trimmed.split(/\s+/).filter(part => part.length > 0);
+
+  // Must have at least 2 parts (street name + house number)
+  if (parts.length < 2) return false;
+
+  // Check if it looks like a real address (not just random characters)
+  const invalidPatterns = [
+    /^[a-z]{1,3}\s*\d{1,2}$/i, // Too short like "dsj 3"
+    /^[a-z]\s*[a-z]\s*\d$/i,   // Single letters like "d s 3"
+    /^[a-z]{1,2}\d+$/i,        // No space like "ds3"
+  ];
+
+  return !invalidPatterns.some(pattern => pattern.test(trimmed));
 }
 
 /**
@@ -180,6 +212,7 @@ export interface SlovenianValidationResult {
     postalCode?: string;
     phone?: string;
     city?: string;
+    address?: string;
   };
 }
 
@@ -188,8 +221,9 @@ export function validateSlovenianData(data: {
   postalCode: string;
   phone?: string;
   city: string;
+  address?: string;
 }): SlovenianValidationResult {
-  const errors: { name?: string; postalCode?: string; phone?: string; city?: string } = {};
+  const errors: { name?: string; postalCode?: string; phone?: string; city?: string; address?: string } = {};
 
   // Validate full name if provided
   if (data.name && !validateFullName(data.name)) {
@@ -206,10 +240,14 @@ export function validateSlovenianData(data: {
     errors.phone = 'Prosimo, vnesite veljavno slovensko telefonsko številko (npr. 041234567, 031234567)';
   }
 
-  // Validate city (optional - just warn if not recognized)
+  // Validate address if provided
+  if (data.address && !validateSlovenianAddress(data.address)) {
+    errors.address = 'Prosimo, vnesite veljaven naslov (npr. Slovenska cesta 1)';
+  }
+
+  // Validate city - now with error for invalid cities
   if (!validateSlovenianCity(data.city)) {
-    // Don't add error, just log for potential autocomplete
-    console.log(`City "${data.city}" not in common Slovenian cities list`);
+    errors.city = 'Prosimo, vnesite veljavno slovensko mesto (npr. Ljubljana, Maribor, Celje)';
   }
 
   return {

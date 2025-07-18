@@ -133,7 +133,8 @@ export function LoginPage() {
         name: fullName,
         postalCode: postalCode || '1000', // Use provided postal code or dummy for name validation
         phone: phone,
-        city: city || 'Ljubljana' // Use provided city or dummy for name validation
+        city: city || 'Ljubljana', // Use provided city or dummy for name validation
+        address: address || 'Slovenska cesta 1' // Use provided address or dummy for name validation
       });
 
       // Add Slovenian validation errors
@@ -145,6 +146,12 @@ export function LoginPage() {
       }
       if (slovenianValidation.errors.postalCode && postalCode) {
         newErrors.postalCode = slovenianValidation.errors.postalCode;
+      }
+      if (slovenianValidation.errors.address && address) {
+        newErrors.address = slovenianValidation.errors.address;
+      }
+      if (slovenianValidation.errors.city && city) {
+        newErrors.city = slovenianValidation.errors.city;
       }
 
       // GDPR consent validation for registration
