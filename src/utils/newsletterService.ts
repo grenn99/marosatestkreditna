@@ -11,10 +11,21 @@ import { createWelcomeDiscount } from './discountUtils';
 const DEFAULT_FROM_EMAIL = 'kmetija.marosa.narocila@gmail.com';
 const REPLY_TO_EMAIL = 'kmetija.marosa.narocila@gmail.com';
 
-// Set BASE_URL based on environment
-const BASE_URL = process.env.NODE_ENV === 'development'
-  ? window.location.origin  // Use current origin in development (e.g., http://localhost:5173)
-  : 'https://marosakreditna.netlify.app'; // Use current production URL
+// Set BASE_URL dynamically based on environment
+const BASE_URL = (() => {
+  if (process.env.NODE_ENV === 'development') {
+    return window.location.origin; // Use current origin in development (e.g., http://localhost:5173)
+  }
+
+  // In production, use the current domain automatically
+  // This works for both test (marosatest.netlify.app) and production (marosakreditna.netlify.app)
+  if (typeof window !== 'undefined') {
+    return window.location.origin;
+  }
+
+  // Fallback for server-side rendering (shouldn't happen in this case)
+  return 'https://marosakreditna.netlify.app';
+})();
 
 interface SubscriptionData {
   email: string;

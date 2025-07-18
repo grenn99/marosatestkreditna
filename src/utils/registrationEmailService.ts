@@ -3,9 +3,21 @@ import { generateRegistrationConfirmationEmailHtml, generateRegistrationConfirma
 
 const DEFAULT_FROM_EMAIL = 'kmetija.marosa.narocila@gmail.com';
 const REPLY_TO_EMAIL = 'kmetija.marosa.narocila@gmail.com';
-const BASE_URL = process.env.NODE_ENV === 'production' 
-  ? 'https://marosakreditna.netlify.app' 
-  : 'http://localhost:5174';
+// Set BASE_URL dynamically based on environment
+const BASE_URL = (() => {
+  if (process.env.NODE_ENV === 'development') {
+    return 'http://localhost:5174'; // Development URL
+  }
+
+  // In production, use the current domain automatically
+  // This works for both test (marosatest.netlify.app) and production (marosakreditna.netlify.app)
+  if (typeof window !== 'undefined') {
+    return window.location.origin;
+  }
+
+  // Fallback for server-side rendering
+  return 'https://marosakreditna.netlify.app';
+})();
 
 /**
  * Generate a secure token for email confirmation
